@@ -4,8 +4,20 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>BizdenBize — Sağlık</title>
+  <meta property="og:site_name" content="BizdenBize">
+  <meta property="og:title" content="Sağlık — BizdenBize">
+  <meta property="og:description" content="Avrupa'da Türkçe konuşan doktorlar, sağlık rehberleri ve Krankenkasse bilgisi — tek bir yerde.">
+  <meta property="og:image" content="https://bizdenbize.com/logo.png">
+  <meta property="og:url" content="https://bizdenbize.com/saglik.html">
+  <meta property="og:type" content="website">
     <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <script type="module">
+    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+    const _authSb = createClient('https://wxjudojlwksivhzjnmim.supabase.co','sb_publishable_52tr_hEnnQ3kllZexTue0Q_ByF71303');
+    window._authSb=_authSb;
+    window._authReady=_authSb.auth.getSession().then(({data:{session}})=>{window._currentSession=session||null;});
+  </script>
   <script>
   function toggleDropdown(id,btn){const d=document.getElementById(id),o=d.classList.contains('open');document.querySelectorAll('.nav-dropdown').forEach(x=>x.classList.remove('open'));document.querySelectorAll('.nav-item-btn').forEach(x=>x.classList.remove('open'));if(!o){d.classList.add('open');btn.classList.add('open');}}
   document.addEventListener('DOMContentLoaded',()=>{document.addEventListener('click',e=>{if(!e.target.closest('.nav-item')){document.querySelectorAll('.nav-dropdown').forEach(d=>d.classList.remove('open'));document.querySelectorAll('.nav-item-btn').forEach(b=>b.classList.remove('open'));}});});
@@ -73,7 +85,56 @@
     .mm-link.active{background:rgba(212,43,43,.07);color:var(--red);font-weight:600;}
     .mm-link-icon{font-size:20px;width:28px;text-align:center;flex-shrink:0;}
     .mm-footer{padding:16px 20px 32px;border-top:1px solid var(--warm);margin-top:auto;}
-    @media(max-width:900px){.nav-menu{display:none!important;}.hamburger{display:flex!important;}}
+        @media (max-width:900px) { .nav-primary { display:none!important; } .bottom-tabbar { display:flex!important; } body{ padding-bottom:64px; } }
+
+    /* ── SIMPLIFIED PRIMARY NAV ── */
+    .nav-primary{display:flex;align-items:center;gap:2px;margin-left:10px;}
+    .nav-primary a,.nav-kesfet-btn{
+      display:flex;align-items:center;gap:6px;padding:9px 14px;border-radius:8px;
+      font-size:14px;font-weight:600;color:var(--ink);text-decoration:none;
+      background:none;border:none;cursor:pointer;font-family:inherit;white-space:nowrap;
+    }
+    .nav-primary a:hover,.nav-kesfet-btn:hover{background:var(--warm);}
+    .nav-primary a.active{background:var(--warm);color:var(--red);}
+
+    /* ── KEŞFET PANEL (desktop) ── */
+    .kesfet-panel{
+      display:none;position:absolute;top:64px;left:50%;transform:translateX(-50%);
+      background:#fff;border:1px solid var(--sand);border-radius:14px;
+      box-shadow:0 12px 32px rgba(26,18,8,.14);padding:18px;width:560px;z-index:250;
+    }
+    .kesfet-panel.open{display:block;}
+    .kesfet-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
+    .kesfet-tile{display:flex;flex-direction:column;align-items:center;gap:6px;
+      padding:14px 8px;border-radius:10px;text-decoration:none;color:var(--ink);
+      font-size:12.5px;font-weight:600;text-align:center;background:var(--cream);}
+    .kesfet-tile:hover{background:var(--warm);}
+    .kesfet-tile .e{font-size:22px;}
+
+    /* ── UTILITY: messages icon (matches existing notif-bell styling) ── */
+    .nav-msg{position:relative;background:none;border:none;font-size:19px;cursor:pointer;
+      padding:8px;border-radius:8px;text-decoration:none;display:inline-flex;color:var(--ink);}
+    .nav-msg:hover{background:var(--warm);}
+
+    /* ── BOTTOM TAB BAR (mobile only) ── */
+    .bottom-tabbar{display:none;position:fixed;left:0;right:0;bottom:0;z-index:300;
+      background:#fff;border-top:1px solid var(--sand);
+      padding:6px 4px calc(6px + env(safe-area-inset-bottom));}
+    .bt-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;
+      font-size:10px;font-weight:600;color:var(--muted);text-decoration:none;padding:5px 0;
+      background:none;border:none;font-family:inherit;cursor:pointer;}
+    .bt-item.active{color:var(--red);}
+    .bt-icon{font-size:20px;}
+
+    /* ── KEŞFET SHEET (mobile) ── */
+    .kesfet-sheet-overlay{display:none;position:fixed;inset:0;background:rgba(26,18,8,.35);z-index:350;}
+    .kesfet-sheet-overlay.open{display:block;}
+    .kesfet-sheet{position:fixed;left:0;right:0;bottom:0;background:#fff;
+      border-radius:18px 18px 0 0;padding:16px 14px calc(16px + env(safe-area-inset-bottom));
+      z-index:351;max-height:75vh;overflow-y:auto;}
+    .kesfet-sheet-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
+    .kesfet-sheet-title{font-size:15px;font-weight:700;color:var(--ink);}
+    .kesfet-sheet-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
 
     /* HERO */
     .hero{background:#0C4A6E;padding:52px 24px 44px;text-align:center;position:relative;overflow:hidden;}
@@ -201,65 +262,141 @@
 </head>
 <body>
 
-<nav>
+<nav style="position:sticky;top:0;z-index:200;background:rgba(250,247,242,0.97);backdrop-filter:blur(14px);border-bottom:1px solid rgba(212,197,169,0.4);height:58px;display:flex;align-items:center;padding:0 16px 0 12px;gap:4px;">
   <a href="mahallem.html" class="nav-logo-link"><img src="logo.png" alt="BizdenBize" style="height:44px;width:auto;display:block;"></a>
-  <div class="nav-menu">
-    <div class="nav-item"><button class="nav-item-btn" onclick="toggleDropdown('dd-mahallem',this)">🏘️ Mahallem <span class="chevron">▼</span></button>
-      <div class="nav-dropdown" id="dd-mahallem"><a href="mahallem.html">🏘️ Komşularım</a><a href="events.html">🎉 Etkinlikler</a></div></div>
-    <div class="nav-item"><button class="nav-item-btn" onclick="toggleDropdown('dd-is',this)">💼 İş & Göç <span class="chevron">▼</span></button>
-      <div class="nav-dropdown" id="dd-is"><a href="is-guc.html">💼 İş İlanları</a><a href="is-guc.html">⚡ Freelance</a><a href="is-guc.html">👤 İş Arayanlar</a><a href="is-guc.html">✈️ Avrupa'ya Göç</a><hr><a href="business.html">🏢 İşletmeler</a></div></div>
-    <div class="nav-item"><button class="nav-item-btn" onclick="toggleDropdown('dd-ogrenim',this)">🎓 Öğrenim <span class="chevron">▼</span></button>
-      <div class="nav-dropdown" id="dd-ogrenim"><a href="ogrenim.html">🗣️ Dil Kursları</a><a href="ogrenim.html">🎓 Yüksek Öğrenim</a><a href="ogrenim.html">📜 Diploma Denkliği</a><a href="ogrenim.html">🏭 Ausbildung</a><hr><a href="nachhilfe.html">✏️ Nachhilfe</a>
-        <a href="webinar.html">🎥 Webinarlar</a></div></div>
-    <div class="nav-item"><button class="nav-item-btn active" onclick="toggleDropdown('dd-saglik',this)">🏥 Sağlık <span class="chevron">▼</span></button>
-      <div class="nav-dropdown" id="dd-saglik">
-        <a href="saglik.html" class="active">🏥 Doktor Bul</a>
-        <a href="saglik.html">📋 Krankenkasse Rehberi</a>
-        <a href="saglik.html">🧠 Ruh Sağlığı</a>
-        <a href="saglik.html">💊 İlaç & Reçete</a>
-        <a href="saglik.html">🤰 Aile & Hamilelik</a>
-        <hr>
-        <a href="saglik.html">🚨 Acil Durumlar</a>
-      </div>
+  <div class="nav-primary">
+    <a href="mahallem.html" id="np-mahallem">🏘️ Mahallem</a>
+    <a href="abibot.html" id="np-abibot">🤖 AbiBOT</a>
+    <a href="classifieds.html" id="np-ilanlar">🛍️ İlanlar</a>
+    <button class="nav-kesfet-btn" onclick="toggleKesfet(event)" id="np-kesfet">🔍 Keşfet</button>
+  </div>
+  <div class="kesfet-panel" id="kesfet-panel">
+    <div class="kesfet-grid">
+      <a class="kesfet-tile" href="is-guc.html"><span class="e">💼</span>İş İlanları</a>
+      <a class="kesfet-tile" href="business.html"><span class="e">🏢</span>İşletmeler</a>
+      <a class="kesfet-tile" href="uzmanlar.html"><span class="e">👨‍⚖️</span>Uzmanlar</a>
+      <a class="kesfet-tile" href="ogrenim.html"><span class="e">🎓</span>Öğrenim</a>
+      <a class="kesfet-tile" href="nachhilfe.html"><span class="e">✏️</span>Nachhilfe</a>
+      <a class="kesfet-tile" href="webinar.html"><span class="e">🎥</span>Webinarlar</a>
+      <a class="kesfet-tile" href="saglik.html"><span class="e">🏥</span>Sağlık</a>
+      <a class="kesfet-tile" href="emlak.html"><span class="e">🏠</span>Konut & Emlak</a>
+      <a class="kesfet-tile" href="ev-takasi.html"><span class="e">🔄</span>Tatil Takası</a>
+      <a class="kesfet-tile" href="library.html"><span class="e">📚</span>Bilgi & Belge</a>
+      <a class="kesfet-tile" href="events.html"><span class="e">🎉</span>Etkinlikler</a>
     </div>
-    <div class="nav-item"><button class="nav-item-btn" onclick="toggleDropdown('dd-emlak',this)">🏠 Konut & Emlak <span class="chevron">▼</span></button>
-      <div class="nav-dropdown" id="dd-emlak"><a href="classifieds.html">🔑 Kiralık Ev</a><a href="classifieds.html">🏡 Satılık Ev</a><a href="ev-takasi.html">🔄 Ev Takası</a><hr><a href="classifieds.html">📋 Tüm İlanlar</a></div></div>
-    <div class="nav-item"><button class="nav-item-btn" onclick="toggleDropdown('dd-ilanlar',this)">🛍️ İlanlar <span class="chevron">▼</span></button>
-      <div class="nav-dropdown" id="dd-ilanlar"><a href="classifieds.html">🚗 Araç</a><a href="classifieds.html">🛋️ Ev Eşyası</a><a href="classifieds.html">📋 Tümü</a></div></div>
-    <div class="nav-item"><button class="nav-item-btn" onclick="toggleDropdown('dd-bilgiler',this)">📚 Bilgiler <span class="chevron">▼</span></button>
-      <div class="nav-dropdown" id="dd-bilgiler"><a href="library.html">📚 Tüm Kaynaklar</a><hr><a href="library.html">💶 Kindergeld</a><a href="library.html">🛂 Vize</a></div></div>
-    <div class="nav-item"><button class="nav-item-btn" onclick="toggleDropdown('dd-abibot',this)">🤖 AbiBOT <span class="chevron">▼</span></button>
-      <div class="nav-dropdown" id="dd-abibot"><a href="abibot.html">🤖 AbiBOT'a Sor</a><hr><a href="abibot.html">⚖️ Hukuk</a><a href="abibot.html">🏥 Tıbbi</a><a href="abibot.html">✈️ Avrupa'ya Göç</a></div></div>
   </div>
+  <div style="flex:1;"></div>
   <div class="nav-right">
-    <div class="nav-avatar" onclick="window.location='profile.html'">AY</div>
-    <button class="hamburger" id="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></button>
+    <a class="nav-msg" href="messages.html" title="Mesajlar">💬</a>
+    <div class="nav-avatar" id="nav-avatar" onclick="toggleAvatarMenu()" title="Profilim" style="position:relative;">—</div>
+    <div id="avatar-menu" style="display:none;position:absolute;top:54px;right:16px;background:#fff;border:1px solid rgba(212,197,169,.5);border-radius:12px;padding:8px;min-width:180px;box-shadow:0 8px 32px rgba(0,0,0,.1);z-index:300;">
+      <a href="profile.html" style="display:flex;align-items:center;gap:9px;padding:9px 12px;border-radius:8px;font-size:13px;font-weight:500;color:#1A1208;text-decoration:none;">👤 Profilim</a>
+      <hr style="border:none;border-top:1px solid #F0EAE0;margin:4px 0;">
+      <button onclick="doLogout()" style="display:flex;align-items:center;gap:9px;padding:9px 12px;border-radius:8px;font-size:13px;font-weight:500;color:#D42B2B;background:none;border:none;cursor:pointer;width:100%;font-family:inherit;">Çıkış Yap</button>
+    </div>
   </div>
+  <script>
+    function toggleAvatarMenu() { const menu = document.getElementById('avatar-menu'); menu.style.display = menu.style.display === 'none' ? 'block' : 'none'; }
+    document.addEventListener('click', function(e) { if (!e.target.closest('#nav-avatar') && !e.target.closest('#avatar-menu')) { const menu = document.getElementById('avatar-menu'); if (menu) menu.style.display = 'none'; } });
+    async function doLogout() { const { createClient } = await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm'); const sb = createClient('https://wxjudojlwksivhzjnmim.supabase.co', 'sb_publishable_52tr_hEnnQ3kllZexTue0Q_ByF71303'); await sb.auth.signOut(); Object.keys(localStorage).forEach(k => localStorage.removeItem(k)); sessionStorage.clear(); window.location.replace('/login.html'); }
+
+    if (window._authReady) {
+      window._authReady.then(async () => {
+        const session = window._currentSession;
+        const navAvatar = document.getElementById('nav-avatar');
+        if (!session || !navAvatar) return;
+        try {
+          const r = await fetch(`https://wxjudojlwksivhzjnmim.supabase.co/rest/v1/profiles?id=eq.${session.user.id}&select=first_name,last_name,avatar_url`, {
+            headers: { apikey: 'sb_publishable_52tr_hEnnQ3kllZexTue0Q_ByF71303', Authorization: `Bearer ${session.access_token}` }
+          });
+          const rows = await r.json();
+          const p = rows[0] || {};
+          if (p.avatar_url) {
+            navAvatar.innerHTML = `<img src="${p.avatar_url}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">`;
+          } else {
+            const initials = ((p.first_name?.[0]||'') + (p.last_name?.[0]||'')).toUpperCase() || '?';
+            const colors = ['#D42B2B','#185FA5','#1E7B4B','#C9A84C','#534AB7'];
+            navAvatar.textContent = initials;
+            navAvatar.style.background = colors[initials.charCodeAt(0) % colors.length];
+          }
+        } catch(e) { console.error('Nav avatar load error:', e); }
+      });
+    }
+  </script>
 </nav>
 
-<div class="mobile-menu" id="mobile-menu">
-  <div class="mm-header"><div style="font-family:'Playfair Display',serif;font-size:18px;font-weight:900;color:#1A1208;">Bizden<span style="color:#D42B2B;">Bize</span></div><button onclick="toggleMenu()" style="background:none;border:none;font-size:26px;color:#6B5E4E;cursor:pointer;">×</button></div>
-  <div class="mm-section"><div class="mm-section-title">Sağlık</div>
-    <a class="mm-link active" href="saglik.html"><span class="mm-link-icon">🏥</span>Doktor Bul</a>
-    <a class="mm-link" href="saglik.html"><span class="mm-link-icon">🧠</span>Ruh Sağlığı</a>
-    <a class="mm-link" href="saglik.html"><span class="mm-link-icon">💊</span>İlaç & Reçete</a>
-    <a class="mm-link" href="saglik.html"><span class="mm-link-icon">🚨</span>Acil Durumlar</a>
+<!-- KEŞFET SHEET (mobile) -->
+<div class="kesfet-sheet-overlay" id="kesfet-sheet-overlay" onclick="closeKesfetSheet()"></div>
+<div class="kesfet-sheet" id="kesfet-sheet" style="display:none;">
+  <div class="kesfet-sheet-header">
+    <div class="kesfet-sheet-title">Keşfet</div>
+    <button onclick="closeKesfetSheet()" style="background:none;border:none;font-size:22px;color:var(--muted);cursor:pointer;line-height:1;">×</button>
   </div>
-  <div class="mm-section"><div class="mm-section-title">Diğer</div>
-    <a class="mm-link" href="mahallem.html"><span class="mm-link-icon">🏘️</span>Mahallem</a>
-    <a class="mm-link" href="abibot.html"><span class="mm-link-icon">🤖</span>AbiBOT</a>
+  <div class="kesfet-sheet-grid">
+    <a class="kesfet-tile" href="is-guc.html"><span class="e">💼</span>İş İlanları</a>
+    <a class="kesfet-tile" href="business.html"><span class="e">🏢</span>İşletmeler</a>
+    <a class="kesfet-tile" href="uzmanlar.html"><span class="e">👨‍⚖️</span>Uzmanlar</a>
+    <a class="kesfet-tile" href="ogrenim.html"><span class="e">🎓</span>Öğrenim</a>
+    <a class="kesfet-tile" href="nachhilfe.html"><span class="e">✏️</span>Nachhilfe</a>
+    <a class="kesfet-tile" href="webinar.html"><span class="e">🎥</span>Webinarlar</a>
+    <a class="kesfet-tile" href="saglik.html"><span class="e">🏥</span>Sağlık</a>
+    <a class="kesfet-tile" href="emlak.html"><span class="e">🏠</span>Konut & Emlak</a>
+    <a class="kesfet-tile" href="ev-takasi.html"><span class="e">🔄</span>Tatil Takası</a>
+    <a class="kesfet-tile" href="library.html"><span class="e">📚</span>Bilgi & Belge</a>
+    <a class="kesfet-tile" href="events.html"><span class="e">🎉</span>Etkinlikler</a>
+    <a class="kesfet-tile" href="messages.html"><span class="e">💬</span>Mesajlar</a>
   </div>
-  <div class="mm-footer"><a href="profile.html" style="display:flex;align-items:center;gap:10px;text-decoration:none;color:#1A1208;"><div style="width:36px;height:36px;border-radius:50%;background:#D42B2B;color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;">AY</div><div><div style="font-size:13px;font-weight:600;">Profilim</div></div></a></div>
 </div>
 
+<!-- BOTTOM TAB BAR (mobile) -->
+<div class="bottom-tabbar" id="bottom-tabbar">
+  <a class="bt-item" href="mahallem.html" id="bt-mahallem"><span class="bt-icon">🏘️</span>Mahallem</a>
+  <a class="bt-item" href="abibot.html" id="bt-abibot"><span class="bt-icon">🤖</span>AbiBOT</a>
+  <a class="bt-item" href="classifieds.html" id="bt-ilanlar"><span class="bt-icon">🛍️</span>İlanlar</a>
+  <button class="bt-item" onclick="openKesfetSheet()" id="bt-kesfet"><span class="bt-icon">🔍</span>Keşfet</button>
+  <a class="bt-item" href="profile.html" id="bt-profil"><span class="bt-icon">👤</span>Profil</a>
+</div>
+
+<script>
+  function toggleKesfet(e) {
+    e.stopPropagation();
+    document.getElementById('kesfet-panel').classList.toggle('open');
+  }
+  document.addEventListener('click', function(e) {
+    const panel = document.getElementById('kesfet-panel');
+    if (panel && panel.classList.contains('open') && !panel.contains(e.target) && e.target.id !== 'np-kesfet') {
+      panel.classList.remove('open');
+    }
+  });
+  function openKesfetSheet() {
+    document.getElementById('kesfet-sheet-overlay').classList.add('open');
+    document.getElementById('kesfet-sheet').style.display = 'block';
+  }
+  function closeKesfetSheet() {
+    document.getElementById('kesfet-sheet-overlay').classList.remove('open');
+    document.getElementById('kesfet-sheet').style.display = 'none';
+  }
+  (function() {
+    const page = window.location.pathname.split('/').pop() || 'mahallem.html';
+    const map = { 'mahallem.html': 'mahallem', 'abibot.html': 'abibot', 'classifieds.html': 'ilanlar', 'profile.html': 'profil' };
+    const key = map[page];
+    if (key) {
+      const npEl = document.getElementById('np-' + key);
+      const btEl = document.getElementById('bt-' + key);
+      if (npEl) npEl.classList.add('active');
+      if (btEl) btEl.classList.add('active');
+    }
+  })();
+</script>
+
 <!-- EMERGENCY BAR -->
-<div class="emergency-bar">
+<div class="emergency-bar" id="emergency-bar">
   <span class="emergency-bar-text">🚨 Acil Durumda:</span>
   <div class="emergency-numbers">
     <a class="emergency-num" href="tel:112">112 — Ambulans</a>
     <a class="emergency-num" href="tel:110">110 — Polis</a>
     <a class="emergency-num" href="tel:116117">116 117 — Nöbetçi Doktor</a>
-    <a class="emergency-num" href="tel:0800111 0 111">0800 111 0 111 — Kriz Hattı</a>
+    <a class="emergency-num" href="tel:08001110111">0800 111 0 111 — Kriz Hattı</a>
   </div>
 </div>
 
@@ -275,14 +412,30 @@
       <button class="section-tab" data-section="mental" onclick="setSection('mental',this)">🧠 Ruh Sağlığı</button>
       <button class="section-tab" data-section="ilac" onclick="setSection('ilac',this)">💊 İlaç & Reçete</button>
       <button class="section-tab" data-section="aile" onclick="setSection('aile',this)">🤰 Aile & Hamilelik</button>
+      <button class="section-tab" data-section="acil" onclick="setSection('acil',this)">🚨 Acil Durumlar</button>
       <a href="abibot.html" style="display:inline-flex;align-items:center;gap:6px;padding:9px 20px;border-radius:20px;font-size:13px;font-weight:600;border:1.5px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#fff;text-decoration:none;transition:all .2s;" onmouseover="this.style.background='rgba(255,255,255,.2)'" onmouseout="this.style.background='rgba(255,255,255,.1)'">🤖 AbiBOT'a Sor</a>
     </div>
     <div class="hero-stats">
-      <div><div class="hstat-val" id="stat-doctors">48</div><div class="hstat-label">Türkçe Doktor</div></div>
-      <div><div class="hstat-val">12</div><div class="hstat-label">Şehir</div></div>
-      <div><div class="hstat-val">%100</div><div class="hstat-label">Topluluk Doğrulaması</div></div>
+      <div><div class="hstat-val" id="stat-doctors">—</div><div class="hstat-label">Topluluk Önerisi</div></div>
+      <div><div class="hstat-val">116117</div><div class="hstat-label">Resmî Doktor Arama</div></div>
       <div><div class="hstat-val">Ücretsiz</div><div class="hstat-label">Rehberler</div></div>
     </div>
+  </div>
+</div>
+
+<!-- DISCLAIMER -->
+<div style="background:var(--cream);padding:18px 24px 0;">
+  <div style="max-width:1100px;margin:0 auto;background:rgba(212,43,43,.06);border:1px solid rgba(212,43,43,.28);border-radius:12px;padding:16px 20px;display:flex;gap:14px;align-items:flex-start;">
+    <span style="font-size:18px;line-height:1.3;flex-shrink:0;">🚨</span>
+    <p style="margin:0;font-size:13px;line-height:1.6;color:var(--muted);font-family:'Instrument Sans',sans-serif;">
+      <strong style="color:var(--ink);">Acil bir durumdaysan 112'yi ara.</strong>
+      Bu sayfadaki bilgiler, doktor listeleri ve rehberler yalnızca yol gösterme amaçlıdır ve
+      bilgimiz, imkânlarımız ölçüsünde derlenmiştir. Hiçbiri tıbbi teşhis, tedavi veya doktor
+      muayenesi yerine geçmez. İçeriğin güncelliği, doğruluğu veya eksiksizliği konusunda
+      garanti veremez, hukuki sorumluluk kabul edemeyiz. Listelenen doktorlar ve kurumlar
+      bağımsızdır; verdikleri hizmetten BizdenBize sorumlu değildir. Sağlığınla ilgili kararlar
+      öncesinde mutlaka bir hekime danış.
+    </p>
   </div>
 </div>
 
@@ -337,7 +490,7 @@
         <div><label class="field-label">Şehir *</label><input class="field-input" id="a-city" type="text" placeholder="Frankfurt"></div>
         <div><label class="field-label">Telefon</label><input class="field-input" id="a-phone" type="tel" placeholder="+49 69 123 456"></div>
       </div>
-      <div><label class="field-label">Adres</label><input class="field-input" id="a-address" type="text" placeholder="Mustergasse 12, 60311 Frankfurt"></div>
+      <div><label class="field-label">Adres</label><input class="field-input" id="a-address" type="text" placeholder="Mustergasse 12, 85540 Haar bei München"></div>
       <div><label class="field-label">Sigorta</label><select class="field-input" id="a-insurance"><option>GKV (Yasal Sigorta)</option><option>PKV (Özel Sigorta)</option><option>Her İkisi</option></select></div>
       <div><label class="field-label">Neden Öneriyorsunuz?</label><textarea class="field-input" id="a-desc" rows="2" placeholder="Türkçe konuşuyor, sabırlı, iyi muamele ediyor..."></textarea></div>
       <div id="a-error" style="display:none;font-size:12px;color:var(--red);padding:8px 12px;background:rgba(212,43,43,.06);border-radius:8px;border-left:2px solid var(--red);"></div>
@@ -350,7 +503,7 @@
 <script>
   // ── Supabase Integration ──
   const _SB_URL = 'https://wxjudojlwksivhzjnmim.supabase.co';
-  const _SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Ind4anVkb2psd2tzaXZoempubWltIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgzNzM1MDUsImV4cCI6MjA5Mzk0OTUwNX0.sRvZXS389i9MwCtLoDgfqJKyRsZLMXLNAJbsMZN9wOY';
+  const _SB_KEY = 'sb_publishable_52tr_hEnnQ3kllZexTue0Q_ByF71303';
   const _SB_H = { 'apikey': _SB_KEY, 'Authorization': 'Bearer ' + _SB_KEY, 'Content-Type': 'application/json' };
 
   async function sbGet(table, params) {
@@ -360,48 +513,66 @@
   }
   async function sbPost(table, data) {
     const r = await fetch(_SB_URL + '/rest/v1/' + table, { method:'POST', headers: {..._SB_H, 'Prefer':'return=minimal'}, body: JSON.stringify(data) });
-    if (!r.ok) throw new Error('DB insert error: ' + r.status);
+    if (!r.ok) throw new Error('DB insert error ' + r.status + ': ' + await r.text());
   }
 
-const doctors = [
-  { id:1, name:"Dr. Ayşe Yıldız", spec:"Aile Hekimi", city:"Frankfurt", address:"Bergerstr. 45, 60316 Frankfurt", phone:"+49 69 456 7890", insurance:"GKV", lang:"TR/DE", rating:4.9, reviews:34, emoji:"👩‍⚕️", desc:"20 yıllık deneyimli aile hekimi. Türkçe, Almanca ve İngilizce konuşuyor. Yeni hastalar kabul ediyor.", verified:true },
-  { id:2, name:"Dr. Mehmet Aslan", spec:"Dahiliye", city:"Berlin", address:"Kurfürstenstr. 12, 10785 Berlin", phone:"+49 30 123 4567", insurance:"GKV & PKV", lang:"TR/DE/EN", rating:4.7, reviews:28, emoji:"👨‍⚕️", desc:"İç hastalıkları uzmanı. Diyabet, hipertansiyon ve kalp hastalıkları konusunda deneyimli.", verified:true },
-  { id:3, name:"Dr. Fatma Kocak", spec:"Kadın Doğum", city:"München", address:"Maximilianstr. 8, 80539 München", phone:"+49 89 234 5678", insurance:"GKV", lang:"TR/DE", rating:4.8, reviews:41, emoji:"👩‍⚕️", desc:"Kadın doğum uzmanı. Hamilelik takibi, doğum hazırlığı ve jinekoloji. Türk hastalara özel yaklaşım.", verified:true },
-  { id:4, name:"Dr. Hasan Demir", spec:"Psikiyatrist", city:"Köln", address:"Schildergasse 22, 50667 Köln", phone:"+49 221 345 6789", insurance:"GKV & PKV", lang:"TR/DE", rating:4.6, reviews:19, emoji:"🧠", desc:"Psikiyatri ve psikoterapi. Göç stresi, depresyon ve anksiyete konusunda uzmanlaşmış.", verified:true },
-  { id:5, name:"Dr. Zeynep Ak", spec:"Çocuk Doktoru", city:"Hamburg", address:"Mönckebergstr. 5, 20095 Hamburg", phone:"+49 40 567 8901", insurance:"GKV", lang:"TR/DE/EN", rating:4.9, reviews:52, emoji:"👶", desc:"Çocuk sağlığı ve hastalıkları uzmanı. Bebekten ergene kadar tüm yaş gruplarına hizmet veriyor.", verified:true },
-  { id:6, name:"Dr. Ali Kaya", spec:"Diş Hekimi", city:"Düsseldorf", address:"Königsallee 14, 40212 Düsseldorf", phone:"+49 211 678 9012", insurance:"GKV & PKV", lang:"TR/DE", rating:4.7, reviews:36, emoji:"🦷", desc:"Genel diş hekimliği, implant ve estetik diş tedavileri. Ağrısız tedavi anlayışı.", verified:true },
-  { id:7, name:"Psikolog Selin Çelik", spec:"Psikolog", city:"Stuttgart", address:"Königstr. 28, 70173 Stuttgart", phone:"+49 711 789 0123", insurance:"PKV", lang:"TR/DE", rating:4.8, reviews:23, emoji:"🧠", desc:"Klinik psikolog. Bireysel terapi, çift terapisi ve göç psikolojisi alanlarında uzman.", verified:true },
-  { id:8, name:"Dr. Mustafa Yurt", spec:"Göz Doktoru", city:"Frankfurt", address:"Zeil 33, 60313 Frankfurt", phone:"+49 69 890 1234", insurance:"GKV", lang:"TR/DE", rating:4.5, reviews:17, emoji:"👁️", desc:"Oftalmoloji uzmanı. Gözlük reçetesi, katarakt ve göz tansiyonu tedavileri.", verified:false },
-];
+const doctors = []; // seed data removed — real entries come from the DB
 
 const guides = {
   kranken: [
-    { emoji:"📋", title:"Krankenkasse Nedir ve Nasıl Seçilir?", desc:"GKV vs PKV farkı, hangi kasayı seçmeli, katkı payları ve aile sigortası hakkında kapsamlı rehber.", tag:"Temel Rehber", url:"library.html" },
-    { emoji:"💳", title:"Krankenkasse'ye Nasıl Üye Olunur?", desc:"İşe başlarken sigorta kaydı, öğrenci sigortası ve Türkiye'den gelenler için özel bilgiler.", tag:"Başlangıç", url:"library.html" },
-    { emoji:"🦷", title:"Diş Hekimi Kapsamı: Ne Karşılanır?", desc:"GKV'nin diş tedavilerinde neyi karşıladığı, Festzuschuss sistemi ve ek sigorta gerekliliği.", tag:"Diş Sağlığı", url:"library.html" },
-    { emoji:"🌍", title:"Türkiye'ye Giderken Sigorta", desc:"Yurt dışı seyahatte ne karşılanır, Türkiye'de hastane ve ilaç masrafları için bilmeniz gerekenler.", tag:"Seyahat", url:"library.html" },
+    { emoji:"📋", title:"Krankenkasse Nedir ve Nasıl Seçilir?", desc:"GKV vs PKV farkı, hangi kasayı seçmeli, katkı payları ve aile sigortası hakkında kapsamlı rehber.", tag:"Temel Rehber", url:"library.html?cat=medical" },
+    { emoji:"💳", title:"Krankenkasse'ye Nasıl Üye Olunur?", desc:"İşe başlarken sigorta kaydı, öğrenci sigortası ve Türkiye'den gelenler için özel bilgiler.", tag:"Başlangıç", url:"library.html?cat=medical" },
+    { emoji:"🦷", title:"Diş Hekimi Kapsamı: Ne Karşılanır?", desc:"GKV'nin diş tedavilerinde neyi karşıladığı, Festzuschuss sistemi ve ek sigorta gerekliliği.", tag:"Diş Sağlığı", url:"library.html?cat=medical" },
+    { emoji:"🌍", title:"Türkiye'ye Giderken Sigorta", desc:"Yurt dışı seyahatte ne karşılanır, Türkiye'de hastane ve ilaç masrafları için bilmeniz gerekenler.", tag:"Seyahat", url:"library.html?cat=medical" },
   ],
   mental: [
-    { emoji:"🧠", title:"Almanya'da Psikolog / Psikiyatrist Nasıl Bulunur?", desc:"Bekleme listeleri uzun — Kassenzulassung olan terapist bulma, hangi sigorta ne karşılar.", tag:"Rehber", url:"library.html" },
-    { emoji:"💙", title:"Göç Stresi ve Uyum Zorluğu", desc:"Yeni bir ülkede yaşamanın psikolojik boyutu. Türk toplulukları için destek kaynakları.", tag:"Ruh Sağlığı", url:"library.html" },
-    { emoji:"📞", title:"Kriz Hatları ve Acil Destek", desc:"Almanya'da 7/24 ulaşabileceğiniz kriz hatları, Türkçe destek sunan kuruluşlar.", tag:"Acil", url:"library.html" },
-    { emoji:"👫", title:"Çift ve Aile Terapisi", desc:"Almanya'da Türkçe çift terapisi nerede bulunur, GKV kapsamı ve özel seçenekler.", tag:"Aile", url:"library.html" },
+    { emoji:"🧠", title:"Almanya'da Psikolog / Psikiyatrist Nasıl Bulunur?", desc:"Bekleme listeleri uzun — Kassenzulassung olan terapist bulma, hangi sigorta ne karşılar.", tag:"Rehber", url:"library.html?cat=medical" },
+    { emoji:"💙", title:"Göç Stresi ve Uyum Zorluğu", desc:"Yeni bir ülkede yaşamanın psikolojik boyutu. Türk toplulukları için destek kaynakları.", tag:"Ruh Sağlığı", url:"library.html?cat=medical" },
+    { emoji:"📞", title:"Kriz Hatları ve Acil Destek", desc:"Almanya'da 7/24 ulaşabileceğiniz kriz hatları, Türkçe destek sunan kuruluşlar.", tag:"Acil", url:"library.html?cat=medical" },
+    { emoji:"👫", title:"Çift ve Aile Terapisi", desc:"Almanya'da Türkçe çift terapisi nerede bulunur, GKV kapsamı ve özel seçenekler.", tag:"Aile", url:"library.html?cat=medical" },
   ],
   ilac: [
-    { emoji:"💊", title:"Türkiye'den Getirilen İlaçlar: Ne Yapmalı?", desc:"Türkiye'de yazılan reçeteler Almanya'da geçerli mi? İlaç eşdeğerleri nasıl bulunur?", tag:"İlaç", url:"library.html" },
-    { emoji:"🏥", title:"Almanya'da Reçete Sistemi", desc:"Privatrezept vs Kassenrezept farkı, hangi ilaçlar sigorta kapsamında, eczane kullanımı.", tag:"Rehber", url:"library.html" },
-    { emoji:"🌿", title:"Bitkisel İlaçlar ve Takviyeler", desc:"Türkiye'de yaygın kullanılan bitkisel ürünlerin Almanya'daki durumu ve alternatifleri.", tag:"Tamamlayıcı", url:"library.html" },
+    { emoji:"💊", title:"Türkiye'den Getirilen İlaçlar: Ne Yapmalı?", desc:"Türkiye'de yazılan reçeteler Almanya'da geçerli mi? İlaç eşdeğerleri nasıl bulunur?", tag:"İlaç", url:"library.html?cat=medical" },
+    { emoji:"🏥", title:"Almanya'da Reçete Sistemi", desc:"Privatrezept vs Kassenrezept farkı, hangi ilaçlar sigorta kapsamında, eczane kullanımı.", tag:"Rehber", url:"library.html?cat=medical" },
+    { emoji:"🌿", title:"Bitkisel İlaçlar ve Takviyeler", desc:"Türkiye'de yaygın kullanılan bitkisel ürünlerin Almanya'daki durumu ve alternatifleri.", tag:"Tamamlayıcı", url:"library.html?cat=medical" },
   ],
   aile: [
-    { emoji:"🤰", title:"Hamilelik Sürecinde Haklar", desc:"Mutterschutz, Elterngeld, Elternzeit ve hamile çalışanların yasal hakları.", tag:"Hamilelik", url:"library.html" },
-    { emoji:"👶", title:"Doğum Sonrası: İlk Adımlar", desc:"Bebek doktoruna kayıt, Kindergeld başvurusu, Kita için bekleme listesi ve aşı takvimi.", tag:"Bebek", url:"library.html" },
-    { emoji:"📅", title:"Çocuk Aşı Takvimi Almanya", desc:"STIKO önerilen aşı takvimi, okul öncesi zorunlu aşılar ve Türkiye'de yapılan aşıların tanınması.", tag:"Aşı", url:"library.html" },
+    { emoji:"🤰", title:"Hamilelik Sürecinde Haklar", desc:"Mutterschutz, Elterngeld, Elternzeit ve hamile çalışanların yasal hakları.", tag:"Hamilelik", url:"library.html?cat=medical" },
+    { emoji:"👶", title:"Doğum Sonrası: İlk Adımlar", desc:"Bebek doktoruna kayıt, Kindergeld başvurusu, Kita için bekleme listesi ve aşı takvimi.", tag:"Bebek", url:"library.html?cat=medical" },
+    { emoji:"📅", title:"Çocuk Aşı Takvimi Almanya", desc:"STIKO önerilen aşı takvimi, okul öncesi zorunlu aşılar ve Türkiye'de yapılan aşıların tanınması.", tag:"Aşı", url:"library.html?cat=medical" },
+  ],
+  acil: [
+    { emoji:"🚑", title:"112 mi, Notdienst mi? Ne Zaman Nereye?", desc:"Hayati tehlike, aile hekimi kapalıyken ne yapılır, Bereitschaftsdienst (116117) ne zaman aranır — doğru kararı hızlı verin.", tag:"Temel Bilgi", url:"library.html?cat=medical" },
+    { emoji:"🦷", title:"Diş Acili: Gece ve Hafta Sonu", desc:"Zahnärztlicher Notdienst nasıl bulunur, hangi durumlar gerçekten acil sayılır, ücretlendirme nasıl işler.", tag:"Diş Acili", url:"library.html?cat=medical" },
+    { emoji:"👶", title:"Çocuklarda Acil Durumlar", desc:"Yüksek ateş, düşme, zehirlenme şüphesi — çocuk acil servisleri ve Giftnotruf (zehir danışma hattı) hakkında bilmeniz gerekenler.", tag:"Çocuk", url:"library.html?cat=medical" },
+    { emoji:"🏥", title:"Ambulans ve Hastane Süreci", desc:"Ambulans çağırıldığında ne olur, hangi hastaneye götürülür, maliyet ve sigorta kapsamı nasıl işler.", tag:"Hastane", url:"library.html?cat=medical" },
   ],
 };
 
 let activeSection = 'doctors';
 let activeSpec = 'all';
+// Kaynak veride uzmanlık alanları Almanca yazılı; filtre butonları Türkçe.
+// Bu yüzden tam eşleşme değil, anahtar kelime eşleşmesi kullanıyoruz.
+const SPEC_KEYWORDS = {
+  aile:     ['allgemeinmedizin', 'innere medizin', 'internist', 'hausarzt'],
+  kadin:    ['gynäk', 'gynak', 'geburtshilfe', 'pränatal'],
+  cocuk:    ['kinder', 'jugend'],
+  ruh:      ['psychiatrie', 'psychotherapie', 'psycholog', 'neurologie'],
+  kbb:      ['hals-nasen-ohren', 'hno'],
+  cilt:     ['dermatolog', 'hautarzt', 'venerolog'],
+  kalp:     ['kardiolog', 'herz'],
+  cerrahi:  ['chirurgie', 'orthopäd', 'orthopad', 'urolog', 'nephrolog', 'dialyse'],
+};
 let activeCity = '';
+
+// Deep-link support: nav dropdown / mobile menu links pass ?section=kranken etc.
+// Without this, every sub-nav link silently landed back on the default 'doctors' tab.
+(function applySectionFromUrl() {
+  const params = new URLSearchParams(window.location.search);
+  const requested = params.get('section');
+  const valid = ['doctors', 'kranken', 'mental', 'ilac', 'aile', 'acil'];
+  if (requested && valid.includes(requested)) activeSection = requested;
+})();
 
 function setSection(s, btn) {
   activeSection = s;
@@ -420,7 +591,37 @@ function render() {
   const body = document.getElementById('page-body');
   if (activeSection === 'doctors') {
     body.innerHTML = `
-      <div class="section-header"><div class="section-title">🏥 Türkçe Konuşan Doktorlar</div><div class="section-sub">Topluluk tarafından önerilen ve doğrulanmış sağlık profesyonelleri</div></div>
+      <div class="section-header"><div class="section-title">🏥 Türkçe Konuşan Doktorlar</div><div class="section-sub">Topluluk üyelerimizin kendi deneyimlerine dayanarak önerdiği doktorlar</div></div>
+
+      <div style="background:var(--warm);border:1px solid var(--sand);border-radius:14px;padding:20px 22px;margin-bottom:24px;">
+        <div style="font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:var(--ink);margin-bottom:8px;">
+          🔎 Resmî doktor arama: 116117
+        </div>
+        <p style="font-size:13.5px;line-height:1.6;color:var(--muted);margin:0 0 14px;">
+          Almanya'daki tüm anlaşmalı doktorların resmî listesi Kassenärztliche Bundesvereinigung
+          tarafından tutulur ve <strong>konuştukları yabancı dile göre</strong> filtrelenebilir.
+          En güncel ve en eksiksiz kaynak budur — bizim listemiz bunun yerine geçmez, yanına eklenir.
+        </p>
+        <div style="font-size:13px;line-height:1.7;color:var(--ink);background:var(--cream);border-radius:10px;padding:12px 14px;margin-bottom:14px;">
+          <strong>Türkçe konuşan doktor nasıl bulunur:</strong><br>
+          1. Arama kutusuna şehrini ve aradığın uzmanlık alanını yaz.<br>
+          2. Sonuç listesinin yanındaki <strong>„Filter"</strong> bölümünü aç.<br>
+          3. <strong>„Fremdsprachen"</strong> (yabancı diller) altından <strong>„Türkisch"</strong> seç.
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:10px;">
+          <a href="https://arztsuche.116117.de/" target="_blank" rel="noopener noreferrer"
+             style="display:inline-flex;align-items:center;gap:7px;background:var(--red);color:#fff;
+                    text-decoration:none;font-size:13px;font-weight:600;padding:10px 16px;border-radius:9px;">
+            Resmî doktor aramayı aç ↗
+          </a>
+          <a href="https://www.116117.de/de/tuerkisch.php" target="_blank" rel="noopener noreferrer"
+             style="display:inline-flex;align-items:center;gap:7px;background:var(--cream);color:var(--ink);
+                    border:1px solid var(--sand);text-decoration:none;font-size:13px;font-weight:600;
+                    padding:10px 16px;border-radius:9px;">
+            116117 Türkçe bilgi sayfası ↗
+          </a>
+        </div>
+      </div>
       <div class="dir-filters">
         <input class="dir-filter-input" id="f-city" type="text" placeholder="🔍 Şehir ara..." oninput="renderDoctors()">
         <select class="dir-filter-select" id="f-insurance" onchange="renderDoctors()">
@@ -431,28 +632,40 @@ function render() {
       </div>
       <div class="dir-filters" id="spec-filters">
         <button class="dir-filter-btn active spec-btn" onclick="setSpec('all',this)">Tümü</button>
-        <button class="dir-filter-btn spec-btn" onclick="setSpec('Aile Hekimi',this)">👨‍👩‍👧 Aile</button>
-        <button class="dir-filter-btn spec-btn" onclick="setSpec('Psikiyatrist',this)">🧠 Psikiyatri</button>
-        <button class="dir-filter-btn spec-btn" onclick="setSpec('Psikolog',this)">🧠 Psikolog</button>
-        <button class="dir-filter-btn spec-btn" onclick="setSpec('Kadın Doğum',this)">🤰 Kadın Doğum</button>
-        <button class="dir-filter-btn spec-btn" onclick="setSpec('Çocuk Doktoru',this)">👶 Çocuk</button>
-        <button class="dir-filter-btn spec-btn" onclick="setSpec('Diş Hekimi',this)">🦷 Diş</button>
+        <button class="dir-filter-btn spec-btn" onclick="setSpec('aile',this)">👨‍👩‍👧 Aile / Dahiliye</button>
+        <button class="dir-filter-btn spec-btn" onclick="setSpec('kadin',this)">🤰 Kadın Doğum</button>
+        <button class="dir-filter-btn spec-btn" onclick="setSpec('cocuk',this)">👶 Çocuk</button>
+        <button class="dir-filter-btn spec-btn" onclick="setSpec('ruh',this)">🧠 Ruh Sağlığı</button>
+        <button class="dir-filter-btn spec-btn" onclick="setSpec('kbb',this)">👂 KBB</button>
+        <button class="dir-filter-btn spec-btn" onclick="setSpec('cilt',this)">🧴 Cilt</button>
+        <button class="dir-filter-btn spec-btn" onclick="setSpec('kalp',this)">❤️ Kalp</button>
+        <button class="dir-filter-btn spec-btn" onclick="setSpec('cerrahi',this)">🦴 Cerrahi / Ortopedi</button>
       </div>
       <div class="results-bar">
-        <div class="results-count" id="doc-count"><strong>${doctors.length}</strong> doktor bulundu</div>
+        <div class="results-count" id="doc-count">Yükleniyor...</div>
         <button class="add-doctor-btn" onclick="openAddModal()">+ Doktor / Klinik Öner</button>
+      </div>
+      <div style="font-size:12px;line-height:1.6;color:var(--muted);background:var(--warm);border:1px solid var(--sand);border-radius:10px;padding:12px 15px;margin-bottom:18px;">
+        Bu listedeki muayenehane bilgileri kamuya açık kaynaklardan derlenmiştir ve
+        <strong>BizdenBize tarafından doğrulanmamıştır</strong>. Bilgiler zamanla değişebilir —
+        gitmeden önce telefonla teyit etmeni öneririz. Listede kendi muayenehanesini gören bir hekim
+        veya yanlış bir bilgi fark eden bir üye
+        <a href="mailto:support@bizdenbize.com?subject=Doktor%20listesi%20d%C3%BCzeltme%20talebi"
+           style="color:var(--red);font-weight:600;">bize yazarak</a>
+        düzeltme veya kaldırma talep edebilir.
       </div>
       <div class="doctor-grid" id="doctor-grid"></div>`;
     renderDoctors();
   } else {
     const data = guides[activeSection];
-    const titles = { kranken:'📋 Krankenkasse Rehberi', mental:'🧠 Ruh Sağlığı', ilac:'💊 İlaç & Reçete', aile:'🤰 Aile & Hamilelik' };
-    const subs = { kranken:'Almanya sağlık sigortası sistemi hakkında bilmeniz gereken her şey', mental:'Göç stresinden profesyonel desteğe — ruh sağlığı kaynakları', ilac:'Türkiye\'den getirilen ilaçlar, reçete sistemi ve daha fazlası', aile:'Hamilelikten bebekliğe Almanya\'da aile sağlığı' };
+    const titles = { kranken:'📋 Krankenkasse Rehberi', mental:'🧠 Ruh Sağlığı', ilac:'💊 İlaç & Reçete', aile:'🤰 Aile & Hamilelik', acil:'🚨 Acil Durumlar' };
+    const subs = { kranken:'Almanya sağlık sigortası sistemi hakkında bilmeniz gereken her şey', mental:'Göç stresinden profesyonel desteğe — ruh sağlığı kaynakları', ilac:'Türkiye\'den getirilen ilaçlar, reçete sistemi ve daha fazlası', aile:'Hamilelikten bebekliğe Almanya\'da aile sağlığı', acil:'Almanya\'da tıbbi acil durumlarda ne yapmanız, kimi aramanız gerektiği hakkında bilmeniz gerekenler' };
     const tips = {
       kranken: { type:'gold', icon:'💡', title:'Krankenkasse seçimi önemli!', text:'Almanya\'da yasal sigorta şirketleri arasında kapsam farkı az olsa da hizmet kalitesi, ek yardımlar ve müşteri hizmetleri farklılık gösterir. Kayıt olmadan önce karşılaştırın.' },
       mental: { type:'red', icon:'🧠', title:'Yardım almak güçlü olmaktır', text:'Türk toplulukları arasında psikolojik destek almak hala tabu görülebilir. Ancak göç stresi, yalnızlık ve uyum zorluğu gerçek sağlık sorunlarıdır. Yardım istemekten çekinmeyin.' },
       ilac: { type:'gold', icon:'💊', title:'Türkiye\'den ilaç getirirken dikkat', text:'AB ülkelerine kişisel kullanım için sınırlı miktarda ilaç getirilebilir. Uyuşturucu içeren ilaçlar için özel izin gerekebilir. Gümrükte sorun yaşamamak için reçetenizi yanınızda bulundurun.' },
       aile: { type:'green', icon:'🤰', title:'Hamile çalışanlar için önemli', text:'Almanya\'da hamilelik boyunca işten çıkarılma yasağı var. Mutterschutz doğumdan 6 hafta önce başlar. Elterngeld başvurusunu doğumdan sonra en geç 3 ay içinde yapın.' },
+      acil: { type:'red', icon:'🚨', title:'Hayati tehlike varsa hemen 112\'yi arayın', text:'Bu sayfa yalnızca genel bilgilendirme amaçlıdır. Hayati tehlike arz eden bir durumda vakit kaybetmeden 112\'yi arayın veya en yakın Notaufnahme\'ye (acil servis) gidin.' },
     };
     const t = tips[activeSection];
     body.innerHTML = `
@@ -470,7 +683,7 @@ function render() {
         </a>`).join('')}</div>
       <div style="margin-top:24px;padding:16px 20px;background:var(--white);border:1px solid var(--sand);border-radius:12px;display:flex;align-items:center;gap:14px;">
         <div style="font-size:28px;">🤖</div>
-        <div style="flex:1;"><div style="font-size:13px;font-weight:700;color:var(--ink);margin-bottom:3px;">Sağlık sorunuz mu var?</div><div style="font-size:12px;color:var(--muted);">AbiBOT Tıbbi kategorisinde sorularınızı yanıtlıyor. Günde 10 soru ücretsiz.</div></div>
+        <div style="flex:1;"><div style="font-size:13px;font-weight:700;color:var(--ink);margin-bottom:3px;">Sağlık alanındaki düzenlemeler ile ilgili sorunuz mu var?</div><div style="font-size:12px;color:var(--muted);">AbiBOT Tıbbi kategorisinde sorularınızı yanıtlıyor. Günde 10 soru ücretsiz!</div></div>
         <a href="abibot.html" style="padding:9px 16px;background:#0891B2;color:#fff;border-radius:9px;font-size:13px;font-weight:600;text-decoration:none;white-space:nowrap;">AbiBOT'a Sor →</a>
       </div>`;
   }
@@ -485,20 +698,40 @@ async function renderDoctors() {
 
   let allDoctors = [];
   try {
-    let params = 'order=verified.desc,rating.desc';
+    let params = 'order=verified.desc,rating.desc&active=eq.true';
       if (cityQ) params += '&city=ilike.*' + encodeURIComponent(cityQ) + '*';
       if (insQ !== 'all') params += '&insurance=ilike.*' + encodeURIComponent(insQ) + '*';
       allDoctors = await sbGet('doctors', params);
   } catch(e) { console.error('Doctor fetch error:', e); allDoctors = doctors; }
 
-  const filtered = allDoctors.filter(d => activeSpec === 'all' || (d.spec||d.specialty) === activeSpec);
+  const filtered = allDoctors.filter(d => {
+    if (activeSpec === 'all') return true;
+    const s = String(d.spec || d.specialty || '').toLowerCase();
+    const keys = SPEC_KEYWORDS[activeSpec];
+    if (!keys) return s === activeSpec;          // eski davranış, yedek olarak
+    return keys.some(k => s.includes(k));
+  });
   const count = document.getElementById('doc-count');
   if (count) count.innerHTML = `<strong>${filtered.length}</strong> doktor bulundu`;
   document.getElementById('stat-doctors').textContent = allDoctors.length;
 
-  if (!filtered.length) { grid.innerHTML = `<div style="text-align:center;padding:48px 24px;color:var(--muted);grid-column:1/-1"><div style="font-size:40px;margin-bottom:12px">🔍</div><div style="font-size:16px;font-weight:600;color:var(--ink);margin-bottom:6px;">Bulunamadı</div><p style="font-size:13px;">Farklı filtreler deneyin veya doktor önerin.</p></div>`; return; }
+  if (!filtered.length) {
+    grid.innerHTML = `<div style="text-align:center;padding:44px 24px;color:var(--muted);grid-column:1/-1">
+      <div style="font-size:40px;margin-bottom:12px">🌱</div>
+      <div style="font-size:16px;font-weight:600;color:var(--ink);margin-bottom:8px;">Bu liste topluluğumuzla birlikte büyüyor</div>
+      <p style="font-size:13.5px;line-height:1.6;max-width:440px;margin:0 auto 18px;">
+        Buradaki öneriler yalnızca üyelerimizin gerçekten gittiği doktorlardan oluşur — bu yüzden
+        yavaş büyür ama güvenilirdir. Memnun kaldığın bir doktor varsa toplulukla paylaş.
+      </p>
+      <p style="font-size:13px;line-height:1.6;max-width:440px;margin:0 auto;">
+        Hemen bir doktor arıyorsan yukarıdaki <strong>resmî 116117 arama</strong> bağlantısını kullan —
+        Almanya'daki tüm doktorları kapsar ve Türkçe konuşanlara göre filtrelenebilir.
+      </p>
+    </div>`;
+    return;
+  }
   grid.innerHTML = filtered.map(d => `
-    <div class="doctor-card" onclick="openDoctor(${d.id})">
+    <div class="doctor-card" onclick="openDoctorById(${d.id})">
       <div class="doctor-top">
         <div class="doctor-avatar">👨‍⚕️</div>
         <div class="doctor-info">
@@ -509,10 +742,12 @@ async function renderDoctors() {
       </div>
       <div class="doctor-tags">
         <span class="doctor-tag tag-turkish">🇹🇷 Türkçe</span>
-        <span class="doctor-tag tag-insurance">${d.insurance || ''}</span>
+        ${d.insurance ? `<span class="doctor-tag tag-insurance">${d.insurance}</span>` : ''}
         ${d.verified ? '<span class="doctor-tag tag-verified">✅ Doğrulandı</span>' : ''}
       </div>
-      <div class="doctor-rating">⭐ ${d.rating || '—'} <span style="color:var(--sand);">(${d.reviews||d.review_count||0} değerlendirme)</span></div>
+      ${(d.reviews||d.review_count||0) > 0
+        ? `<div class="doctor-rating">⭐ ${d.rating || '—'} <span style="color:var(--sand);">(${d.reviews||d.review_count} değerlendirme)</span></div>`
+        : `<div class="doctor-rating" style="color:var(--muted);font-size:12px;">Henüz topluluk değerlendirmesi yok</div>`}
       <div class="doctor-footer">
         <span style="font-size:12px;color:var(--muted);">📍 ${d.city}</span>
         <button class="doctor-contact-btn" onclick="event.stopPropagation();openDoctorById(${d.id})">İletişim →</button>
@@ -538,43 +773,50 @@ function openDoctorById(id) {
     <div class="info-box"><div class="info-box-label">Puan</div><div class="info-box-val">⭐ ${d.rating || '—'} (${d.reviews||d.review_count||0})</div></div>`;
   document.getElementById('dm-tags').innerHTML = `<span class="doctor-tag tag-turkish" style="font-size:11px;padding:3px 10px;">🇹🇷 Türkçe</span>${d.verified ? '<span class="doctor-tag tag-verified" style="font-size:11px;padding:3px 10px;">✅ Doğrulandı</span>' : ''}`;
   document.getElementById('dm-phone-btn').onclick = () => window.location.href = `tel:${d.phone}`;
-  document.getElementById('dm-wa-btn').onclick = () => window.open(`https://wa.me/${(d.phone||'').replace(/\s|\+|-/g,'')}`, '_blank');
+  document.getElementById('dm-wa-btn').onclick = () => window.open(`https://wa.me/${(d.phone||'').replace(/\s|\+|-/g,'')}?text=${encodeURIComponent(`Merhaba, BizdenBize üzerinden ${d.name} ile randevu/bilgi almak istiyorum.`)}`, '_blank');
   document.getElementById('doctor-modal').classList.add('open');
   document.body.style.overflow = 'hidden';
 }
 
-function openDoctor(id) {
-  const d = doctors.find(x => x.id === id);
-  if (!d) return;
-  document.getElementById('dm-avatar').textContent = d.emoji;
-  document.getElementById('dm-name').textContent = d.name;
-  document.getElementById('dm-spec').textContent = d.spec;
-  document.getElementById('dm-desc').textContent = d.desc;
-  document.getElementById('dm-info').innerHTML = `
-    <div class="info-box"><div class="info-box-label">Şehir</div><div class="info-box-val">📍 ${d.city}</div></div>
-    <div class="info-box"><div class="info-box-label">Sigorta</div><div class="info-box-val">${d.insurance}</div></div>
-    <div class="info-box"><div class="info-box-label">Dil</div><div class="info-box-val">🌐 ${d.lang}</div></div>
-    <div class="info-box"><div class="info-box-label">Puan</div><div class="info-box-val">⭐ ${d.rating} (${d.reviews})</div></div>`;
-  document.getElementById('dm-tags').innerHTML = `<span class="doctor-tag tag-turkish" style="font-size:11px;padding:3px 10px;">🇹🇷 Türkçe</span><span class="doctor-tag tag-insurance" style="font-size:11px;padding:3px 10px;">${d.insurance}</span>${d.verified ? '<span class="doctor-tag tag-verified" style="font-size:11px;padding:3px 10px;">✅ Doğrulandı</span>' : ''}`;
-  document.getElementById('dm-phone-btn').onclick = () => window.location.href = `tel:${d.phone}`;
-  document.getElementById('dm-wa-btn').onclick = () => window.open(`https://wa.me/${d.phone.replace(/\s|\+|-/g,'')}`, '_blank');
-  document.getElementById('doctor-modal').classList.add('open');
-  document.body.style.overflow = 'hidden';
-}
+
 function closeDoctorModal() { document.getElementById('doctor-modal').classList.remove('open'); document.body.style.overflow = ''; }
 
 function openAddModal() { document.getElementById('add-modal').classList.add('open'); document.body.style.overflow = 'hidden'; }
 function closeAddModal() { document.getElementById('add-modal').classList.remove('open'); document.body.style.overflow = ''; document.getElementById('add-success').style.display = 'none'; document.getElementById('add-body').style.display = 'flex'; document.getElementById('add-footer').style.display = 'flex'; document.getElementById('a-error').style.display = 'none'; }
-function submitAdd() {
+async function submitAdd() {
   const name = document.getElementById('a-name').value.trim();
   const city = document.getElementById('a-city').value.trim();
-  if (!name || !city) { document.getElementById('a-error').textContent = 'Lütfen doktor adı ve şehir girin.'; document.getElementById('a-error').style.display = 'block'; return; }
+  const errBox = document.getElementById('a-error');
+  if (!name || !city) { errBox.textContent = 'Lütfen doktor adı ve şehir girin.'; errBox.style.display = 'block'; return; }
+  errBox.style.display = 'none';
+
+  try {
+    await sbPost('doctors', {
+      name,
+      city,
+      country:     'Almanya',
+      specialty:   document.getElementById('a-spec').value,
+      phone:       document.getElementById('a-phone').value.trim() || null,
+      address:     document.getElementById('a-address').value.trim() || null,
+      insurance:   document.getElementById('a-insurance').value,
+      description: document.getElementById('a-desc').value.trim() || null,
+      verified:    false,
+      active:      false,
+    });
+  } catch (e) {
+    console.error('Doctor suggestion insert error:', e);
+    errBox.innerHTML = 'Öneriniz kaydedilemedi, lütfen tekrar deneyin.<br><span style="font-size:11px;opacity:.75;">' + (e.message || '') + '</span>';
+    errBox.style.display = 'block';
+    return;
+  }
+
   document.getElementById('add-body').style.display = 'none';
   document.getElementById('add-footer').style.display = 'none';
   document.getElementById('add-success').style.display = 'block';
   setTimeout(() => closeAddModal(), 3000);
 }
 
+document.querySelectorAll('.section-tab').forEach(b => b.classList.toggle('active', b.dataset.section === activeSection));
 render();
 </script>
 <!-- SITE FOOTER -->
@@ -607,7 +849,7 @@ render();
           <a href="business.html" style="font-size:13px;color:rgba(255,255,255,.55);text-decoration:none;transition:color .15s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,.55)'">🏢 İşletmeler</a>
           <a href="is-ver-bul.html" style="font-size:13px;color:rgba(255,255,255,.55);text-decoration:none;transition:color .15s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,.55)'">💼 İş Ver & Bul</a>
           <a href="ogrenim.html" style="font-size:13px;color:rgba(255,255,255,.55);text-decoration:none;transition:color .15s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,.55)'">🎓 Öğrenim</a>
-          <a href="library.html" style="font-size:13px;color:rgba(255,255,255,.55);text-decoration:none;transition:color .15s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,.55)'">📚 Bilgiler</a>
+          <a href="library.html" style="font-size:13px;color:rgba(255,255,255,.55);text-decoration:none;transition:color .15s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,.55)'">📚 Bilgi & Belge</a>
           <a href="abibot.html" style="font-size:13px;color:rgba(255,255,255,.55);text-decoration:none;transition:color .15s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,.55)'">🤖 AbiBOT</a>
         </div>
       </div>
@@ -619,7 +861,7 @@ render();
           <a href="hakkimizda.html" style="font-size:13px;color:rgba(255,255,255,.55);text-decoration:none;transition:color .15s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,.55)'">Hakkımızda</a>
           <a href="sss.html" style="font-size:13px;color:rgba(255,255,255,.55);text-decoration:none;transition:color .15s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,.55)'">SSS</a>
           <a href="iletisim.html" style="font-size:13px;color:rgba(255,255,255,.55);text-decoration:none;transition:color .15s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,.55)'">İletişim</a>
-          <a href="mailto:info@bizdenbize.com" style="font-size:13px;color:rgba(255,255,255,.55);text-decoration:none;transition:color .15s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,.55)'">info@bizdenbize.com</a>
+          <a href="mailto:support@bizdenbize.com" style="font-size:13px;color:rgba(255,255,255,.55);text-decoration:none;transition:color .15s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,.55)'">support@bizdenbize.com</a>
           <a href="abibot.html" style="font-size:13px;color:rgba(255,255,255,.55);text-decoration:none;transition:color .15s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,.55)'">🤖 AbiBOT'a Sor</a>
         </div>
       </div>
@@ -632,21 +874,14 @@ render();
           <a href="kullanim-kosullari.html" style="font-size:13px;color:rgba(255,255,255,.55);text-decoration:none;transition:color .15s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,.55)'">Kullanım Koşulları</a>
           <a href="cerez.html" style="font-size:13px;color:rgba(255,255,255,.55);text-decoration:none;transition:color .15s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,.55)'">Çerez Politikası</a>
           <a href="kvkk.html" style="font-size:13px;color:rgba(255,255,255,.55);text-decoration:none;transition:color .15s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,.55)'">KVKK / GDPR</a>
+          <a href="legal.html#impressum" style="font-size:13px;color:rgba(255,255,255,.55);text-decoration:none;transition:color .15s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,.55)'">Impressum</a>
           <a href="ilan-kurallari.html" style="font-size:13px;color:rgba(255,255,255,.55);text-decoration:none;transition:color .15s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,.55)'">İlan Kuralları</a>
         </div>
       </div>
 
     </div>
 
-    <!-- Language bar -->
-    <div style="display:flex;gap:6px;flex-wrap:wrap;padding:20px 0;border-bottom:1px solid rgba(255,255,255,.08);">
-      <span style="font-size:11px;color:rgba(255,255,255,.25);margin-right:4px;align-self:center;">Dil:</span>
-      <a href="?lang=tr" style="font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;border:1px solid rgba(255,255,255,.15);color:rgba(255,255,255,.55);text-decoration:none;transition:all .15s;" onmouseover="this.style.color='#fff';this.style.borderColor='rgba(255,255,255,.4)'" onmouseout="this.style.color='rgba(255,255,255,.55)';this.style.borderColor='rgba(255,255,255,.15)'">🇹🇷 Türkçe</a>
-      <a href="?lang=de" style="font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;border:1px solid rgba(255,255,255,.15);color:rgba(255,255,255,.55);text-decoration:none;transition:all .15s;" onmouseover="this.style.color='#fff';this.style.borderColor='rgba(255,255,255,.4)'" onmouseout="this.style.color='rgba(255,255,255,.55)';this.style.borderColor='rgba(255,255,255,.15)'">🇩🇪 Deutsch</a>
-      <a href="?lang=en" style="font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;border:1px solid rgba(255,255,255,.15);color:rgba(255,255,255,.55);text-decoration:none;transition:all .15s;" onmouseover="this.style.color='#fff';this.style.borderColor='rgba(255,255,255,.4)'" onmouseout="this.style.color='rgba(255,255,255,.55)';this.style.borderColor='rgba(255,255,255,.15)'">🇬🇧 English</a>
-      <a href="?lang=nl" style="font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;border:1px solid rgba(255,255,255,.15);color:rgba(255,255,255,.55);text-decoration:none;transition:all .15s;" onmouseover="this.style.color='#fff';this.style.borderColor='rgba(255,255,255,.4)'" onmouseout="this.style.color='rgba(255,255,255,.55)';this.style.borderColor='rgba(255,255,255,.15)'">🇳🇱 Nederlands</a>
-      <a href="?lang=fr" style="font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;border:1px solid rgba(255,255,255,.15);color:rgba(255,255,255,.55);text-decoration:none;transition:all .15s;" onmouseover="this.style.color='#fff';this.style.borderColor='rgba(255,255,255,.4)'" onmouseout="this.style.color='rgba(255,255,255,.55)';this.style.borderColor='rgba(255,255,255,.15)'">🇫🇷 Français</a>
-    </div>
+    
 
     <!-- Bottom bar -->
     <div style="display:flex;align-items:center;justify-content:space-between;padding-top:20px;flex-wrap:wrap;gap:10px;">

@@ -361,7 +361,56 @@
     .mm-link.active { background:rgba(212,43,43,.07);color:#D42B2B;font-weight:600; }
     .mm-link-icon { font-size:20px;width:28px;text-align:center;flex-shrink:0; }
     .mm-footer { padding:16px 20px 32px;border-top:1px solid var(--warm,#F0EAE0);margin-top:auto; }
-    @media (max-width:900px) { .nav-menu { display:none!important; } .hamburger { display:flex!important; } }
+        @media (max-width:900px) { .nav-primary { display:none!important; } .bottom-tabbar { display:flex!important; } body{ padding-bottom:64px; } }
+
+    /* ── SIMPLIFIED PRIMARY NAV ── */
+    .nav-primary{display:flex;align-items:center;gap:2px;margin-left:10px;}
+    .nav-primary a,.nav-kesfet-btn{
+      display:flex;align-items:center;gap:6px;padding:9px 14px;border-radius:8px;
+      font-size:14px;font-weight:600;color:var(--ink);text-decoration:none;
+      background:none;border:none;cursor:pointer;font-family:inherit;white-space:nowrap;
+    }
+    .nav-primary a:hover,.nav-kesfet-btn:hover{background:var(--warm);}
+    .nav-primary a.active{background:var(--warm);color:var(--red);}
+
+    /* ── KEŞFET PANEL (desktop) ── */
+    .kesfet-panel{
+      display:none;position:absolute;top:64px;left:50%;transform:translateX(-50%);
+      background:#fff;border:1px solid var(--sand);border-radius:14px;
+      box-shadow:0 12px 32px rgba(26,18,8,.14);padding:18px;width:560px;z-index:250;
+    }
+    .kesfet-panel.open{display:block;}
+    .kesfet-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
+    .kesfet-tile{display:flex;flex-direction:column;align-items:center;gap:6px;
+      padding:14px 8px;border-radius:10px;text-decoration:none;color:var(--ink);
+      font-size:12.5px;font-weight:600;text-align:center;background:var(--cream);}
+    .kesfet-tile:hover{background:var(--warm);}
+    .kesfet-tile .e{font-size:22px;}
+
+    /* ── UTILITY: messages icon (matches existing notif-bell styling) ── */
+    .nav-msg{position:relative;background:none;border:none;font-size:19px;cursor:pointer;
+      padding:8px;border-radius:8px;text-decoration:none;display:inline-flex;color:var(--ink);}
+    .nav-msg:hover{background:var(--warm);}
+
+    /* ── BOTTOM TAB BAR (mobile only) ── */
+    .bottom-tabbar{display:none;position:fixed;left:0;right:0;bottom:0;z-index:300;
+      background:#fff;border-top:1px solid var(--sand);
+      padding:6px 4px calc(6px + env(safe-area-inset-bottom));}
+    .bt-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;
+      font-size:10px;font-weight:600;color:var(--muted);text-decoration:none;padding:5px 0;
+      background:none;border:none;font-family:inherit;cursor:pointer;}
+    .bt-item.active{color:var(--red);}
+    .bt-icon{font-size:20px;}
+
+    /* ── KEŞFET SHEET (mobile) ── */
+    .kesfet-sheet-overlay{display:none;position:fixed;inset:0;background:rgba(26,18,8,.35);z-index:350;}
+    .kesfet-sheet-overlay.open{display:block;}
+    .kesfet-sheet{position:fixed;left:0;right:0;bottom:0;background:#fff;
+      border-radius:18px 18px 0 0;padding:16px 14px calc(16px + env(safe-area-inset-bottom));
+      z-index:351;max-height:75vh;overflow-y:auto;}
+    .kesfet-sheet-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
+    .kesfet-sheet-title{font-size:15px;font-weight:700;color:var(--ink);}
+    .kesfet-sheet-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
 
   </style>
 
@@ -418,147 +467,145 @@
     });
   })();
 </script>
+  <script type="module">
+    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+    const _authSb = createClient('https://wxjudojlwksivhzjnmim.supabase.co','sb_publishable_52tr_hEnnQ3kllZexTue0Q_ByF71303');
+    window._authSb=_authSb;
+    window._authReady=_authSb.auth.getSession().then(({data:{session}})=>{window._currentSession=session||null;});
+  </script>
 </head>
 <body>
 <!-- NAV -->
 <nav style="position:sticky;top:0;z-index:200;background:rgba(250,247,242,0.97);backdrop-filter:blur(14px);border-bottom:1px solid rgba(212,197,169,0.4);height:58px;display:flex;align-items:center;padding:0 16px 0 12px;gap:4px;">
   <a href="mahallem.html" class="nav-logo-link"><img src="logo.png" alt="BizdenBize" style="height:44px;width:auto;display:block;"></a>
-  <div class="nav-menu">
-    <div class="nav-item">
-      <button class="nav-item-btn" onclick="toggleDropdown('dd-mahallem',this)">🏘️ Mahallem <span class="chevron">▼</span></button>
-      <div class="nav-dropdown" id="dd-mahallem">
-        <a href="mahallem.html">🏘️ Komşularım</a>
-        <a href="events.html">🎉 Etkinlikler</a>
-        <a href="mahallem.html">📝 Paylaşımlar</a>
-      </div>
-    </div>
-    <div class="nav-item">
-      <button class="nav-item-btn" onclick="toggleDropdown('dd-is',this)">💼 İş & Göç <span class="chevron">▼</span></button>
-      <div class="nav-dropdown" id="dd-is">
-        <a href="is-guc.html">💼 İş İlanları</a>
-        <a href="is-guc.html">⚡ Freelance & Gig</a>
-        <a href="is-guc.html">👤 İş Arayanlar</a>
-        <a href="is-guc.html">✈️ Avrupa'ya Göç</a>
-        <hr>
-        <a href="business.html">🏢 İşletmeler</a>
-      </div>
-    </div>
-    <div class="nav-item">
-      <button class="nav-item-btn" onclick="toggleDropdown('dd-ogrenim',this)">🎓 Öğrenim <span class="chevron">▼</span></button>
-      <div class="nav-dropdown" id="dd-ogrenim">
-        <a href="ogrenim.html">🗣️ Dil Kursları</a>
-        <a href="ogrenim.html">🎓 Yüksek Öğrenim</a>
-        <a href="ogrenim.html">📜 Diploma Denkliği</a>
-        <a href="ogrenim.html">🏭 Ausbildung</a>
-        <hr>
-        <a href="nachhilfe.html">✏️ Nachhilfe</a>
-        <a href="webinar.html">🎥 Webinarlar</a>
-        <a href="ogrenim.html">📚 Weiterbildung</a>
-      </div>
-    </div>
-    <div class="nav-item">
-      <button class="nav-item-btn" onclick="toggleDropdown('dd-emlak',this)">🏠 Konut & Emlak <span class="chevron">▼</span></button>
-      <div class="nav-dropdown" id="dd-emlak">
-        <a href="classifieds.html">🔑 Kiralık Ev</a>
-        <a href="classifieds.html">🏡 Satılık Ev</a>
-        <a href="classifieds.html">🤝 Sublet</a>
-        <a href="classifieds.html">👥 Paylaşımlı Ev</a>
-        <hr>
-        <a href="ev-takasi.html">🔄 Ev Takası</a>
-        <a href="classifieds.html">📋 Tüm Emlak İlanları</a>
-      </div>
-    </div>
-    <div class="nav-item">
-      <button class="nav-item-btn" onclick="toggleDropdown('dd-ilanlar',this)">🛍️ İlanlar <span class="chevron">▼</span></button>
-      <div class="nav-dropdown" id="dd-ilanlar">
-        <a href="classifieds.html">🚗 Araç</a>
-        <a href="classifieds.html">🛋️ Ev Eşyası</a>
-        <a href="classifieds.html">📱 Elektronik</a>
-        <a href="classifieds.html">👗 Giyim</a>
-        <a href="classifieds.html">📋 Tümü</a>
-      </div>
-    </div>
-    <div class="nav-item">
-      <button class="nav-item-btn" onclick="toggleDropdown('dd-bilgiler',this)">📚 Bilgiler <span class="chevron">▼</span></button>
-      <div class="nav-dropdown" id="dd-bilgiler">
-        <a href="library.html">📚 Tüm Kaynaklar</a>
-        <hr>
-        <a href="library.html">💶 Kindergeld & Sosyal Yardımlar</a>
-        <a href="library.html">🏫 Okul & Çocuklar</a>
-        <a href="library.html">🛂 Vize & Oturum</a>
-        <a href="library.html">🚗 Sigorta</a>
-        <a href="library.html">💼 Çalışma Hayatı</a>
-      </div>
-    </div>
-    <div class="nav-item">
-      <button class="nav-item-btn" onclick="toggleDropdown('dd-abibot',this)">🤖 AbiBOT <span class="chevron">▼</span></button>
-      <div class="nav-dropdown" id="dd-abibot">
-        <a href="abibot.html">🤖 AbiBOT'a Sor</a>
-        <hr>
-        <a href="abibot.html">⚖️ Hukuk</a>
-        <a href="abibot.html">🏥 Tıbbi</a>
-        <a href="abibot.html">💼 Çalışma & Sigorta</a>
-        <a href="abibot.html">💶 Vergi & Finans</a>
-        <a href="abibot.html">🛂 Vize & Oturum</a>
-        <a href="abibot.html">👶 Okul & Yardımlar</a>
-        <a href="abibot.html">✈️ Avrupa'ya Göç</a>
-      </div>
+  <div class="nav-primary">
+    <a href="mahallem.html" id="np-mahallem">🏘️ Mahallem</a>
+    <a href="abibot.html" id="np-abibot">🤖 AbiBOT</a>
+    <a href="classifieds.html" id="np-ilanlar">🛍️ İlanlar</a>
+    <button class="nav-kesfet-btn" onclick="toggleKesfet(event)" id="np-kesfet">🔍 Keşfet</button>
+  </div>
+  <div class="kesfet-panel" id="kesfet-panel">
+    <div class="kesfet-grid">
+      <a class="kesfet-tile" href="is-guc.html"><span class="e">💼</span>İş İlanları</a>
+      <a class="kesfet-tile" href="business.html"><span class="e">🏢</span>İşletmeler</a>
+      <a class="kesfet-tile" href="uzmanlar.html"><span class="e">👨‍⚖️</span>Uzmanlar</a>
+      <a class="kesfet-tile" href="ogrenim.html"><span class="e">🎓</span>Öğrenim</a>
+      <a class="kesfet-tile" href="nachhilfe.html"><span class="e">✏️</span>Nachhilfe</a>
+      <a class="kesfet-tile" href="webinar.html"><span class="e">🎥</span>Webinarlar</a>
+      <a class="kesfet-tile" href="saglik.html"><span class="e">🏥</span>Sağlık</a>
+      <a class="kesfet-tile" href="emlak.html"><span class="e">🏠</span>Konut & Emlak</a>
+      <a class="kesfet-tile" href="ev-takasi.html"><span class="e">🔄</span>Tatil Takası</a>
+      <a class="kesfet-tile" href="library.html"><span class="e">📚</span>Bilgi & Belge</a>
+      <a class="kesfet-tile" href="events.html"><span class="e">🎉</span>Etkinlikler</a>
     </div>
   </div>
+  <div style="flex:1;"></div>
   <div class="nav-right">
-    <div class="nav-avatar" onclick="window.location='profile.html'">AY</div>
-    <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menü"><span></span><span></span><span></span></button>
+    <a class="nav-msg" href="messages.html" title="Mesajlar">💬</a>
+    <div class="nav-avatar" id="nav-avatar" onclick="toggleAvatarMenu()" title="Profilim" style="position:relative;">—</div>
+    <div id="avatar-menu" style="display:none;position:absolute;top:54px;right:16px;background:#fff;border:1px solid rgba(212,197,169,.5);border-radius:12px;padding:8px;min-width:180px;box-shadow:0 8px 32px rgba(0,0,0,.1);z-index:300;">
+      <a href="profile.html" style="display:flex;align-items:center;gap:9px;padding:9px 12px;border-radius:8px;font-size:13px;font-weight:500;color:#1A1208;text-decoration:none;">👤 Profilim</a>
+      <hr style="border:none;border-top:1px solid #F0EAE0;margin:4px 0;">
+      <button onclick="doLogout()" style="display:flex;align-items:center;gap:9px;padding:9px 12px;border-radius:8px;font-size:13px;font-weight:500;color:#D42B2B;background:none;border:none;cursor:pointer;width:100%;font-family:inherit;">Çıkış Yap</button>
+    </div>
   </div>
+  <script>
+    function toggleAvatarMenu() { const menu = document.getElementById('avatar-menu'); menu.style.display = menu.style.display === 'none' ? 'block' : 'none'; }
+    document.addEventListener('click', function(e) { if (!e.target.closest('#nav-avatar') && !e.target.closest('#avatar-menu')) { const menu = document.getElementById('avatar-menu'); if (menu) menu.style.display = 'none'; } });
+    async function doLogout() { const { createClient } = await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm'); const sb = createClient('https://wxjudojlwksivhzjnmim.supabase.co', 'sb_publishable_52tr_hEnnQ3kllZexTue0Q_ByF71303'); await sb.auth.signOut(); Object.keys(localStorage).forEach(k => localStorage.removeItem(k)); sessionStorage.clear(); window.location.replace('/login.html'); }
+
+    // Populate the nav avatar with the real logged-in user's initials/photo,
+    // reusing the existing session promise this page already sets up above
+    // (window._authReady / window._currentSession) — same visual logic as
+    // mahallem.html's avatar, for consistency.
+    if (window._authReady) {
+      window._authReady.then(async () => {
+        const session = window._currentSession;
+        const navAvatar = document.getElementById('nav-avatar');
+        if (!session || !navAvatar) return;
+        try {
+          const r = await fetch(`https://wxjudojlwksivhzjnmim.supabase.co/rest/v1/profiles?id=eq.${session.user.id}&select=first_name,last_name,avatar_url`, {
+            headers: { apikey: 'sb_publishable_52tr_hEnnQ3kllZexTue0Q_ByF71303', Authorization: `Bearer ${session.access_token}` }
+          });
+          const rows = await r.json();
+          const p = rows[0] || {};
+          if (p.avatar_url) {
+            navAvatar.innerHTML = `<img src="${p.avatar_url}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">`;
+          } else {
+            const initials = ((p.first_name?.[0]||'') + (p.last_name?.[0]||'')).toUpperCase() || '?';
+            const colors = ['#D42B2B','#185FA5','#1E7B4B','#C9A84C','#534AB7'];
+            navAvatar.textContent = initials;
+            navAvatar.style.background = colors[initials.charCodeAt(0) % colors.length];
+          }
+        } catch(e) { console.error('Nav avatar load error:', e); }
+      });
+    }
+  </script>
 </nav>
 
-<!-- MOBILE MENU -->
-<div class="mobile-menu" id="mobile-menu">
-  <div class="mm-header">
-    <div style="font-family:'Playfair Display',serif;font-size:18px;font-weight:900;color:#1A1208;">Bizden<span style="color:#D42B2B;">Bize</span></div>
-    <button onclick="toggleMenu()" style="background:none;border:none;font-size:26px;color:#6B5E4E;cursor:pointer;line-height:1;">×</button>
+<!-- KEŞFET SHEET (mobile) -->
+<div class="kesfet-sheet-overlay" id="kesfet-sheet-overlay" onclick="closeKesfetSheet()"></div>
+<div class="kesfet-sheet" id="kesfet-sheet" style="display:none;">
+  <div class="kesfet-sheet-header">
+    <div class="kesfet-sheet-title">Keşfet</div>
+    <button onclick="closeKesfetSheet()" style="background:none;border:none;font-size:22px;color:var(--muted);cursor:pointer;line-height:1;">×</button>
   </div>
-  <div class="mm-section"><div class="mm-section-title">Topluluk</div>
-    <a class="mm-link" href="mahallem.html"><span class="mm-link-icon">🏘️</span>Komşularım</a>
-    <a class="mm-link" href="events.html"><span class="mm-link-icon">🎉</span>Etkinlikler</a>
+  <div class="kesfet-sheet-grid">
+    <a class="kesfet-tile" href="is-guc.html"><span class="e">💼</span>İş İlanları</a>
+    <a class="kesfet-tile" href="business.html"><span class="e">🏢</span>İşletmeler</a>
+    <a class="kesfet-tile" href="uzmanlar.html"><span class="e">👨‍⚖️</span>Uzmanlar</a>
+    <a class="kesfet-tile" href="ogrenim.html"><span class="e">🎓</span>Öğrenim</a>
+    <a class="kesfet-tile" href="nachhilfe.html"><span class="e">✏️</span>Nachhilfe</a>
+    <a class="kesfet-tile" href="webinar.html"><span class="e">🎥</span>Webinarlar</a>
+    <a class="kesfet-tile" href="saglik.html"><span class="e">🏥</span>Sağlık</a>
+    <a class="kesfet-tile" href="emlak.html"><span class="e">🏠</span>Konut & Emlak</a>
+    <a class="kesfet-tile" href="ev-takasi.html"><span class="e">🔄</span>Tatil Takası</a>
+    <a class="kesfet-tile" href="library.html"><span class="e">📚</span>Bilgi & Belge</a>
+    <a class="kesfet-tile" href="events.html"><span class="e">🎉</span>Etkinlikler</a>
+    <a class="kesfet-tile" href="messages.html"><span class="e">💬</span>Mesajlar</a>
   </div>
-  <div class="mm-section"><div class="mm-section-title">İş & Göç</div>
-    <a class="mm-link" href="is-guc.html"><span class="mm-link-icon">💼</span>İş İlanları</a>
-    <a class="mm-link" href="is-guc.html"><span class="mm-link-icon">⚡</span>Freelance & Gig</a>
-    <a class="mm-link" href="is-guc.html"><span class="mm-link-icon">✈️</span>Avrupa'ya Göç</a>
-    <a class="mm-link" href="business.html"><span class="mm-link-icon">🏢</span>İşletmeler</a>
-  </div>
-  <div class="mm-section"><div class="mm-section-title">Öğrenim</div>
-    <a class="mm-link" href="ogrenim.html"><span class="mm-link-icon">🗣️</span>Dil Kursları</a>
-    <a class="mm-link" href="ogrenim.html"><span class="mm-link-icon">🎓</span>Yüksek Öğrenim</a>
-    <a class="mm-link" href="ogrenim.html"><span class="mm-link-icon">🏭</span>Ausbildung</a>
-  </div>
-  <div class="mm-section"><div class="mm-section-title">Sağlık</div>
-    <a class="mm-link" href="saglik.html"><span class="mm-link-icon">🏥</span>Doktor Bul</a>
-    <a class="mm-link" href="saglik.html"><span class="mm-link-icon">🧠</span>Ruh Sağlığı</a>
-    <a class="mm-link" href="saglik.html"><span class="mm-link-icon">🚨</span>Acil Durumlar</a>
-  </div>
-  <div class="mm-section"><div class="mm-section-title">Konut & Emlak</div>
-    <a class="mm-link" href="classifieds.html"><span class="mm-link-icon">🔑</span>Kiralık Ev</a>
-    <a class="mm-link" href="classifieds.html"><span class="mm-link-icon">🏡</span>Satılık Ev</a>
-    <a class="mm-link" href="classifieds.html"><span class="mm-link-icon">👥</span>Paylaşımlı Ev</a>
-  </div>
-  <div class="mm-section"><div class="mm-section-title">İlanlar & Bilgiler</div>
-    <a class="mm-link" href="classifieds.html"><span class="mm-link-icon">🛍️</span>İlanlar</a>
-    <a class="mm-link" href="library.html"><span class="mm-link-icon">📚</span>Bilgiler</a>
-    <a class="mm-link" href="abibot.html"><span class="mm-link-icon">🤖</span>AbiBOT</a>
-  </div>
-  <div class="mm-footer">
-    <a href="profile.html" style="display:flex;align-items:center;gap:10px;text-decoration:none;color:#1A1208;">
-      <div style="width:36px;height:36px;border-radius:50%;background:#D42B2B;color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;">AY</div>
-      <div><div style="font-size:13px;font-weight:600;">Profilim</div><div style="font-size:11px;color:#6B5E4E;">Hesabımı gör</div></div>
-    </a>
-  </div>
-</div><div class="mm-footer">
-    <a href="profile.html" style="display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink);">
-      <div style="width:36px;height:36px;border-radius:50%;background:var(--red);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;">AY</div>
-      <div><div style="font-size:13px;font-weight:600;">Profilim</div><div style="font-size:11px;color:var(--muted);">Hesabımı gör</div></div>
-    </a>
-  </div>
+</div>
+
+<!-- BOTTOM TAB BAR (mobile) -->
+<div class="bottom-tabbar" id="bottom-tabbar">
+  <a class="bt-item" href="mahallem.html" id="bt-mahallem"><span class="bt-icon">🏘️</span>Mahallem</a>
+  <a class="bt-item" href="abibot.html" id="bt-abibot"><span class="bt-icon">🤖</span>AbiBOT</a>
+  <a class="bt-item" href="classifieds.html" id="bt-ilanlar"><span class="bt-icon">🛍️</span>İlanlar</a>
+  <button class="bt-item" onclick="openKesfetSheet()" id="bt-kesfet"><span class="bt-icon">🔍</span>Keşfet</button>
+  <a class="bt-item" href="profile.html" id="bt-profil"><span class="bt-icon">👤</span>Profil</a>
+</div>
+
+<script>
+  function toggleKesfet(e) {
+    e.stopPropagation();
+    document.getElementById('kesfet-panel').classList.toggle('open');
+  }
+  document.addEventListener('click', function(e) {
+    const panel = document.getElementById('kesfet-panel');
+    if (panel && panel.classList.contains('open') && !panel.contains(e.target) && e.target.id !== 'np-kesfet') {
+      panel.classList.remove('open');
+    }
+  });
+  function openKesfetSheet() {
+    document.getElementById('kesfet-sheet-overlay').classList.add('open');
+    document.getElementById('kesfet-sheet').style.display = 'block';
+  }
+  function closeKesfetSheet() {
+    document.getElementById('kesfet-sheet-overlay').classList.remove('open');
+    document.getElementById('kesfet-sheet').style.display = 'none';
+  }
+  (function() {
+    const page = window.location.pathname.split('/').pop() || 'mahallem.html';
+    const map = { 'mahallem.html': 'mahallem', 'abibot.html': 'abibot', 'classifieds.html': 'ilanlar', 'profile.html': 'profil' };
+    const key = map[page];
+    if (key) {
+      const npEl = document.getElementById('np-' + key);
+      const btEl = document.getElementById('bt-' + key);
+      if (npEl) npEl.classList.add('active');
+      if (btEl) btEl.classList.add('active');
+    }
+  })();
+</script>
 </div>
 
 <div class="page">
@@ -583,81 +630,17 @@
       <option>€500 – €2000</option>
       <option>€2000+</option>
     </select>
-    <button class="filter-cat active" onclick="filterCat(this)">Tümü</button>
-    <button class="filter-cat" onclick="filterCat(this)">🚗 Araç</button>
-    <button class="filter-cat" onclick="filterCat(this)">🏠 Emlak</button>
-    <button class="filter-cat" onclick="filterCat(this)">📱 Elektronik</button>
-    <button class="filter-cat" onclick="filterCat(this)">🛋️ Mobilya</button>
-    <button class="filter-cat" onclick="filterCat(this)">👗 Giyim</button>
-    <button class="filter-cat" onclick="filterCat(this)">🍳 Diğer</button>
-    <span class="result-count">247 ilan bulundu</span>
+    <button class="filter-cat active" onclick="clFilter('all',this)">Tümü</button>
+    <button class="filter-cat" onclick="clFilter('arac',this)">🚗 Araç</button>
+    <button class="filter-cat" onclick="clFilter('elektronik',this)">📱 Elektronik</button>
+    <button class="filter-cat" onclick="clFilter('mobilya',this)">🛋️ Mobilya</button>
+    <button class="filter-cat" onclick="clFilter('giyim',this)">👗 Giyim</button>
+    <button class="filter-cat" onclick="clFilter('diger',this)">📦 Diğer</button>
+    <span class="result-count" id="cl-count"></span>
   </div>
 
-  <div class="listings-grid">
-    <div class="listing featured" onclick="window.location='listing-detail.html'">
-      <div class="listing-thumb">🚗<span class="featured-badge">⭐ Öne Çıkan</span><button class="save-btn">🤍</button></div>
-      <div class="listing-body">
-        <div class="listing-price">€18.500</div>
-        <div class="listing-title">Audi A3 Satılık — 2019, 68.000 km</div>
-        <div class="listing-meta">📍 Frankfurt · 3 saat önce <span class="listing-tag" style="background:rgba(192,57,43,.1);color:#D42B2B">Araç</span></div>
-      </div>
-    </div>
-    <div class="listing" onclick="window.location='listing-detail.html'">
-      <div class="listing-thumb">📱<button class="save-btn">🤍</button></div>
-      <div class="listing-body">
-        <div class="listing-price">€650</div>
-        <div class="listing-title">iPhone 14 Pro — 256GB, Siyah</div>
-        <div class="listing-meta">📍 Frankfurt · Dün <span class="listing-tag" style="background:rgba(24,95,165,.1);color:#185FA5">Elektronik</span></div>
-      </div>
-    </div>
-    <div class="listing" onclick="window.location='listing-detail.html'">
-      <div class="listing-thumb">🛋️<button class="save-btn">🤍</button></div>
-      <div class="listing-body">
-        <div class="listing-price">€180</div>
-        <div class="listing-title">IKEA Koltuk Takımı — Temiz, Gri</div>
-        <div class="listing-meta">📍 Frankfurt · Dün <span class="listing-tag" style="background:rgba(201,168,76,.1);color:#C9A84C">Mobilya</span></div>
-      </div>
-    </div>
-    <div class="listing" onclick="window.location='listing-detail.html'">
-      <div class="listing-thumb">🏠<button class="save-btn">🤍</button></div>
-      <div class="listing-body">
-        <div class="listing-price">€1.200/ay</div>
-        <div class="listing-title">3 Oda Kiralık Daire — Sachsenhausen</div>
-        <div class="listing-meta">📍 Frankfurt · 2 gün önce <span class="listing-tag" style="background:rgba(30,123,75,.1);color:#1E7B4B">Emlak</span></div>
-      </div>
-    </div>
-    <div class="listing" onclick="window.location='listing-detail.html'">
-      <div class="listing-thumb">🚲<button class="save-btn">🤍</button></div>
-      <div class="listing-body">
-        <div class="listing-price">€320</div>
-        <div class="listing-title">E-Bisiklet — Bosch Motor, 2022</div>
-        <div class="listing-meta">📍 Frankfurt · 3 gün önce <span class="listing-tag" style="background:rgba(192,57,43,.1);color:#D42B2B">Araç</span></div>
-      </div>
-    </div>
-    <div class="listing" onclick="window.location='listing-detail.html'">
-      <div class="listing-thumb">👗<button class="save-btn">🤍</button></div>
-      <div class="listing-body">
-        <div class="listing-price">€45</div>
-        <div class="listing-title">Zara Kışlık Mont — M Beden, Lacivert</div>
-        <div class="listing-meta">📍 Frankfurt · 4 gün önce <span class="listing-tag" style="background:rgba(83,74,183,.1);color:#534AB7">Giyim</span></div>
-      </div>
-    </div>
-    <div class="listing featured" onclick="window.location='listing-detail.html'">
-      <div class="listing-thumb">🏪<span class="featured-badge">⭐ Öne Çıkan</span><button class="save-btn">🤍</button></div>
-      <div class="listing-body">
-        <div class="listing-price">€45.000</div>
-        <div class="listing-title">Devren Satılık Kebap Dükkanı — Kurulu Müşteri Kitlesi</div>
-        <div class="listing-meta">📍 Frankfurt · 1 hafta önce <span class="listing-tag" style="background:rgba(201,168,76,.1);color:#C9A84C">İşletme</span></div>
-      </div>
-    </div>
-    <div class="listing" onclick="window.location='listing-detail.html'">
-      <div class="listing-thumb">📺<button class="save-btn">🤍</button></div>
-      <div class="listing-body">
-        <div class="listing-price">€290</div>
-        <div class="listing-title">Samsung 55" 4K Smart TV</div>
-        <div class="listing-meta">📍 Frankfurt · 1 hafta önce <span class="listing-tag" style="background:rgba(24,95,165,.1);color:#185FA5">Elektronik</span></div>
-      </div>
-    </div>
+  <div class="listings-grid" id="listings-grid">
+    <div style="grid-column:1/-1;text-align:center;padding:50px;color:var(--muted);">İlanlar yükleniyor…</div>
   </div>
 </div>
 
@@ -665,45 +648,74 @@
 <div class="modal-overlay" id="post-modal">
   <div class="modal">
     <button class="modal-close" onclick="closeModal()">×</button>
-    <h3>İlan Ver</h3>
+    <h3 id="cl-modal-title">İlan Ver</h3>
     <p>Mahallenle güvenli alışveriş yap.</p>
     <div class="form-group">
-      <label>Kategori</label>
-      <select>
-        <option>🚗 Araç</option><option>🏠 Emlak & Kiralık</option>
-        <option>📱 Elektronik</option><option>🛋️ Mobilya</option>
-        <option>👗 Giyim</option><option>🍳 Diğer</option>
+      <label>Kategori *</label>
+      <select id="cl-category">
+        <option value="arac">🚗 Araç</option>
+        <option value="elektronik">📱 Elektronik</option><option value="mobilya">🛋️ Mobilya</option>
+        <option value="giyim">👗 Giyim</option><option value="diger">📦 Diğer</option>
       </select>
     </div>
     <div class="form-group">
-      <label>Başlık</label>
-      <input type="text" placeholder="Ör: iPhone 14 Pro, 256GB, Siyah">
+      <label>Başlık *</label>
+      <input type="text" id="cl-title" placeholder="Ör: iPhone 14 Pro, 256GB, Siyah">
     </div>
     <div class="form-row">
       <div class="form-group">
         <label>Fiyat (€)</label>
-        <input type="number" placeholder="0">
+        <input type="number" id="cl-price" min="0" step="1" placeholder="Boş = pazarlık">
+        <div id="cl-price-help" style="margin-top:10px;padding:12px;background:var(--warm);border:1px solid var(--sand);border-radius:11px;">
+          <div style="font-size:10.5px;font-weight:700;color:var(--gold,#C9A84C);text-transform:uppercase;letter-spacing:.5px;margin-bottom:7px;">✨ Yapay Zeka Destekli</div>
+          <button type="button" id="cl-price-help-btn" onclick="clEstimatePrice()"
+            style="width:100%;background:var(--navy,#1B3A8C);border:none;border-radius:9px;padding:11px;font-size:13.5px;font-weight:700;color:#fff;cursor:pointer;font-family:'Instrument Sans',sans-serif;">
+            💡 Fiyat Tahmini Al
+          </button>
+          <div id="cl-price-help-hint" style="font-size:11px;color:var(--muted);margin-top:7px;line-height:1.5;">Fotoğraf eklersen tahmin daha isabetli olur. Bu bir tahmindir, garanti edilen bir fiyat değildir.</div>
+          <div id="cl-price-help-result" style="display:none;margin-top:10px;padding:10px 12px;background:var(--white);border-radius:10px;font-size:12.5px;line-height:1.5;"></div>
+        </div>
       </div>
       <div class="form-group">
         <label>Durum</label>
-        <select><option>Sıfır gibi</option><option>İyi</option><option>Kullanılmış</option></select>
+        <select id="cl-condition"><option value="">—</option><option value="sifir">Sıfır gibi</option><option value="iyi">İyi</option><option value="orta">Kullanılmış</option></select>
       </div>
     </div>
     <div class="form-group">
       <label>Açıklama</label>
-      <textarea placeholder="İlanını detaylıca anlat..."></textarea>
+      <textarea id="cl-desc" placeholder="İlanını detaylıca anlat..."></textarea>
     </div>
     <div class="form-group">
-      <label>Şehir</label>
-      <input type="text" placeholder="Frankfurt">
+      <label>Teslimat</label>
+      <select id="cl-delivery">
+        <option value="">—</option>
+        <option value="elden">🤝 Elden teslim</option>
+        <option value="kargo">📦 Kargo</option>
+        <option value="ikisi">🤝📦 Elden veya kargo</option>
+      </select>
     </div>
-    <button class="submit-btn" onclick="submitAd()">İlanı Yayınla →</button>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Şehir *</label>
+        <input type="text" id="cl-city" placeholder="Frankfurt">
+      </div>
+      <div class="form-group">
+        <label>Semt / Konum</label>
+        <input type="text" id="cl-location" placeholder="Opsiyonel">
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Fotoğraflar (en fazla 5)</label>
+      <input type="file" id="cl-photos" accept="image/*" multiple>
+      <div id="cl-photo-preview" style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;"></div>
+    </div>
+    <div id="cl-form-err" style="display:none;color:var(--red);font-size:13px;margin-bottom:10px;"></div>
+    <button class="submit-btn" id="cl-submit-btn" onclick="submitAd()">İlanı Yayınla →</button>
   </div>
 </div>
 
 <script>
-  function filterCat(btn){document.querySelectorAll('.filter-cat').forEach(b=>b.classList.remove('active'));btn.classList.add('active');}
-  function openModal(){document.getElementById('post-modal').classList.add('open');}
+  function openModal(){ clResetForm(); __clDraft.restore(); document.getElementById('post-modal').classList.add('open'); }
   function closeModal(){document.getElementById('post-modal').classList.remove('open');}
   document.getElementById('post-modal').addEventListener('click',function(e){if(e.target===this)closeModal();});
   function submitAd(){alert('İlanınız yayınlandı! ✓');closeModal();}
@@ -772,7 +784,7 @@
     <button id="pwa-install-btn" style="background:#D42B2B;color:#fff;border:none;border-radius:8px;
       padding:8px 16px;font-size:12px;font-weight:700;cursor:pointer;
       font-family:inherit;white-space:nowrap;">Yükle</button>
-    <button onclick="document.getElementById('pwa-banner').style.display='none'"
+    <button onclick="localStorage.setItem('bb_pwa_dismissed','1');document.getElementById('pwa-banner').style.display='none'"
       style="background:rgba(255,255,255,.15);color:#fff;border:none;border-radius:6px;
       padding:8px 10px;cursor:pointer;font-size:16px;flex-shrink:0;">✕</button>
   </div>
@@ -781,6 +793,7 @@
     window.addEventListener('beforeinstallprompt', e => {
       e.preventDefault();
       deferredPrompt = e;
+      if (localStorage.getItem('bb_pwa_dismissed')) return;
       const banner = document.getElementById('pwa-banner');
       if (banner) banner.style.display = 'flex';
     });
@@ -797,6 +810,7 @@
       });
     }
     window.addEventListener('appinstalled', () => {
+      localStorage.setItem('bb_pwa_dismissed','1');
       const banner = document.getElementById('pwa-banner');
       if (banner) banner.style.display = 'none';
       deferredPrompt = null;
@@ -940,7 +954,7 @@
           <a href="business.html" style="font-size:13px;color:rgba(255,255,255,.55);text-decoration:none;transition:color .15s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,.55)'">🏢 İşletmeler</a>
           <a href="is-guc.html" style="font-size:13px;color:rgba(255,255,255,.55);text-decoration:none;transition:color .15s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,.55)'">💼 İş Ver & Bul</a>
           <a href="ogrenim.html" style="font-size:13px;color:rgba(255,255,255,.55);text-decoration:none;transition:color .15s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,.55)'">🎓 Öğrenim</a>
-          <a href="library.html" style="font-size:13px;color:rgba(255,255,255,.55);text-decoration:none;transition:color .15s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,.55)'">📚 Bilgiler</a>
+          <a href="library.html" style="font-size:13px;color:rgba(255,255,255,.55);text-decoration:none;transition:color .15s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,.55)'">📚 Bilgi & Belge</a>
           <a href="abibot.html" style="font-size:13px;color:rgba(255,255,255,.55);text-decoration:none;transition:color .15s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,.55)'">🤖 AbiBOT</a>
         </div>
       </div>
@@ -952,7 +966,7 @@
           <a href="hakkimizda.html" style="font-size:13px;color:rgba(255,255,255,.55);text-decoration:none;transition:color .15s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,.55)'">Hakkımızda</a>
           <a href="sss.html" style="font-size:13px;color:rgba(255,255,255,.55);text-decoration:none;transition:color .15s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,.55)'">SSS</a>
           <a href="iletisim.html" style="font-size:13px;color:rgba(255,255,255,.55);text-decoration:none;transition:color .15s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,.55)'">İletişim</a>
-          <a href="mailto:info@bizdenbize.com" style="font-size:13px;color:rgba(255,255,255,.55);text-decoration:none;transition:color .15s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,.55)'">info@bizdenbize.com</a>
+          <a href="mailto:support@bizdenbize.com" style="font-size:13px;color:rgba(255,255,255,.55);text-decoration:none;transition:color .15s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,.55)'">support@bizdenbize.com</a>
           <a href="abibot.html" style="font-size:13px;color:rgba(255,255,255,.55);text-decoration:none;transition:color .15s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,.55)'">🤖 AbiBOT'a Sor</a>
         </div>
       </div>
@@ -965,6 +979,7 @@
           <a href="kullanim-kosullari.html" style="font-size:13px;color:rgba(255,255,255,.55);text-decoration:none;transition:color .15s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,.55)'">Kullanım Koşulları</a>
           <a href="cerez.html" style="font-size:13px;color:rgba(255,255,255,.55);text-decoration:none;transition:color .15s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,.55)'">Çerez Politikası</a>
           <a href="kvkk.html" style="font-size:13px;color:rgba(255,255,255,.55);text-decoration:none;transition:color .15s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,.55)'">KVKK / GDPR</a>
+          <a href="legal.html#impressum" style="font-size:13px;color:rgba(255,255,255,.55);text-decoration:none;transition:color .15s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,.55)'">Impressum</a>
           <a href="ilan-kurallari.html" style="font-size:13px;color:rgba(255,255,255,.55);text-decoration:none;transition:color .15s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,.55)'">İlan Kuralları</a>
         </div>
       </div>
@@ -999,5 +1014,382 @@
     }
   </style>
 </footer>
+<script>
+  const _CL_URL='https://wxjudojlwksivhzjnmim.supabase.co';
+  const _CL_KEY='sb_publishable_52tr_hEnnQ3kllZexTue0Q_ByF71303';
+  const _CL_H={'apikey':_CL_KEY,'Authorization':'Bearer '+_CL_KEY};
+  const CL_CATS={arac:{l:'Araç',e:'🚗'},elektronik:{l:'Elektronik',e:'📱'},mobilya:{l:'Mobilya',e:'🛋️'},giyim:{l:'Giyim',e:'👗'},diger:{l:'Diğer',e:'📦'}};
+  function clEsc(x){return String(x==null?'':x).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+  function clPrice(e){ return e.price!=null ? '€'+Number(e.price).toLocaleString('de-DE') : 'Pazarlık'; }
+
+  function clCard(l){
+    const cat=CL_CATS[l.category]||{l:l.category||'',e:'📦'};
+    const photo=(l.photos&&l.photos.length)?l.photos[0]:null;
+    const isSold=l.status==='satildi';
+    const soldOverlay=isSold?'<div style="position:absolute;inset:0;background:rgba(26,18,8,.45);display:flex;align-items:center;justify-content:center;border-radius:inherit;"><span style="background:var(--red);color:#fff;font-size:13px;font-weight:700;padding:6px 16px;border-radius:20px;transform:rotate(-8deg);">SATILDI</span></div>':'';
+    const thumb=(photo
+      ? '<div class="listing-thumb" style="position:relative;background-image:url(\''+clEsc(photo)+'\');background-size:cover;background-position:center;">'
+      : '<div class="listing-thumb" style="position:relative;display:flex;align-items:center;justify-content:center;font-size:44px;">'+cat.e)
+      + soldOverlay + '</div>';
+    const loc=[l.location,l.city].filter(Boolean).join(', ');
+
+    // Owner controls (only for the listing's owner)
+    let ownerBar='';
+    if(window.__clUserId && l.created_by===window.__clUserId){
+      const soldBtn = isSold
+        ? '<button onclick="event.stopPropagation();clSetSold(\''+l.id+'\',false)" style="flex:1;background:var(--warm);border:1px solid var(--sand);border-radius:7px;padding:6px;font-size:11px;font-weight:600;cursor:pointer;color:var(--ink);">↩ Tekrar aktif</button>'
+        : '<button onclick="event.stopPropagation();clSetSold(\''+l.id+'\',true)" style="flex:1;background:var(--green);border:none;border-radius:7px;padding:6px;font-size:11px;font-weight:600;cursor:pointer;color:#fff;">✓ Satıldı</button>';
+      ownerBar='<div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap;">'
+        + soldBtn
+        + '<button onclick="event.stopPropagation();clEditListing(\''+l.id+'\')" style="flex:1;min-width:70px;background:rgba(27,58,140,.08);border:1px solid rgba(27,58,140,.25);border-radius:7px;padding:6px;font-size:11px;font-weight:600;cursor:pointer;color:var(--navy,#1B3A8C);">✏️ Düzenle</button>'
+        + '<button onclick="event.stopPropagation();clRemove(\''+l.id+'\')" style="flex:1;min-width:70px;background:rgba(212,43,43,.08);border:1px solid rgba(212,43,43,.25);border-radius:7px;padding:6px;font-size:11px;font-weight:600;cursor:pointer;color:var(--red);">🗑 Kaldır</button>'
+        + '</div>';
+    }
+
+    return '<div class="listing" data-category="'+clEsc(l.category||'')+'" style="'+(isSold?'opacity:.85;':'')+'" onclick="window.location=\'listing-detail.html?id='+l.id+'\'">'
+      + thumb
+      + '<div class="listing-body">'
+      +   '<div class="listing-price">'+clPrice(l)+(isSold?' <span style="font-size:11px;color:var(--red);font-weight:600;">· Satıldı</span>':'')+'</div>'
+      +   '<div class="listing-title">'+clEsc(l.title)+'</div>'
+      +   '<div class="listing-meta">'+cat.e+' '+clEsc(cat.l)+(loc?' · 📍 '+clEsc(loc):'')+'</div>'
+      +   ownerBar
+      + '</div></div>';
+  }
+
+  let clAll=[];
+  async function loadListings(){
+    const box=document.getElementById('listings-grid');
+    try{
+      // The auth client is set up in a deferred <script type="module"> that runs AFTER
+      // this script. On a fresh page load, wait for it before reading the session —
+      // otherwise __clUserId is null and the owner controls are wrongly hidden.
+      for(let i=0;i<150 && !window._authReady;i++){ await new Promise(r=>setTimeout(r,20)); }
+      await (window._authReady||Promise.resolve());
+      window.__clUserId = (window._currentSession && window._currentSession.user) ? window._currentSession.user.id : null;
+      const r=await fetch(_CL_URL+"/rest/v1/classified_listings?active=eq.true&order=created_at.desc&select=*",{headers:_CL_H});
+      if(!r.ok) throw new Error('DB '+r.status);
+      clAll=await r.json();
+      renderListings('all');
+    }catch(e){
+      box.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:50px;color:var(--red);">İlanlar yüklenemedi. Sayfayı yenile.</div>';
+    }
+  }
+
+  function renderListings(cat){
+    const box=document.getElementById('listings-grid');
+    const rows = cat==='all' ? clAll : clAll.filter(l=>l.category===cat);
+    const countEl=document.getElementById('cl-count');
+    if(countEl) countEl.textContent = rows.length+' ilan';
+    if(!rows.length){
+      box.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:50px;color:var(--muted);">Bu kategoride henüz ilan yok. İlk ilanı sen ver! 👆</div>';
+      return;
+    }
+    box.innerHTML=rows.map(clCard).join('');
+  }
+
+  // ── OWNER CONTROLS: mark sold / remove ──
+  async function clOwnerPatch(id, body){
+    await (window._authReady||Promise.resolve());
+    const session=window._currentSession;
+    if(!session){ alert('Bu işlem için giriş yapmalısın.'); return false; }
+    const r=await fetch(_CL_URL+'/rest/v1/classified_listings?id=eq.'+id,{
+      method:'PATCH',
+      headers:{ 'apikey':_CL_KEY, 'Authorization':'Bearer '+session.access_token, 'Content-Type':'application/json', 'Prefer':'return=minimal' },
+      body: JSON.stringify(body)
+    });
+    return r.ok;
+  }
+
+  window.clSetSold=async function(id, sold){
+    const ok=await clOwnerPatch(id, { status: sold?'satildi':'aktif' });
+    if(ok){ await loadListings(); }
+    else { alert('Güncellenemedi.'); }
+  };
+
+  window.clRemove=async function(id){
+    if(!confirm('Bu ilanı kaldırmak istediğine emin misin? İlan listeden kalkacak.')) return;
+    const ok=await clOwnerPatch(id, { active: false });
+    if(ok){ await loadListings(); }
+    else { alert('Kaldırılamadı.'); }
+  };
+
+  window.clFilter=function(cat,btn){
+    document.querySelectorAll('.filter-cat').forEach(b=>b.classList.remove('active'));
+    if(btn) btn.classList.add('active');
+    renderListings(cat);
+  };
+
+  // ── PHOTO PREVIEW ──
+  // ── DRAFT AUTOSAVE (protects typed data if the tab is discarded/reloaded) ──
+  // Generic, reusable across forms. Only ever stores plain text field values —
+  // never files/photos, never payment info. Guard fn controls when saving is
+  // active (e.g. only in "create" mode, never while editing an existing item).
+  function bbDraft(opts){
+    var TTL_MS = 1000*60*60*24*3; // 3 days
+    function read(){
+      try{
+        var raw=localStorage.getItem(opts.key);
+        if(!raw) return null;
+        var obj=JSON.parse(raw);
+        if(!obj || !obj.t || (Date.now()-obj.t)>TTL_MS){ localStorage.removeItem(opts.key); return null; }
+        return obj.v||null;
+      }catch(e){ return null; }
+    }
+    function write(){
+      if(opts.guard && !opts.guard()) return;
+      try{
+        var v={};
+        opts.fields.forEach(function(f){
+          var el=document.getElementById(f.id);
+          if(!el) return;
+          v[f.id]=(f.type==='checkbox')?el.checked:el.value;
+        });
+        localStorage.setItem(opts.key, JSON.stringify({t:Date.now(), v:v}));
+      }catch(e){}
+    }
+    var timer=null;
+    function schedule(){ clearTimeout(timer); timer=setTimeout(write,500); }
+    opts.fields.forEach(function(f){
+      var el=document.getElementById(f.id);
+      if(!el) return;
+      el.addEventListener((f.type==='select'||f.type==='checkbox')?'change':'input', schedule);
+    });
+    return {
+      restore:function(){
+        var v=read(); if(!v) return false;
+        var any=false;
+        opts.fields.forEach(function(f){
+          var el=document.getElementById(f.id); if(!el) return;
+          var val=v[f.id];
+          if(val===undefined||val===null||val==='') return;
+          if(f.type==='checkbox'){ el.checked=!!val; } else { el.value=val; }
+          any=true;
+        });
+        return any;
+      },
+      clear:function(){ try{ localStorage.removeItem(opts.key); }catch(e){} }
+    };
+  }
+  const __clDraft = bbDraft({
+    key:'bb_draft_ilan',
+    guard: function(){ return clEditId===null; },
+    fields:[
+      {id:'cl-category',type:'select'},{id:'cl-title',type:'text'},{id:'cl-price',type:'text'},
+      {id:'cl-condition',type:'select'},{id:'cl-desc',type:'textarea'},{id:'cl-delivery',type:'select'},
+      {id:'cl-city',type:'text'},{id:'cl-location',type:'text'}
+    ]
+  });
+
+  let clSelectedFiles=[];      // newly picked File objects (uploaded on save)
+  let clExistingPhotos=[];     // existing photo URLs kept during an edit
+  let clEditId=null;           // null = create mode; a listing id = edit mode
+  function clRenderPreviews(){
+    const prev=document.getElementById('cl-photo-preview');
+    if(!prev) return;
+    prev.innerHTML='';
+    const mkThumb=(bg,onRemove)=>{
+      const wrap=document.createElement('div');
+      wrap.style.cssText='position:relative;width:60px;height:60px;';
+      const img=document.createElement('div');
+      img.style.cssText='width:60px;height:60px;border-radius:8px;background-image:url("'+bg+'");background-size:cover;background-position:center;border:1px solid var(--sand);';
+      const del=document.createElement('button');
+      del.type='button'; del.textContent='×'; del.title='Kaldır';
+      del.style.cssText='position:absolute;top:-6px;right:-6px;width:20px;height:20px;border-radius:50%;background:var(--red);color:#fff;border:none;font-size:14px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 1px 4px rgba(0,0,0,.25);';
+      del.onclick=onRemove;
+      wrap.appendChild(img); wrap.appendChild(del);
+      prev.appendChild(wrap);
+    };
+    clExistingPhotos.forEach((url,idx)=>{ mkThumb(url, function(){ clExistingPhotos.splice(idx,1); clRenderPreviews(); }); });
+    clSelectedFiles.forEach((f,idx)=>{ mkThumb(URL.createObjectURL(f), function(){ clSelectedFiles.splice(idx,1); clRenderPreviews(); }); });
+    clSyncPriceHelpBtn();
+  }
+  function clSyncPriceHelpBtn(){
+    const hint=document.getElementById('cl-price-help-hint');
+    const hasPhoto=(clExistingPhotos.length+clSelectedFiles.length)>0;
+    if(hint) hint.textContent = hasPhoto
+      ? 'Bu bir tahmindir, garanti edilen bir fiyat değildir.'
+      : 'Fotoğraf eklersen tahmin daha isabetli olur. Bu bir tahmindir, garanti edilen bir fiyat değildir.';
+    const res=document.getElementById('cl-price-help-result'); if(res) res.style.display='none';
+  }
+  window.clEstimatePrice=async function(){
+    const btn=document.getElementById('cl-price-help-btn');
+    const resultBox=document.getElementById('cl-price-help-result');
+    if(!btn || btn.disabled) return;
+    const title=(document.getElementById('cl-title').value||'').trim();
+    if(!title){ alert('Önce bir başlık gir.'); return; }
+    btn.disabled=true; btn.textContent='⏳ Tahmin ediliyor...';
+    resultBox.style.display='none';
+    try{
+      // Convert newly-picked (not-yet-uploaded) files to base64, inline —
+      // existing photos (during edit) already have URLs the function can fetch.
+      const toBase64=(file)=>new Promise((resolve,reject)=>{
+        const r=new FileReader();
+        r.onload=()=>resolve({ mime:file.type||'image/jpeg', data:r.result.split(',')[1] });
+        r.onerror=reject;
+        r.readAsDataURL(file);
+      });
+      const photoBase64=await Promise.all(clSelectedFiles.slice(0,3).map(toBase64));
+
+      const r=await fetch(_CL_URL+'/functions/v1/estimate-price',{
+        method:'POST',
+        headers:{ ..._CL_H, 'Content-Type':'application/json' },
+        body: JSON.stringify({
+          title,
+          description: (document.getElementById('cl-desc').value||'').trim(),
+          category: document.getElementById('cl-category').value,
+          condition: document.getElementById('cl-condition').value,
+          city: (document.getElementById('cl-city').value||'').trim(),
+          photoUrls: clExistingPhotos.slice(0,3),
+          photoBase64
+        })
+      });
+      const data=await r.json();
+      if(!r.ok || data.error){ throw new Error(data.error||'estimate failed'); }
+
+      const usedPhotoCount = clExistingPhotos.slice(0,3).length + photoBase64.length;
+      const noPhotoNote = usedPhotoCount===0
+        ? '<div style="font-size:11px;color:#8a6d1f;margin-bottom:6px;">📷 Fotoğrafsız tahmin — daha geniş bir aralık olabilir.</div>'
+        : '';
+
+      resultBox.innerHTML =
+        '<div style="font-weight:700;color:var(--ink);margin-bottom:4px;">💡 Tahmini fiyat aralığı: €'+data.min.toLocaleString('de-DE')+' – €'+data.max.toLocaleString('de-DE')+'</div>'
+        + noPhotoNote
+        + (data.gerekce? '<div style="color:var(--muted);margin-bottom:8px;">'+clEsc(data.gerekce)+'</div>' : '')
+        + '<div style="font-size:11px;color:var(--muted);margin-bottom:8px;">Bu bir yapay zeka tahminidir, gerçek piyasa verisi değildir. Son kararı sen ver.</div>'
+        + '<button type="button" onclick="document.getElementById(\'cl-price\').value='+Math.round((data.min+data.max)/2)+'" style="background:var(--navy,#1B3A8C);color:#fff;border:none;border-radius:8px;padding:6px 12px;font-size:11.5px;font-weight:600;cursor:pointer;font-family:\'Instrument Sans\',sans-serif;">Ortalama değeri kullan (€'+Math.round((data.min+data.max)/2)+')</button>';
+      resultBox.style.display='block';
+    }catch(e){
+      resultBox.innerHTML='<div style="color:var(--red);">Tahmin alınamadı. Lütfen tekrar dene.</div>';
+      resultBox.style.display='block';
+    }finally{
+      btn.disabled=false; btn.textContent='💡 Fiyat Tahmini Al';
+      btn.style.cursor='pointer'; btn.style.color='var(--navy,#1B3A8C)'; btn.style.borderColor='var(--navy,#1B3A8C)';
+    }
+  };
+  function clResetForm(){
+    clEditId=null; clExistingPhotos=[]; clSelectedFiles=[];
+    ['cl-title','cl-price','cl-desc','cl-city','cl-location'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+    const cat=document.getElementById('cl-category'); if(cat) cat.value='arac';
+    const cond=document.getElementById('cl-condition'); if(cond) cond.value='';
+    const dlv=document.getElementById('cl-delivery'); if(dlv) dlv.value='';
+    const t=document.getElementById('cl-modal-title'); if(t) t.textContent='İlan Ver';
+    const b=document.getElementById('cl-submit-btn'); if(b) b.textContent='İlanı Yayınla →';
+    const e=document.getElementById('cl-form-err'); if(e) e.style.display='none';
+    const fileInput=document.getElementById('cl-photos'); if(fileInput) fileInput.value='';
+    clRenderPreviews();
+  }
+  window.clEditListing=function(id){
+    const l=(clAll||[]).find(x=>String(x.id)===String(id));
+    if(!l){ alert('İlan bulunamadı.'); return; }
+    if(!window.__clUserId || l.created_by!==window.__clUserId){ alert('Bu ilanı düzenleme yetkin yok.'); return; }
+    clEditId=id;
+    const set=(elid,val)=>{const el=document.getElementById(elid); if(el) el.value=val;};
+    set('cl-category', l.category||'diger');
+    set('cl-title', l.title||'');
+    set('cl-price', (l.price!=null? l.price : ''));
+    set('cl-condition', l.condition||'');
+    set('cl-desc', l.description||'');
+    set('cl-delivery', l.delivery||'');
+    set('cl-city', l.city||'');
+    set('cl-location', l.location||'');
+    clExistingPhotos=Array.isArray(l.photos)? l.photos.slice() : [];
+    clSelectedFiles=[];
+    clRenderPreviews();
+    const t=document.getElementById('cl-modal-title'); if(t) t.textContent='İlanı Düzenle';
+    const b=document.getElementById('cl-submit-btn'); if(b) b.textContent='Değişiklikleri Kaydet →';
+    const e=document.getElementById('cl-form-err'); if(e) e.style.display='none';
+    document.getElementById('post-modal').classList.add('open');
+  };
+  document.addEventListener('change', function(ev){
+    if(ev.target && ev.target.id==='cl-photos'){
+      // append newly chosen files to existing selection, cap at 5
+      const picked=Array.from(ev.target.files);
+      const room=Math.max(0, 5 - clExistingPhotos.length);
+      clSelectedFiles=clSelectedFiles.concat(picked).slice(0,room);
+      ev.target.value='';  // reset so the same file can be re-picked if removed
+      clRenderPreviews();
+    }
+  });
+
+  // ── SUBMIT AD (upload photos → insert listing) ──
+  window.submitAd=async function(){
+    const err=document.getElementById('cl-form-err');
+    const btn=document.getElementById('cl-submit-btn');
+    const show=m=>{ if(err){err.textContent=m;err.style.display='block';} };
+    if(err) err.style.display='none';
+
+    await (window._authReady||Promise.resolve());
+    const session=window._currentSession;
+    if(!session){ show('İlan vermek için giriş yapmalısın.'); return; }
+
+    const title=(document.getElementById('cl-title').value||'').trim();
+    const city=(document.getElementById('cl-city').value||'').trim();
+    if(!title){ show('Başlık gerekli.'); return; }
+    if(!city){ show('Şehir gerekli.'); return; }
+
+    if(btn){ btn.disabled=true; btn.textContent='Yükleniyor…'; }
+    try{
+      // 1. upload photos to storage
+      const photoUrls=[];
+      for(let i=0;i<clSelectedFiles.length;i++){
+        const f=clSelectedFiles[i];
+        const ext=(f.name.split('.').pop()||'jpg').toLowerCase();
+        const path=session.user.id+'/'+Date.now()+'_'+i+'.'+ext;
+        const up=await fetch(_CL_URL+'/storage/v1/object/listing-photos/'+encodeURIComponent(path),{
+          method:'POST',
+          headers:{ 'apikey':_CL_KEY, 'Authorization':'Bearer '+session.access_token, 'Content-Type':f.type||'image/jpeg' },
+          body:f
+        });
+        if(up.ok){
+          photoUrls.push(_CL_URL+'/storage/v1/object/public/listing-photos/'+path);
+        }
+      }
+
+      // 2. build the field payload (shared by create + edit)
+      const priceVal=document.getElementById('cl-price').value;
+      const finalPhotos=clExistingPhotos.concat(photoUrls);
+      const fields={
+        title: title,
+        category: document.getElementById('cl-category').value,
+        price: priceVal!==''? parseFloat(priceVal): null,
+        condition: document.getElementById('cl-condition').value || null,
+        description: (document.getElementById('cl-desc').value||'').trim() || null,
+        city: city,
+        location: (document.getElementById('cl-location').value||'').trim() || null,
+        delivery: document.getElementById('cl-delivery').value || null,
+        photos: finalPhotos
+      };
+
+      if(clEditId){
+        // EDIT: update the existing row (RLS restricts this to the owner)
+        const ok=await clOwnerPatch(clEditId, fields);
+        if(!ok) throw new Error('update failed');
+      } else {
+        // CREATE: insert a new row
+        const payload=Object.assign({ created_by: session.user.id, active: true, country: 'de' }, fields);
+        const r=await fetch(_CL_URL+'/rest/v1/classified_listings',{
+          method:'POST',
+          headers:{ 'apikey':_CL_KEY, 'Authorization':'Bearer '+session.access_token, 'Content-Type':'application/json', 'Prefer':'return=minimal' },
+          body: JSON.stringify(payload)
+        });
+        if(!r.ok) throw new Error(await r.text());
+      }
+
+      // success
+      const wasEdit=!!clEditId;
+      if(!wasEdit) __clDraft.clear();
+      document.getElementById('post-modal').classList.remove('open');
+      clResetForm();
+      await loadListings();  // refresh grid
+      alert(wasEdit ? 'İlanın güncellendi! ✓' : 'İlanın yayınlandı! ✓');
+    }catch(e){
+      show(clEditId ? 'Değişiklikler kaydedilemedi. Lütfen tekrar dene.' : 'İlan yayınlanamadı. Lütfen tekrar dene.');
+    }finally{
+      if(btn){ btn.disabled=false; btn.textContent = clEditId ? 'Değişiklikleri Kaydet →' : 'İlanı Yayınla →'; }
+    }
+  };
+
+  loadListings();
+</script>
 </body>
 </html>

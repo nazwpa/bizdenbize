@@ -80,19 +80,6 @@
     .widget{background:var(--white);border:1px solid var(--sand);border-radius:14px;padding:18px;margin-bottom:16px;}
     .widget-title{font-size:13px;font-weight:600;color:var(--ink);margin-bottom:14px;}
 
-    /* Mini calendar */
-    .mini-cal{width:100%;}
-    .cal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
-    .cal-month{font-size:13px;font-weight:600;}
-    .cal-nav{background:none;border:none;cursor:pointer;color:var(--muted);font-size:16px;padding:2px 6px;}
-    .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;}
-    .cal-day-label{font-size:10px;font-weight:600;color:var(--muted);text-align:center;padding:4px 0;}
-    .cal-day{font-size:12px;text-align:center;padding:6px 2px;border-radius:6px;cursor:pointer;transition:background .15s;}
-    .cal-day:hover{background:var(--warm);}
-    .cal-day.has-event{font-weight:600;color:var(--red);}
-    .cal-day.today{background:var(--red);color:var(--white);font-weight:700;}
-    .cal-day.other{color:var(--sand);}
-
     /* Modal */
     .modal-overlay{position:fixed;inset:0;z-index:200;background:rgba(26,18,8,.6);display:none;align-items:center;justify-content:center;backdrop-filter:blur(4px);}
     .modal-overlay.open{display:flex;}
@@ -395,7 +382,56 @@
     .mm-link.active { background:rgba(212,43,43,.07);color:#D42B2B;font-weight:600; }
     .mm-link-icon { font-size:20px;width:28px;text-align:center;flex-shrink:0; }
     .mm-footer { padding:16px 20px 32px;border-top:1px solid var(--warm,#F0EAE0);margin-top:auto; }
-    @media (max-width:900px) { .nav-menu { display:none!important; } .hamburger { display:flex!important; } }
+        @media (max-width:900px) { .nav-primary { display:none!important; } .bottom-tabbar { display:flex!important; } body{ padding-bottom:64px; } }
+
+    /* ── SIMPLIFIED PRIMARY NAV ── */
+    .nav-primary{display:flex;align-items:center;gap:2px;margin-left:10px;}
+    .nav-primary a,.nav-kesfet-btn{
+      display:flex;align-items:center;gap:6px;padding:9px 14px;border-radius:8px;
+      font-size:14px;font-weight:600;color:var(--ink);text-decoration:none;
+      background:none;border:none;cursor:pointer;font-family:inherit;white-space:nowrap;
+    }
+    .nav-primary a:hover,.nav-kesfet-btn:hover{background:var(--warm);}
+    .nav-primary a.active{background:var(--warm);color:var(--red);}
+
+    /* ── KEŞFET PANEL (desktop) ── */
+    .kesfet-panel{
+      display:none;position:absolute;top:64px;left:50%;transform:translateX(-50%);
+      background:#fff;border:1px solid var(--sand);border-radius:14px;
+      box-shadow:0 12px 32px rgba(26,18,8,.14);padding:18px;width:560px;z-index:250;
+    }
+    .kesfet-panel.open{display:block;}
+    .kesfet-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
+    .kesfet-tile{display:flex;flex-direction:column;align-items:center;gap:6px;
+      padding:14px 8px;border-radius:10px;text-decoration:none;color:var(--ink);
+      font-size:12.5px;font-weight:600;text-align:center;background:var(--cream);}
+    .kesfet-tile:hover{background:var(--warm);}
+    .kesfet-tile .e{font-size:22px;}
+
+    /* ── UTILITY: messages icon (matches existing notif-bell styling) ── */
+    .nav-msg{position:relative;background:none;border:none;font-size:19px;cursor:pointer;
+      padding:8px;border-radius:8px;text-decoration:none;display:inline-flex;color:var(--ink);}
+    .nav-msg:hover{background:var(--warm);}
+
+    /* ── BOTTOM TAB BAR (mobile only) ── */
+    .bottom-tabbar{display:none;position:fixed;left:0;right:0;bottom:0;z-index:300;
+      background:#fff;border-top:1px solid var(--sand);
+      padding:6px 4px calc(6px + env(safe-area-inset-bottom));}
+    .bt-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;
+      font-size:10px;font-weight:600;color:var(--muted);text-decoration:none;padding:5px 0;
+      background:none;border:none;font-family:inherit;cursor:pointer;}
+    .bt-item.active{color:var(--red);}
+    .bt-icon{font-size:20px;}
+
+    /* ── KEŞFET SHEET (mobile) ── */
+    .kesfet-sheet-overlay{display:none;position:fixed;inset:0;background:rgba(26,18,8,.35);z-index:350;}
+    .kesfet-sheet-overlay.open{display:block;}
+    .kesfet-sheet{position:fixed;left:0;right:0;bottom:0;background:#fff;
+      border-radius:18px 18px 0 0;padding:16px 14px calc(16px + env(safe-area-inset-bottom));
+      z-index:351;max-height:75vh;overflow-y:auto;}
+    .kesfet-sheet-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
+    .kesfet-sheet-title{font-size:15px;font-weight:700;color:var(--ink);}
+    .kesfet-sheet-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
 
   </style>
 
@@ -452,147 +488,145 @@
     });
   })();
 </script>
+  <script type="module">
+    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+    const _authSb = createClient('https://wxjudojlwksivhzjnmim.supabase.co','sb_publishable_52tr_hEnnQ3kllZexTue0Q_ByF71303');
+    window._authSb = _authSb;
+    window._authReady = _authSb.auth.getSession().then(({ data: { session } }) => { window._currentSession = session || null; });
+  </script>
 </head>
 <body>
 <!-- NAV -->
 <nav style="position:sticky;top:0;z-index:200;background:rgba(250,247,242,0.97);backdrop-filter:blur(14px);border-bottom:1px solid rgba(212,197,169,0.4);height:58px;display:flex;align-items:center;padding:0 16px 0 12px;gap:4px;">
   <a href="mahallem.html" class="nav-logo-link"><img src="logo.png" alt="BizdenBize" style="height:44px;width:auto;display:block;"></a>
-  <div class="nav-menu">
-    <div class="nav-item">
-      <button class="nav-item-btn" onclick="toggleDropdown('dd-mahallem',this)">🏘️ Mahallem <span class="chevron">▼</span></button>
-      <div class="nav-dropdown" id="dd-mahallem">
-        <a href="mahallem.html">🏘️ Komşularım</a>
-        <a href="events.html">🎉 Etkinlikler</a>
-        <a href="mahallem.html">📝 Paylaşımlar</a>
-      </div>
-    </div>
-    <div class="nav-item">
-      <button class="nav-item-btn" onclick="toggleDropdown('dd-is',this)">💼 İş & Göç <span class="chevron">▼</span></button>
-      <div class="nav-dropdown" id="dd-is">
-        <a href="is-guc.html">💼 İş İlanları</a>
-        <a href="is-guc.html">⚡ Freelance & Gig</a>
-        <a href="is-guc.html">👤 İş Arayanlar</a>
-        <a href="is-guc.html">✈️ Avrupa'ya Göç</a>
-        <hr>
-        <a href="business.html">🏢 İşletmeler</a>
-      </div>
-    </div>
-    <div class="nav-item">
-      <button class="nav-item-btn" onclick="toggleDropdown('dd-ogrenim',this)">🎓 Öğrenim <span class="chevron">▼</span></button>
-      <div class="nav-dropdown" id="dd-ogrenim">
-        <a href="ogrenim.html">🗣️ Dil Kursları</a>
-        <a href="ogrenim.html">🎓 Yüksek Öğrenim</a>
-        <a href="ogrenim.html">📜 Diploma Denkliği</a>
-        <a href="ogrenim.html">🏭 Ausbildung</a>
-        <hr>
-        <a href="nachhilfe.html">✏️ Nachhilfe</a>
-        <a href="webinar.html">🎥 Webinarlar</a>
-        <a href="ogrenim.html">📚 Weiterbildung</a>
-      </div>
-    </div>
-    <div class="nav-item">
-      <button class="nav-item-btn" onclick="toggleDropdown('dd-emlak',this)">🏠 Konut & Emlak <span class="chevron">▼</span></button>
-      <div class="nav-dropdown" id="dd-emlak">
-        <a href="classifieds.html">🔑 Kiralık Ev</a>
-        <a href="classifieds.html">🏡 Satılık Ev</a>
-        <a href="classifieds.html">🤝 Sublet</a>
-        <a href="classifieds.html">👥 Paylaşımlı Ev</a>
-        <hr>
-        <a href="ev-takasi.html">🔄 Ev Takası</a>
-        <a href="classifieds.html">📋 Tüm Emlak İlanları</a>
-      </div>
-    </div>
-    <div class="nav-item">
-      <button class="nav-item-btn" onclick="toggleDropdown('dd-ilanlar',this)">🛍️ İlanlar <span class="chevron">▼</span></button>
-      <div class="nav-dropdown" id="dd-ilanlar">
-        <a href="classifieds.html">🚗 Araç</a>
-        <a href="classifieds.html">🛋️ Ev Eşyası</a>
-        <a href="classifieds.html">📱 Elektronik</a>
-        <a href="classifieds.html">👗 Giyim</a>
-        <a href="classifieds.html">📋 Tümü</a>
-      </div>
-    </div>
-    <div class="nav-item">
-      <button class="nav-item-btn" onclick="toggleDropdown('dd-bilgiler',this)">📚 Bilgiler <span class="chevron">▼</span></button>
-      <div class="nav-dropdown" id="dd-bilgiler">
-        <a href="library.html">📚 Tüm Kaynaklar</a>
-        <hr>
-        <a href="library.html">💶 Kindergeld & Sosyal Yardımlar</a>
-        <a href="library.html">🏫 Okul & Çocuklar</a>
-        <a href="library.html">🛂 Vize & Oturum</a>
-        <a href="library.html">🚗 Sigorta</a>
-        <a href="library.html">💼 Çalışma Hayatı</a>
-      </div>
-    </div>
-    <div class="nav-item">
-      <button class="nav-item-btn" onclick="toggleDropdown('dd-abibot',this)">🤖 AbiBOT <span class="chevron">▼</span></button>
-      <div class="nav-dropdown" id="dd-abibot">
-        <a href="abibot.html">🤖 AbiBOT'a Sor</a>
-        <hr>
-        <a href="abibot.html">⚖️ Hukuk</a>
-        <a href="abibot.html">🏥 Tıbbi</a>
-        <a href="abibot.html">💼 Çalışma & Sigorta</a>
-        <a href="abibot.html">💶 Vergi & Finans</a>
-        <a href="abibot.html">🛂 Vize & Oturum</a>
-        <a href="abibot.html">👶 Okul & Yardımlar</a>
-        <a href="abibot.html">✈️ Avrupa'ya Göç</a>
-      </div>
+  <div class="nav-primary">
+    <a href="mahallem.html" id="np-mahallem">🏘️ Mahallem</a>
+    <a href="abibot.html" id="np-abibot">🤖 AbiBOT</a>
+    <a href="classifieds.html" id="np-ilanlar">🛍️ İlanlar</a>
+    <button class="nav-kesfet-btn" onclick="toggleKesfet(event)" id="np-kesfet">🔍 Keşfet</button>
+  </div>
+  <div class="kesfet-panel" id="kesfet-panel">
+    <div class="kesfet-grid">
+      <a class="kesfet-tile" href="is-guc.html"><span class="e">💼</span>İş İlanları</a>
+      <a class="kesfet-tile" href="business.html"><span class="e">🏢</span>İşletmeler</a>
+      <a class="kesfet-tile" href="uzmanlar.html"><span class="e">👨‍⚖️</span>Uzmanlar</a>
+      <a class="kesfet-tile" href="ogrenim.html"><span class="e">🎓</span>Öğrenim</a>
+      <a class="kesfet-tile" href="nachhilfe.html"><span class="e">✏️</span>Nachhilfe</a>
+      <a class="kesfet-tile" href="webinar.html"><span class="e">🎥</span>Webinarlar</a>
+      <a class="kesfet-tile" href="saglik.html"><span class="e">🏥</span>Sağlık</a>
+      <a class="kesfet-tile" href="emlak.html"><span class="e">🏠</span>Konut & Emlak</a>
+      <a class="kesfet-tile" href="ev-takasi.html"><span class="e">🔄</span>Tatil Takası</a>
+      <a class="kesfet-tile" href="library.html"><span class="e">📚</span>Bilgi & Belge</a>
+      <a class="kesfet-tile" href="events.html"><span class="e">🎉</span>Etkinlikler</a>
     </div>
   </div>
+  <div style="flex:1;"></div>
   <div class="nav-right">
-    <div class="nav-avatar" onclick="window.location='profile.html'">AY</div>
-    <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menü"><span></span><span></span><span></span></button>
+    <a class="nav-msg" href="messages.html" title="Mesajlar">💬</a>
+    <div class="nav-avatar" id="nav-avatar" onclick="toggleAvatarMenu()" title="Profilim" style="position:relative;">—</div>
+    <div id="avatar-menu" style="display:none;position:absolute;top:54px;right:16px;background:#fff;border:1px solid rgba(212,197,169,.5);border-radius:12px;padding:8px;min-width:180px;box-shadow:0 8px 32px rgba(0,0,0,.1);z-index:300;">
+      <a href="profile.html" style="display:flex;align-items:center;gap:9px;padding:9px 12px;border-radius:8px;font-size:13px;font-weight:500;color:#1A1208;text-decoration:none;">👤 Profilim</a>
+      <hr style="border:none;border-top:1px solid #F0EAE0;margin:4px 0;">
+      <button onclick="doLogout()" style="display:flex;align-items:center;gap:9px;padding:9px 12px;border-radius:8px;font-size:13px;font-weight:500;color:#D42B2B;background:none;border:none;cursor:pointer;width:100%;font-family:inherit;">Çıkış Yap</button>
+    </div>
   </div>
+  <script>
+    function toggleAvatarMenu() { const menu = document.getElementById('avatar-menu'); menu.style.display = menu.style.display === 'none' ? 'block' : 'none'; }
+    document.addEventListener('click', function(e) { if (!e.target.closest('#nav-avatar') && !e.target.closest('#avatar-menu')) { const menu = document.getElementById('avatar-menu'); if (menu) menu.style.display = 'none'; } });
+    async function doLogout() { const { createClient } = await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm'); const sb = createClient('https://wxjudojlwksivhzjnmim.supabase.co', 'sb_publishable_52tr_hEnnQ3kllZexTue0Q_ByF71303'); await sb.auth.signOut(); Object.keys(localStorage).forEach(k => localStorage.removeItem(k)); sessionStorage.clear(); window.location.replace('/login.html'); }
+
+    // Populate the nav avatar with the real logged-in user's initials/photo,
+    // reusing the existing session promise this page already sets up above
+    // (window._authReady / window._currentSession) — same visual logic as
+    // mahallem.html's avatar, for consistency.
+    if (window._authReady) {
+      window._authReady.then(async () => {
+        const session = window._currentSession;
+        const navAvatar = document.getElementById('nav-avatar');
+        if (!session || !navAvatar) return;
+        try {
+          const r = await fetch(`https://wxjudojlwksivhzjnmim.supabase.co/rest/v1/profiles?id=eq.${session.user.id}&select=first_name,last_name,avatar_url`, {
+            headers: { apikey: 'sb_publishable_52tr_hEnnQ3kllZexTue0Q_ByF71303', Authorization: `Bearer ${session.access_token}` }
+          });
+          const rows = await r.json();
+          const p = rows[0] || {};
+          if (p.avatar_url) {
+            navAvatar.innerHTML = `<img src="${p.avatar_url}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">`;
+          } else {
+            const initials = ((p.first_name?.[0]||'') + (p.last_name?.[0]||'')).toUpperCase() || '?';
+            const colors = ['#D42B2B','#185FA5','#1E7B4B','#C9A84C','#534AB7'];
+            navAvatar.textContent = initials;
+            navAvatar.style.background = colors[initials.charCodeAt(0) % colors.length];
+          }
+        } catch(e) { console.error('Nav avatar load error:', e); }
+      });
+    }
+  </script>
 </nav>
 
-<!-- MOBILE MENU -->
-<div class="mobile-menu" id="mobile-menu">
-  <div class="mm-header">
-    <div style="font-family:'Playfair Display',serif;font-size:18px;font-weight:900;color:#1A1208;">Bizden<span style="color:#D42B2B;">Bize</span></div>
-    <button onclick="toggleMenu()" style="background:none;border:none;font-size:26px;color:#6B5E4E;cursor:pointer;line-height:1;">×</button>
+<!-- KEŞFET SHEET (mobile) -->
+<div class="kesfet-sheet-overlay" id="kesfet-sheet-overlay" onclick="closeKesfetSheet()"></div>
+<div class="kesfet-sheet" id="kesfet-sheet" style="display:none;">
+  <div class="kesfet-sheet-header">
+    <div class="kesfet-sheet-title">Keşfet</div>
+    <button onclick="closeKesfetSheet()" style="background:none;border:none;font-size:22px;color:var(--muted);cursor:pointer;line-height:1;">×</button>
   </div>
-  <div class="mm-section"><div class="mm-section-title">Topluluk</div>
-    <a class="mm-link" href="mahallem.html"><span class="mm-link-icon">🏘️</span>Komşularım</a>
-    <a class="mm-link" href="events.html"><span class="mm-link-icon">🎉</span>Etkinlikler</a>
+  <div class="kesfet-sheet-grid">
+    <a class="kesfet-tile" href="is-guc.html"><span class="e">💼</span>İş İlanları</a>
+    <a class="kesfet-tile" href="business.html"><span class="e">🏢</span>İşletmeler</a>
+    <a class="kesfet-tile" href="uzmanlar.html"><span class="e">👨‍⚖️</span>Uzmanlar</a>
+    <a class="kesfet-tile" href="ogrenim.html"><span class="e">🎓</span>Öğrenim</a>
+    <a class="kesfet-tile" href="nachhilfe.html"><span class="e">✏️</span>Nachhilfe</a>
+    <a class="kesfet-tile" href="webinar.html"><span class="e">🎥</span>Webinarlar</a>
+    <a class="kesfet-tile" href="saglik.html"><span class="e">🏥</span>Sağlık</a>
+    <a class="kesfet-tile" href="emlak.html"><span class="e">🏠</span>Konut & Emlak</a>
+    <a class="kesfet-tile" href="ev-takasi.html"><span class="e">🔄</span>Tatil Takası</a>
+    <a class="kesfet-tile" href="library.html"><span class="e">📚</span>Bilgi & Belge</a>
+    <a class="kesfet-tile" href="events.html"><span class="e">🎉</span>Etkinlikler</a>
+    <a class="kesfet-tile" href="messages.html"><span class="e">💬</span>Mesajlar</a>
   </div>
-  <div class="mm-section"><div class="mm-section-title">İş & Göç</div>
-    <a class="mm-link" href="is-guc.html"><span class="mm-link-icon">💼</span>İş İlanları</a>
-    <a class="mm-link" href="is-guc.html"><span class="mm-link-icon">⚡</span>Freelance & Gig</a>
-    <a class="mm-link" href="is-guc.html"><span class="mm-link-icon">✈️</span>Avrupa'ya Göç</a>
-    <a class="mm-link" href="business.html"><span class="mm-link-icon">🏢</span>İşletmeler</a>
-  </div>
-  <div class="mm-section"><div class="mm-section-title">Öğrenim</div>
-    <a class="mm-link" href="ogrenim.html"><span class="mm-link-icon">🗣️</span>Dil Kursları</a>
-    <a class="mm-link" href="ogrenim.html"><span class="mm-link-icon">🎓</span>Yüksek Öğrenim</a>
-    <a class="mm-link" href="ogrenim.html"><span class="mm-link-icon">🏭</span>Ausbildung</a>
-  </div>
-  <div class="mm-section"><div class="mm-section-title">Sağlık</div>
-    <a class="mm-link" href="saglik.html"><span class="mm-link-icon">🏥</span>Doktor Bul</a>
-    <a class="mm-link" href="saglik.html"><span class="mm-link-icon">🧠</span>Ruh Sağlığı</a>
-    <a class="mm-link" href="saglik.html"><span class="mm-link-icon">🚨</span>Acil Durumlar</a>
-  </div>
-  <div class="mm-section"><div class="mm-section-title">Konut & Emlak</div>
-    <a class="mm-link" href="classifieds.html"><span class="mm-link-icon">🔑</span>Kiralık Ev</a>
-    <a class="mm-link" href="classifieds.html"><span class="mm-link-icon">🏡</span>Satılık Ev</a>
-    <a class="mm-link" href="classifieds.html"><span class="mm-link-icon">👥</span>Paylaşımlı Ev</a>
-  </div>
-  <div class="mm-section"><div class="mm-section-title">İlanlar & Bilgiler</div>
-    <a class="mm-link" href="classifieds.html"><span class="mm-link-icon">🛍️</span>İlanlar</a>
-    <a class="mm-link" href="library.html"><span class="mm-link-icon">📚</span>Bilgiler</a>
-    <a class="mm-link" href="abibot.html"><span class="mm-link-icon">🤖</span>AbiBOT</a>
-  </div>
-  <div class="mm-footer">
-    <a href="profile.html" style="display:flex;align-items:center;gap:10px;text-decoration:none;color:#1A1208;">
-      <div style="width:36px;height:36px;border-radius:50%;background:#D42B2B;color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;">AY</div>
-      <div><div style="font-size:13px;font-weight:600;">Profilim</div><div style="font-size:11px;color:#6B5E4E;">Hesabımı gör</div></div>
-    </a>
-  </div>
-</div><div class="mm-footer">
-    <a href="profile.html" style="display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink);">
-      <div style="width:36px;height:36px;border-radius:50%;background:var(--red);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;">AY</div>
-      <div><div style="font-size:13px;font-weight:600;">Profilim</div><div style="font-size:11px;color:var(--muted);">Hesabımı gör</div></div>
-    </a>
-  </div>
+</div>
+
+<!-- BOTTOM TAB BAR (mobile) -->
+<div class="bottom-tabbar" id="bottom-tabbar">
+  <a class="bt-item" href="mahallem.html" id="bt-mahallem"><span class="bt-icon">🏘️</span>Mahallem</a>
+  <a class="bt-item" href="abibot.html" id="bt-abibot"><span class="bt-icon">🤖</span>AbiBOT</a>
+  <a class="bt-item" href="classifieds.html" id="bt-ilanlar"><span class="bt-icon">🛍️</span>İlanlar</a>
+  <button class="bt-item" onclick="openKesfetSheet()" id="bt-kesfet"><span class="bt-icon">🔍</span>Keşfet</button>
+  <a class="bt-item" href="profile.html" id="bt-profil"><span class="bt-icon">👤</span>Profil</a>
+</div>
+
+<script>
+  function toggleKesfet(e) {
+    e.stopPropagation();
+    document.getElementById('kesfet-panel').classList.toggle('open');
+  }
+  document.addEventListener('click', function(e) {
+    const panel = document.getElementById('kesfet-panel');
+    if (panel && panel.classList.contains('open') && !panel.contains(e.target) && e.target.id !== 'np-kesfet') {
+      panel.classList.remove('open');
+    }
+  });
+  function openKesfetSheet() {
+    document.getElementById('kesfet-sheet-overlay').classList.add('open');
+    document.getElementById('kesfet-sheet').style.display = 'block';
+  }
+  function closeKesfetSheet() {
+    document.getElementById('kesfet-sheet-overlay').classList.remove('open');
+    document.getElementById('kesfet-sheet').style.display = 'none';
+  }
+  (function() {
+    const page = window.location.pathname.split('/').pop() || 'mahallem.html';
+    const map = { 'mahallem.html': 'mahallem', 'abibot.html': 'abibot', 'classifieds.html': 'ilanlar', 'profile.html': 'profil' };
+    const key = map[page];
+    if (key) {
+      const npEl = document.getElementById('np-' + key);
+      const btEl = document.getElementById('bt-' + key);
+      if (npEl) npEl.classList.add('active');
+      if (btEl) btEl.classList.add('active');
+    }
+  })();
+</script>
 </div>
 
 <div class="page">
@@ -605,124 +639,42 @@
   </div>
 
   <div class="tabs">
-    <button class="tab active" onclick="switchTab(this)">Yaklaşan</button>
-    <button class="tab" onclick="switchTab(this)">Bu Hafta</button>
-    <button class="tab" onclick="switchTab(this)">Bu Ay</button>
-    <button class="tab" onclick="switchTab(this)">Katıldıklarım</button>
-    <button class="tab" onclick="switchTab(this)">Tüm Avrupa</button>
+    <button class="tab active" onclick="filterEvents('all',this)">Tümü</button>
+    <button class="tab" onclick="filterEvents('muzik',this)">🎵 Müzik</button>
+    <button class="tab" onclick="filterEvents('is',this)">💼 İş</button>
+    <button class="tab" onclick="filterEvents('genel',this)">🎉 Buluşma</button>
+    <button class="tab" onclick="filterEvents('yemek',this)">🍽️ Yemek</button>
+    <button class="tab" onclick="filterEvents('spor',this)">⚽ Spor</button>
+    <button class="tab" onclick="filterEvents('aile',this)">👶 Aile</button>
   </div>
 
   <div class="layout">
     <div>
-      <!-- Featured -->
-      <div class="featured-event">
-        <div>
-          <div class="fe-tag">⭐ Öne Çıkan Etkinlik</div>
-          <div class="fe-title">Frankfurt Türk Festivali 2025</div>
-          <div class="fe-meta">📍 Römerberg, Frankfurt · 14 Haziran · 14:00 – 22:00</div>
-          <div class="fe-attendees">
-            <div class="fe-avatar">MK</div>
-            <div class="fe-avatar" style="background:#185FA5">ZD</div>
-            <div class="fe-avatar" style="background:#1E7B4B">AK</div>
-            <div class="fe-avatar" style="background:#C9A84C">SE</div>
-            <span class="fe-count">+39 katılımcı</span>
-          </div>
-        </div>
-        <div class="fe-right">
-          <div class="fe-date-box">
-            <div class="fe-month">Haziran</div>
-            <div class="fe-day">14</div>
-          </div>
-          <button class="rsvp-btn" onclick="this.classList.toggle('going');this.textContent=this.classList.contains('going')?'✓ Katılıyorum':'Katıl'">Katıl</button>
-        </div>
+            <!-- Curated + user events, loaded from DB -->
+      <div style="background:linear-gradient(135deg,rgba(24,95,165,.05),rgba(201,168,76,.05));border:1px solid rgba(24,95,165,.15);border-radius:12px;padding:14px 16px;margin-bottom:18px;">
+        <div style="font-size:13px;font-weight:700;color:var(--ink);margin-bottom:3px;">📅 Topluluk Etkinlikleri</div>
+        <div style="font-size:12.5px;color:var(--muted);line-height:1.5;">Almanya'daki Türkçe konuşan topluluk için etkinlikler. Tarih ve detaylar değişebilir — gitmeden önce resmî bağlantıdan teyit et.</div>
       </div>
 
-      <!-- Events list -->
-      <div class="event-item">
-        <div class="ei-date"><div class="ei-month">Haz</div><div class="ei-day">18</div></div>
-        <div class="ei-body">
-          <div class="ei-title">Türk Girişimciler Networking Gecesi</div>
-          <div class="ei-meta"><span>📍 Coworking Mitte</span><span>🕕 18:00</span><span>👤 Herkese Açık</span></div>
-          <div class="ei-tags"><span class="ei-tag" style="background:rgba(24,95,165,.1);color:#185FA5">İş & Girişim</span><span class="ei-tag" style="background:var(--warm);color:var(--muted)">Networking</span></div>
-        </div>
-        <div class="ei-right">
-          <div class="ei-attendees">22 katılımcı</div>
-          <button class="ei-rsvp" onclick="rsvp(this)">Katıl</button>
-        </div>
+      <div id="events-list">
+        <div style="text-align:center;padding:40px;color:var(--muted);font-size:13px;">Etkinlikler yükleniyor…</div>
       </div>
-
-      <div class="event-item">
-        <div class="ei-date"><div class="ei-month">Haz</div><div class="ei-day">21</div></div>
-        <div class="ei-body">
-          <div class="ei-title">Türkçe Çocuk Kitapları Okuma Saati</div>
-          <div class="ei-meta"><span>📍 Stadtbibliothek Frankfurt</span><span>🕚 11:00</span><span>👶 Aileler için</span></div>
-          <div class="ei-tags"><span class="ei-tag" style="background:rgba(30,123,75,.1);color:#1E7B4B">Aile</span><span class="ei-tag" style="background:var(--warm);color:var(--muted)">Çocuklar</span></div>
-        </div>
-        <div class="ei-right">
-          <div class="ei-attendees">14 katılımcı</div>
-          <button class="ei-rsvp" onclick="rsvp(this)">Katıl</button>
-        </div>
-      </div>
-
-      <div class="event-item">
-        <div class="ei-date"><div class="ei-month">Haz</div><div class="ei-day">25</div></div>
-        <div class="ei-body">
-          <div class="ei-title">Futbol: Frankfurt Türkler vs Amsterdam — Berlin</div>
-          <div class="ei-meta"><span>📍 Sportplatz Sachsenhausen</span><span>🕔 16:00</span><span>⚽ Spor</span></div>
-          <div class="ei-tags"><span class="ei-tag" style="background:rgba(192,57,43,.1);color:#D42B2B">Spor</span></div>
-        </div>
-        <div class="ei-right">
-          <div class="ei-attendees">31 katılımcı</div>
-          <button class="ei-rsvp going" onclick="rsvp(this)">✓ Katılıyorum</button>
-        </div>
-      </div>
-
-      <div class="event-item">
-        <div class="ei-date"><div class="ei-month">Tem</div><div class="ei-day">04</div></div>
-        <div class="ei-body">
-          <div class="ei-title">Türk Mutfağı Yemek Atölyesi</div>
-          <div class="ei-meta"><span>📍 Kochschule Frankfurt</span><span>🕒 15:00</span><span>🍽️ Yemek</span></div>
-          <div class="ei-tags"><span class="ei-tag" style="background:rgba(201,168,76,.1);color:#C9A84C">Yemek</span><span class="ei-tag" style="background:var(--warm);color:var(--muted)">Atölye</span></div>
-        </div>
-        <div class="ei-right">
-          <div class="ei-attendees">8 katılımcı</div>
-          <button class="ei-rsvp" onclick="rsvp(this)">Katıl</button>
-        </div>
-      </div>
-    </div>
 
     <!-- Right: Calendar + widget -->
     <div>
       <div class="widget">
-        <div class="widget-title">📅 Haziran 2025</div>
-        <div class="mini-cal">
-          <div class="cal-grid">
-            <div class="cal-day-label">Pzt</div><div class="cal-day-label">Sal</div>
-            <div class="cal-day-label">Çar</div><div class="cal-day-label">Per</div>
-            <div class="cal-day-label">Cum</div><div class="cal-day-label">Cmt</div>
-            <div class="cal-day-label">Paz</div>
-            <div class="cal-day other">27</div><div class="cal-day other">28</div>
-            <div class="cal-day other">29</div><div class="cal-day other">30</div>
-            <div class="cal-day other">31</div><div class="cal-day">1</div><div class="cal-day">2</div>
-            <div class="cal-day">3</div><div class="cal-day">4</div><div class="cal-day">5</div>
-            <div class="cal-day">6</div><div class="cal-day">7</div><div class="cal-day">8</div><div class="cal-day">9</div>
-            <div class="cal-day">10</div><div class="cal-day">11</div><div class="cal-day">12</div>
-            <div class="cal-day">13</div><div class="cal-day has-event">14</div><div class="cal-day">15</div><div class="cal-day">16</div>
-            <div class="cal-day">17</div><div class="cal-day has-event">18</div><div class="cal-day">19</div>
-            <div class="cal-day has-event">21</div><div class="cal-day has-event">25</div><div class="cal-day">22</div><div class="cal-day">23</div>
-            <div class="cal-day today">24</div><div class="cal-day">25</div><div class="cal-day">26</div>
-            <div class="cal-day">27</div><div class="cal-day">28</div><div class="cal-day">29</div><div class="cal-day">30</div>
-          </div>
+        <div class="cal-head" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+          <button onclick="calNav(-1)" style="background:none;border:none;font-size:18px;color:var(--muted);cursor:pointer;padding:2px 8px;">‹</button>
+          <div id="cal-title" style="font-size:13px;font-weight:700;color:var(--ink);"></div>
+          <button onclick="calNav(1)" style="background:none;border:none;font-size:18px;color:var(--muted);cursor:pointer;padding:2px 8px;">›</button>
         </div>
+        <div id="cal-grid" style="display:grid;grid-template-columns:repeat(7,1fr);gap:3px;"></div>
+        <div id="cal-clear" style="display:none;margin-top:10px;text-align:center;"><button onclick="calClearFilter()" style="background:var(--warm);border:1px solid var(--sand);border-radius:8px;padding:6px 12px;font-size:12px;color:var(--ink);cursor:pointer;font-weight:600;">✕ Tarih filtresini temizle</button></div>
       </div>
 
       <div class="widget">
-        <div class="widget-title">📍 Diğer Şehirlerde</div>
-        <div style="display:flex;flex-direction:column;gap:10px;">
-          <div style="font-size:13px;color:var(--ink);padding:8px 0;border-bottom:1px solid var(--warm);">🇳🇱 <strong>Amsterdam</strong> · Türk Kültür Günü · 20 Haz</div>
-          <div style="font-size:13px;color:var(--ink);padding:8px 0;border-bottom:1px solid var(--warm);">🇦🇹 <strong>Wien</strong> · Bayram Kutlaması · 28 Haz</div>
-          <div style="font-size:13px;color:var(--ink);padding:8px 0;">🇧🇪 <strong>Brüksel</strong> · Networking · 2 Tem</div>
-        </div>
+        <div class="widget-title">📍 Etkinlik Öner</div>
+        <div style="font-size:13px;color:var(--muted);line-height:1.55;">Topluluğa duyurmak istediğin bir etkinlik mi var? <a href="mailto:support@bizdenbize.com?subject=Etkinlik%20%C3%B6nerisi" style="color:var(--red);font-weight:600;text-decoration:none;">Bize yaz</a> ya da yukarıdaki "+ Etkinlik Öner" ile ekle.</div>
       </div>
     </div>
   </div>
@@ -732,32 +684,104 @@
 <div class="modal-overlay" id="event-modal">
   <div class="modal">
     <button class="modal-close" onclick="closeModal()">×</button>
-    <h3>Etkinlik Oluştur</h3>
-    <div class="form-group"><label>Etkinlik Adı</label><input type="text" placeholder="Ör: Frankfurt Türk Festivali"></div>
-    <div class="form-group"><label>Kategori</label>
-      <select><option>🎉 Genel Buluşma</option><option>💼 İş & Girişim</option><option>⚽ Spor</option><option>🍽️ Yemek</option><option>🎵 Müzik & Kültür</option><option>👶 Aile</option></select>
+    <h3>Etkinlik Öner</h3>
+    <p style="font-size:12.5px;color:var(--muted);margin:-6px 0 14px;line-height:1.5;">Önerin ekibimiz tarafından incelenip onaylandıktan sonra yayınlanır.</p>
+    <div class="form-group"><label>Etkinlik Adı *</label><input type="text" id="ev-title" placeholder="Ör: Türkçe Stand-Up Gecesi"></div>
+    <div class="form-group"><label>Kategori *</label>
+      <select id="ev-category">
+        <option value="genel">🎉 Genel Buluşma</option>
+        <option value="is">💼 İş & Girişim</option>
+        <option value="spor">⚽ Spor</option>
+        <option value="yemek">🍽️ Yemek</option>
+        <option value="muzik">🎵 Müzik & Kültür</option>
+        <option value="aile">👶 Aile</option>
+      </select>
     </div>
+    <div class="form-group"><label>Etkinlik Türü *</label>
+      <select id="ev-type" onchange="evTypeChanged()">
+        <option value="external">🔗 Dış bağlantı (kayıt başka sitede)</option>
+        <option value="hosted_free">🎟️ Ücretsiz — BizdenBize'de kayıt</option>
+        <option value="hosted_paid">💳 Ücretli — BizdenBize'de kayıt</option>
+      </select>
+    </div>
+    <div class="form-group" id="ev-price-wrap" style="display:none;"><label>Bilet Fiyatı (€) *</label><input type="number" id="ev-price" min="0" step="0.5" placeholder="Ör: 15"></div>
+    <div class="form-group" id="ev-capacity-wrap" style="display:none;"><label>Kontenjan (boş = sınırsız)</label><input type="number" id="ev-capacity" min="1" placeholder="Ör: 50"></div>
     <div class="form-row">
-      <div class="form-group"><label>Tarih</label><input type="date"></div>
-      <div class="form-group"><label>Saat</label><input type="time"></div>
+      <div class="form-group"><label>Tarih *</label><input type="date" id="ev-date"></div>
+      <div class="form-group"><label>Saat / Not</label><input type="text" id="ev-note" placeholder="Ör: 19:00"></div>
     </div>
-    <div class="form-group"><label>Konum</label><input type="text" placeholder="Adres veya mekan adı"></div>
-    <div class="form-group"><label>Şehir</label>
-      <select><option>Frankfurt 🇩🇪</option><option>Berlin 🇩🇪</option><option>Amsterdam 🇳🇱</option><option>Wien 🇦🇹</option><option>Diğer</option></select>
-    </div>
-    <div class="form-group"><label>Açıklama</label><textarea placeholder="Etkinliğini anlat..."></textarea></div>
-    <div class="form-group"><label>Katılımcı Limiti (0 = sınırsız)</label><input type="number" placeholder="0"></div>
-    <button class="submit-btn" onclick="submitEvent()">Etkinliği Yayınla →</button>
+    <div class="form-group"><label>Mekan</label><input type="text" id="ev-venue" placeholder="Mekan adı, adres"></div>
+    <div class="form-group"><label>Şehir *</label><input type="text" id="ev-city" placeholder="Ör: Berlin"></div>
+    <div class="form-group"><label>Açıklama</label><textarea id="ev-desc" placeholder="Etkinliği kısaca anlat..."></textarea></div>
+    <div class="form-group"><label>Kimler için faydalı?</label><textarea id="ev-audience" placeholder="Ör: Almanya'ya yeni gelenler, girişimciler, öğrenciler..."></textarea></div>
+    <div class="form-group"><label>Program / Akış</label><textarea id="ev-agenda" placeholder="Ör: 19:00 açılış · 19:30 sunum · 20:30 soru-cevap"></textarea></div>
+    <div class="form-group"><label>Organizatör Adı</label><input type="text" id="ev-org-name" placeholder="Etkinliği düzenleyen kişi/kurum"></div>
+    <div class="form-group"><label>Organizatör Hakkında</label><input type="text" id="ev-org-info" placeholder="Kısa açıklama (opsiyonel)"></div>
+    <div class="form-group"><label>İletişim (opsiyonel)</label><input type="text" id="ev-contact" placeholder="E-posta veya telefon"></div>
+    <div class="form-group" id="ev-meeting-wrap" style="display:none;"><label>🔗 Online Bağlantı (Zoom/Meet)</label><input type="text" id="ev-meeting" placeholder="https://zoom.us/... — sadece kayıtlı katılımcılar görür"><div style="font-size:11px;color:var(--muted);margin-top:4px;">Bu bağlantıyı yalnızca etkinliğe kaydolanlar görebilir.</div></div>
+    <div class="form-group" id="ev-link-wrap"><label>Bağlantı (bilet/bilgi)</label><input type="text" id="ev-link" placeholder="https://..."></div>
+    <div id="ev-form-err" style="display:none;color:var(--red);font-size:13px;margin-bottom:10px;"></div>
+    <button class="submit-btn" id="ev-submit-btn" onclick="submitEvent()">Öneriyi Gönder →</button>
   </div>
 </div>
 
 <script>
-  function switchTab(btn){document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));btn.classList.add('active');}
   function rsvp(btn){btn.classList.toggle('going');btn.textContent=btn.classList.contains('going')?'✓ Katılıyorum':'Katıl';}
-  function openModal(){document.getElementById('event-modal').classList.add('open');}
+  function openModal(){ __eventDraft.restore(); document.getElementById('event-modal').classList.add('open'); }
+
+  // ── DRAFT AUTOSAVE (protects typed data if the tab is discarded/reloaded) ──
+  function bbDraft(opts){
+    var TTL_MS = 1000*60*60*24*3; // 3 days
+    function read(){
+      try{
+        var raw=localStorage.getItem(opts.key);
+        if(!raw) return null;
+        var obj=JSON.parse(raw);
+        if(!obj || !obj.t || (Date.now()-obj.t)>TTL_MS){ localStorage.removeItem(opts.key); return null; }
+        return obj.v||null;
+      }catch(e){ return null; }
+    }
+    function write(){
+      try{
+        var v={};
+        opts.fields.forEach(function(f){
+          var el=document.getElementById(f.id);
+          if(!el) return;
+          v[f.id]=el.value;
+        });
+        localStorage.setItem(opts.key, JSON.stringify({t:Date.now(), v:v}));
+      }catch(e){}
+    }
+    var timer=null;
+    function schedule(){ clearTimeout(timer); timer=setTimeout(write,500); }
+    opts.fields.forEach(function(f){
+      var el=document.getElementById(f.id);
+      if(!el) return;
+      el.addEventListener('input', schedule);
+    });
+    return {
+      restore:function(){
+        var v=read(); if(!v) return false;
+        var any=false;
+        opts.fields.forEach(function(f){
+          var el=document.getElementById(f.id); if(!el) return;
+          var val=v[f.id];
+          if(val===undefined||val===null||val==='') return;
+          el.value=val; any=true;
+        });
+        return any;
+      },
+      clear:function(){ try{ localStorage.removeItem(opts.key); }catch(e){} }
+    };
+  }
+  const __eventDraft = bbDraft({
+    key:'bb_draft_event',
+    fields:['ev-title','ev-price','ev-capacity','ev-date','ev-note','ev-venue','ev-city','ev-desc',
+      'ev-audience','ev-agenda','ev-org-name','ev-org-info','ev-contact','ev-meeting','ev-link']
+      .map(function(id){ return {id:id}; })
+  });
   function closeModal(){document.getElementById('event-modal').classList.remove('open');}
   document.getElementById('event-modal').addEventListener('click',function(e){if(e.target===this)closeModal();});
-  function submitEvent(){alert('Etkinliğiniz yayınlandı! ✓');closeModal();}
 </script>
 <script>
   // Mobile menu
@@ -823,7 +847,7 @@
     <button id="pwa-install-btn" style="background:#D42B2B;color:#fff;border:none;border-radius:8px;
       padding:8px 16px;font-size:12px;font-weight:700;cursor:pointer;
       font-family:inherit;white-space:nowrap;">Yükle</button>
-    <button onclick="document.getElementById('pwa-banner').style.display='none'"
+    <button onclick="localStorage.setItem('bb_pwa_dismissed','1');document.getElementById('pwa-banner').style.display='none'"
       style="background:rgba(255,255,255,.15);color:#fff;border:none;border-radius:6px;
       padding:8px 10px;cursor:pointer;font-size:16px;flex-shrink:0;">✕</button>
   </div>
@@ -832,6 +856,7 @@
     window.addEventListener('beforeinstallprompt', e => {
       e.preventDefault();
       deferredPrompt = e;
+      if (localStorage.getItem('bb_pwa_dismissed')) return;
       const banner = document.getElementById('pwa-banner');
       if (banner) banner.style.display = 'flex';
     });
@@ -848,6 +873,7 @@
       });
     }
     window.addEventListener('appinstalled', () => {
+      localStorage.setItem('bb_pwa_dismissed','1');
       const banner = document.getElementById('pwa-banner');
       if (banner) banner.style.display = 'none';
       deferredPrompt = null;
@@ -961,6 +987,311 @@
   })();
 
   </script>
+
+<!-- EVENTS FROM DATABASE -->
+<script>
+  const _EV_SB_URL = 'https://wxjudojlwksivhzjnmim.supabase.co';
+  const _EV_SB_KEY = 'sb_publishable_52tr_hEnnQ3kllZexTue0Q_ByF71303';
+  const _EV_H = { 'apikey': _EV_SB_KEY, 'Authorization': 'Bearer ' + _EV_SB_KEY };
+
+  const EV_CAT = {
+    muzik: { label: 'Müzik & Kültür', color: '#185FA5' },
+    is:    { label: 'İş & Girişim',    color: '#185FA5' },
+    genel: { label: 'Genel Buluşma',   color: '#C9A84C' },
+    yemek: { label: 'Yemek',           color: '#C9A84C' },
+    spor:  { label: 'Spor',            color: '#D42B2B' },
+    aile:  { label: 'Aile',            color: '#1E7B4B' },
+  };
+  const EV_MONTHS = ['Oca','Şub','Mar','Nis','May','Haz','Tem','Ağu','Eyl','Eki','Kas','Ara'];
+
+  function evEsc(x){ return String(x==null?'':x).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+  function evDateBox(d){
+    if(!d) return '<div class="ei-month">—</div><div class="ei-day">·</div>';
+    const dt=new Date(d+'T00:00:00');
+    if(isNaN(dt)) return '<div class="ei-month">—</div><div class="ei-day">·</div>';
+    return '<div class="ei-month">'+EV_MONTHS[dt.getMonth()]+'</div><div class="ei-day">'+dt.getDate()+'</div>';
+  }
+
+  function evPriceText(e){
+    if(e.price==null) return '';
+    return '€'+Number(e.price).toFixed(0);
+  }
+  function evAction(e){
+    var t=e.event_type||'external';
+    if(t==='external'){
+      var url=e.registration_url||e.link_url;
+      var label=e.link_label||'Bilet / Bilgi';
+      if(url) return '<a href="'+evEsc(url)+'" target="_blank" rel="noopener" class="ev-action" style="display:inline-block;margin-top:10px;background:var(--red);color:#fff;padding:8px 16px;border-radius:8px;font-size:13px;font-weight:600;text-decoration:none;">🎟️ '+evEsc(label)+' →</a>';
+      return e.link_label ? '<div style="margin-top:8px;font-size:12px;color:var(--muted);">🔗 '+evEsc(e.link_label)+'</div>' : '';
+    }
+    if(t==='hosted_free'){
+      return '<button class="ev-action" onclick="registerEvent(\''+e.id+'\',this)" style="margin-top:10px;background:var(--green,#1E7B4B);color:#fff;border:none;padding:8px 16px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;">✓ Ücretsiz Kayıt Ol</button>';
+    }
+    if(t==='hosted_paid'){
+      var p=evPriceText(e);
+      return '<div style="margin-top:10px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;">'
+        + '<span style="font-size:15px;font-weight:700;color:var(--ink);">'+p+'</span>'
+        + '<button disabled title="Kayıt yakında açılıyor" style="background:var(--warm,#F0EAE0);color:var(--muted);border:1px solid var(--sand);padding:8px 16px;border-radius:8px;font-size:13px;font-weight:600;cursor:not-allowed;">💳 Kayıt yakında</button>'
+        + '</div>';
+    }
+    return '';
+  }
+  function evCard(e){
+    const cat = EV_CAT[e.category] || { label: e.category||'Etkinlik', color:'#6B5E4E' };
+    const venue = e.venue ? ('📍 '+evEsc(e.venue)+(e.city?', '+evEsc(e.city):'')) : (e.city?('📍 '+evEsc(e.city)):'');
+    const note = e.event_note ? '<span>'+evEsc(e.event_note)+'</span>' : '';
+    const exportBtn = e.event_date ? '<button onclick="evExport(\''+e.id+'\')" title="Takvimime ekle" style="background:none;border:1px solid var(--sand);border-radius:7px;padding:5px 10px;font-size:12px;color:var(--muted);cursor:pointer;margin-left:8px;">📅 Takvime ekle</button>' : '';
+    return '<div class="event-item" data-category="'+evEsc(e.category||'')+'" data-date="'+(e.event_date||'')+'">'
+      + '<div class="ei-date">'+evDateBox(e.event_date)+'</div>'
+      + '<div class="ei-body">'
+      +   '<div class="ei-title"><a href="event-detail.html?id='+e.id+'" style="color:inherit;text-decoration:none;">'+evEsc(e.title)+' </a><span style="font-size:12px;color:var(--muted);font-weight:400;">→ detay</span></div>'
+      +   (e.description?'<div style="font-size:13px;color:var(--muted);margin:4px 0;line-height:1.5;">'+evEsc(e.description)+'</div>':'')
+      +   '<div class="ei-meta">'+(venue?'<span>'+venue+'</span>':'')+note+'</div>'
+      +   '<div class="ei-tags"><span class="ei-tag" style="background:'+cat.color+'1a;color:'+cat.color+'">'+evEsc(cat.label)+'</span></div>'
+      +   '<div style="display:flex;align-items:center;flex-wrap:wrap;">'+evAction(e)+exportBtn+'</div>'
+      + '</div></div>';
+  }
+
+  async function loadEvents(){
+    const box=document.getElementById('events-list');
+    try{
+      const r=await fetch(_EV_SB_URL+"/rest/v1/events?status=eq.approved&order=event_date.asc&select=*",{headers:_EV_H});
+      if(!r.ok) throw new Error('DB '+r.status);
+      const rows=await r.json();
+      window.__evAll=rows; calYear=undefined; renderCalendar();
+      if(!rows.length){ box.innerHTML='<div style="text-align:center;padding:40px;color:var(--muted);font-size:13px;">Henüz etkinlik yok. İlk öneren sen ol! 👇</div>'; return; }
+      box.innerHTML=rows.map(evCard).join('');
+    }catch(err){
+      box.innerHTML='<div style="text-align:center;padding:40px;color:var(--red);font-size:13px;">Etkinlikler yüklenemedi. Lütfen sayfayı yenile.</div>';
+    }
+  }
+  window.registerEvent = async function(eventId, btn){
+    await (window._authReady || Promise.resolve());
+    const session = window._currentSession;
+    if(!session){ alert('Kayıt için giriş yapmalısın.'); return; }
+    if(btn){ btn.disabled=true; btn.textContent='Kaydediliyor…'; }
+    try{
+      const r=await fetch(_EV_SB_URL+'/rest/v1/event_registrations',{
+        method:'POST',
+        headers:{ 'apikey':_EV_SB_KEY, 'Authorization':'Bearer '+session.access_token, 'Content-Type':'application/json', 'Prefer':'return=minimal' },
+        body: JSON.stringify({ event_id:eventId, user_id:session.user.id, status:'registered', payment_status:'none' })
+      });
+      if(r.status===409){ if(btn){btn.textContent='✓ Zaten kayıtlısın';} return; }  // duplicate = already registered
+      if(!r.ok) throw new Error(await r.text());
+      if(btn){ btn.textContent='✓ Kaydoldun'; btn.style.background='var(--muted)'; }
+    }catch(e){
+      if(btn){ btn.disabled=false; btn.textContent='✓ Ücretsiz Kayıt Ol'; }
+      alert('Kayıt yapılamadı. Lütfen tekrar dene.');
+    }
+  };
+  window.evTypeChanged = function(){
+    var t=document.getElementById('ev-type').value;
+    document.getElementById('ev-price-wrap').style.display    = (t==='hosted_paid') ? '' : 'none';
+    document.getElementById('ev-capacity-wrap').style.display = (t==='hosted_free'||t==='hosted_paid') ? '' : 'none';
+    var lw=document.getElementById('ev-link-wrap'); if(lw) lw.style.display = (t==='external') ? '' : 'none';
+    var mw=document.getElementById('ev-meeting-wrap'); if(mw) mw.style.display = (t==='hosted_free'||t==='hosted_paid') ? '' : 'none';
+  };
+  window.filterEvents = function(cat, btn){
+    document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('active');});
+    if(btn) btn.classList.add('active');
+    document.querySelectorAll('#events-list .event-item').forEach(function(el){
+      el.style.display = (cat==='all' || el.getAttribute('data-category')===cat) ? '' : 'none';
+    });
+  };
+  // ── ADD TO CALENDAR (.ics export) ──
+  window.evExport=function(id){
+    const e=(window.__evAll||[]).find(x=>x.id===id);
+    if(!e||!e.event_date) return;
+    function icsDate(dstr){ return dstr.replace(/-/g,''); }  // all-day YYYYMMDD
+    const dt=e.event_date;
+    const dtEnd=new Date(new Date(dt+'T00:00:00').getTime()+86400000).toISOString().slice(0,10);
+    const loc=[e.venue,e.city].filter(Boolean).join(', ');
+    const desc=(e.description||'')+(e.event_note?' — '+e.event_note:'');
+    const ics=[
+      'BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//BizdenBize//Etkinlik//TR','CALSCALE:GREGORIAN',
+      'BEGIN:VEVENT',
+      'UID:'+id+'@bizdenbize.com',
+      'DTSTART;VALUE=DATE:'+icsDate(dt),
+      'DTEND;VALUE=DATE:'+icsDate(dtEnd),
+      'SUMMARY:'+(e.title||'Etkinlik').replace(/[\n,;]/g,' '),
+      'LOCATION:'+loc.replace(/[\n,;]/g,' '),
+      'DESCRIPTION:'+desc.replace(/[\n,;]/g,' '),
+      'END:VEVENT','END:VCALENDAR'
+    ].join('\r\n');
+    const blob=new Blob([ics],{type:'text/calendar;charset=utf-8'});
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement('a');
+    a.href=url; a.download=(e.title||'etkinlik').replace(/[^a-z0-9]/gi,'_').slice(0,40)+'.ics';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    setTimeout(()=>URL.revokeObjectURL(url),1000);
+  };
+
+  // ── SIDEBAR MINI CALENDAR ──
+  let calYear, calMonth;  // currently viewed month
+  const CAL_MONTHS=['Ocak','Şubat','Mart','Nisan','Mayıs','Haziran','Temmuz','Ağustos','Eylül','Ekim','Kasım','Aralık'];
+  const CAL_DOW=['Pt','Sa','Ça','Pe','Cu','Ct','Pz'];
+
+  function evDatesSet(){
+    // map of 'YYYY-MM-DD' -> count of events that day
+    const m={};
+    (window.__evAll||[]).forEach(e=>{ if(e.event_date){ m[e.event_date]=(m[e.event_date]||0)+1; } });
+    return m;
+  }
+
+  function renderCalendar(){
+    const evs=window.__evAll||[];
+    // default to the month of the earliest upcoming event, else today
+    if(calYear===undefined){
+      const dated=evs.filter(e=>e.event_date).map(e=>e.event_date).sort();
+      const base=dated.length?new Date(dated[0]+'T00:00:00'):new Date();
+      calYear=base.getFullYear(); calMonth=base.getMonth();
+    }
+    const grid=document.getElementById('cal-grid'); const title=document.getElementById('cal-title');
+    if(!grid||!title) return;
+    title.textContent=CAL_MONTHS[calMonth]+' '+calYear;
+    const dayCounts=evDatesSet();
+    let html=CAL_DOW.map(d=>'<div style="text-align:center;font-size:9px;font-weight:700;color:var(--muted);padding:2px 0;">'+d+'</div>').join('');
+    const first=new Date(calYear,calMonth,1);
+    let startDow=(first.getDay()+6)%7; // Monday-first
+    const daysInMonth=new Date(calYear,calMonth+1,0).getDate();
+    for(let i=0;i<startDow;i++) html+='<div></div>';
+    const todayStr=new Date().toISOString().slice(0,10);
+    for(let d=1;d<=daysInMonth;d++){
+      const ds=calYear+'-'+String(calMonth+1).padStart(2,'0')+'-'+String(d).padStart(2,'0');
+      const has=dayCounts[ds];
+      const isToday=ds===todayStr;
+      const isSel=window.__calSelected===ds;
+      let style='text-align:center;font-size:12px;padding:5px 0;border-radius:6px;cursor:'+(has?'pointer':'default')+';';
+      if(isSel) style+='background:var(--red);color:#fff;font-weight:700;';
+      else if(has) style+='background:rgba(212,43,43,.1);color:var(--red);font-weight:700;';
+      else style+='color:var(--muted);';
+      if(isToday && !isSel) style+='outline:1.5px solid var(--sand);';
+      const click=has?(' onclick="calPickDay(\''+ds+'\')"'):'';
+      html+='<div style="'+style+'"'+click+'>'+d+'</div>';
+    }
+    grid.innerHTML=html;
+  }
+
+  window.calNav=function(dir){
+    calMonth+=dir;
+    if(calMonth<0){calMonth=11;calYear--;} if(calMonth>11){calMonth=0;calYear++;}
+    renderCalendar();
+  };
+
+  window.calPickDay=function(ds){
+    window.__calSelected=ds;
+    renderCalendar();
+    // filter the event list to that day
+    document.querySelectorAll('#events-list .event-item').forEach(el=>{
+      el.style.display = (el.getAttribute('data-date')===ds) ? '' : 'none';
+    });
+    document.getElementById('cal-clear').style.display='block';
+    // reset category tabs to Tümü visually
+    document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+    const first=document.querySelector('.tab'); if(first) first.classList.add('active');
+  };
+
+  window.calClearFilter=function(){
+    window.__calSelected=null;
+    renderCalendar();
+    document.querySelectorAll('#events-list .event-item').forEach(el=>{ el.style.display=''; });
+    document.getElementById('cal-clear').style.display='none';
+  };
+
+  loadEvents();
+
+  // ---- Submit a new event proposal (goes to pending) ----
+  window.submitEvent = async function(){
+    const err=document.getElementById('ev-form-err');
+    const btn=document.getElementById('ev-submit-btn');
+    const show=(m)=>{ if(err){err.textContent=m;err.style.display='block';} };
+    if(err) err.style.display='none';
+
+    await (window._authReady || Promise.resolve());
+    const session = window._currentSession;
+    if(!session){ show('Etkinlik önermek için giriş yapmalısın.'); return; }
+
+    const title=(document.getElementById('ev-title').value||'').trim();
+    const city=(document.getElementById('ev-city').value||'').trim();
+    const date=document.getElementById('ev-date').value||null;
+    if(!title){ show('Etkinlik adı gerekli.'); return; }
+    if(!city){ show('Şehir gerekli.'); return; }
+    if(!date){ show('Tarih gerekli.'); return; }
+
+    const evType = document.getElementById('ev-type').value;
+    let price=null, capacity=null, regUrl=null;
+    if(evType==='external'){
+      regUrl=(document.getElementById('ev-link').value||'').trim()||null;
+    } else if(evType==='hosted_paid'){
+      const pv=parseFloat(document.getElementById('ev-price').value);
+      if(isNaN(pv)||pv<0){ show('Ücretli etkinlik için geçerli bir fiyat gir.'); return; }
+      price=pv;
+      const cv=parseInt(document.getElementById('ev-capacity').value);
+      capacity=isNaN(cv)?null:cv;
+    } else if(evType==='hosted_free'){
+      const cv=parseInt(document.getElementById('ev-capacity').value);
+      capacity=isNaN(cv)?null:cv;
+    }
+    const payload={
+      created_by: session.user.id,
+      status: 'pending',
+      title: title,
+      category: document.getElementById('ev-category').value,
+      event_type: evType,
+      price: price,
+      capacity: capacity,
+      city: city,
+      venue: (document.getElementById('ev-venue').value||'').trim() || null,
+      event_date: date,
+      event_note: (document.getElementById('ev-note').value||'').trim() || null,
+      description: (document.getElementById('ev-desc').value||'').trim() || null,
+      target_audience: (document.getElementById('ev-audience').value||'').trim() || null,
+      agenda: (document.getElementById('ev-agenda').value||'').trim() || null,
+      organizer_name: (document.getElementById('ev-org-name').value||'').trim() || null,
+      organizer_info: (document.getElementById('ev-org-info').value||'').trim() || null,
+      contact_info: (document.getElementById('ev-contact').value||'').trim() || null,
+      link_url: regUrl,
+      registration_url: regUrl,
+      country: 'de'
+    };
+
+    if(btn){ btn.disabled=true; btn.textContent='Gönderiliyor…'; }
+    try{
+      const r=await fetch(_EV_SB_URL+'/rest/v1/events',{
+        method:'POST',
+        headers:{ 'apikey':_EV_SB_KEY, 'Authorization':'Bearer '+session.access_token, 'Content-Type':'application/json', 'Prefer':'return=representation' },
+        body: JSON.stringify(payload)
+      });
+      if(!r.ok) throw new Error(await r.text());
+      // If hosted + a meeting link was given, store it in the gated table
+      const meetingUrl=(document.getElementById('ev-meeting').value||'').trim();
+      if(meetingUrl && (evType==='hosted_free'||evType==='hosted_paid')){
+        try{
+          const created=await r.json();
+          const newId=created && created[0] && created[0].id;
+          if(newId){
+            await fetch(_EV_SB_URL+'/rest/v1/event_meeting_links',{
+              method:'POST',
+              headers:{ 'apikey':_EV_SB_KEY, 'Authorization':'Bearer '+session.access_token, 'Content-Type':'application/json', 'Prefer':'return=minimal' },
+              body: JSON.stringify({ event_id:newId, meeting_url:meetingUrl })
+            });
+          }
+        }catch(_){ /* meeting link optional; ignore failure */ }
+      }
+      // success UI
+      const modal=document.getElementById('event-modal');
+      if(modal) modal.classList.remove('open');
+      alert('Teşekkürler! Etkinlik önerin alındı. İncelendikten sonra yayınlanacak.');
+      ['ev-title','ev-city','ev-venue','ev-note','ev-desc','ev-link','ev-audience','ev-agenda','ev-org-name','ev-org-info','ev-contact','ev-meeting'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+      __eventDraft.clear();
+    }catch(e){
+      show('Gönderilemedi. Lütfen tekrar dene.');
+    }finally{
+      if(btn){ btn.disabled=false; btn.textContent='Öneriyi Gönder →'; }
+    }
+  };
+</script>
 <!-- SITE FOOTER -->
 <footer style="background:var(--ink);color:rgba(255,255,255,.55);font-family:'Instrument Sans',sans-serif;padding:56px 24px 32px;margin-top:auto;">
   <div style="max-width:1100px;margin:0 auto;">
@@ -991,7 +1322,7 @@
           <a href="business.html" style="font-size:13px;color:rgba(255,255,255,.55);text-decoration:none;transition:color .15s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,.55)'">🏢 İşletmeler</a>
           <a href="is-guc.html" style="font-size:13px;color:rgba(255,255,255,.55);text-decoration:none;transition:color .15s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,.55)'">💼 İş Ver & Bul</a>
           <a href="ogrenim.html" style="font-size:13px;color:rgba(255,255,255,.55);text-decoration:none;transition:color .15s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,.55)'">🎓 Öğrenim</a>
-          <a href="library.html" style="font-size:13px;color:rgba(255,255,255,.55);text-decoration:none;transition:color .15s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,.55)'">📚 Bilgiler</a>
+          <a href="library.html" style="font-size:13px;color:rgba(255,255,255,.55);text-decoration:none;transition:color .15s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,.55)'">📚 Bilgi & Belge</a>
           <a href="abibot.html" style="font-size:13px;color:rgba(255,255,255,.55);text-decoration:none;transition:color .15s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,.55)'">🤖 AbiBOT</a>
         </div>
       </div>
@@ -1003,7 +1334,7 @@
           <a href="hakkimizda.html" style="font-size:13px;color:rgba(255,255,255,.55);text-decoration:none;transition:color .15s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,.55)'">Hakkımızda</a>
           <a href="sss.html" style="font-size:13px;color:rgba(255,255,255,.55);text-decoration:none;transition:color .15s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,.55)'">SSS</a>
           <a href="iletisim.html" style="font-size:13px;color:rgba(255,255,255,.55);text-decoration:none;transition:color .15s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,.55)'">İletişim</a>
-          <a href="mailto:info@bizdenbize.com" style="font-size:13px;color:rgba(255,255,255,.55);text-decoration:none;transition:color .15s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,.55)'">info@bizdenbize.com</a>
+          <a href="mailto:support@bizdenbize.com" style="font-size:13px;color:rgba(255,255,255,.55);text-decoration:none;transition:color .15s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,.55)'">support@bizdenbize.com</a>
           <a href="abibot.html" style="font-size:13px;color:rgba(255,255,255,.55);text-decoration:none;transition:color .15s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,.55)'">🤖 AbiBOT'a Sor</a>
         </div>
       </div>
@@ -1016,6 +1347,7 @@
           <a href="kullanim-kosullari.html" style="font-size:13px;color:rgba(255,255,255,.55);text-decoration:none;transition:color .15s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,.55)'">Kullanım Koşulları</a>
           <a href="cerez.html" style="font-size:13px;color:rgba(255,255,255,.55);text-decoration:none;transition:color .15s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,.55)'">Çerez Politikası</a>
           <a href="kvkk.html" style="font-size:13px;color:rgba(255,255,255,.55);text-decoration:none;transition:color .15s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,.55)'">KVKK / GDPR</a>
+          <a href="legal.html#impressum" style="font-size:13px;color:rgba(255,255,255,.55);text-decoration:none;transition:color .15s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,.55)'">Impressum</a>
           <a href="ilan-kurallari.html" style="font-size:13px;color:rgba(255,255,255,.55);text-decoration:none;transition:color .15s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,.55)'">İlan Kuralları</a>
         </div>
       </div>
@@ -1034,7 +1366,7 @@
 
     <!-- Bottom bar -->
     <div style="display:flex;align-items:center;justify-content:space-between;padding-top:20px;flex-wrap:wrap;gap:10px;">
-      <div style="font-size:12px;color:rgba(255,255,255,.25);">© 2025 BizdenBize. Tüm hakları saklıdır.</div>
+      <div style="font-size:12px;color:rgba(255,255,255,.25);">© 2026 BizdenBize. Tüm hakları saklıdır.</div>
       <div style="font-size:11px;color:rgba(255,255,255,.2);">BizdenBize bu platformdaki üçüncü taraf içerik ve ilanlardan sorumlu değildir.</div>
     </div>
 

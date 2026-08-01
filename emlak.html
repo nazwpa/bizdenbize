@@ -1,151 +1,79 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BizdenBize — Sultanahmet Restoran Frankfurt</title>
-  <meta name="description" content="Gurbet Hayatını Kolaylaştırıyoruz — bizdenbize.com">
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BizdenBize — Konut & Emlak</title>
+  <meta property="og:site_name" content="BizdenBize">
+  <meta property="og:title" content="BizdenBize — Gurbet Hayatını Kolaylaştırıyoruz">
+  <meta property="og:description" content="Avrupa'daki Türk topluluğu için platform. Topluluk, ilan, etkinlik ve AbiBOT.">
+  <meta property="og:image" content="https://bizdenbize.com/logo.png">
+  <meta property="og:url" content="https://bizdenbize.com">
+  <link rel="canonical" href="https://bizdenbize.com">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
-    :root{--red:#D42B2B;--red2:#E8393A;--navy:#1B3A8C;--navy2:#2348A8;--cream:#FAF7F2;--warm:#F0EAE0;--sand:#D4C5A9;--ink:#1A1208;--muted:#6B5E4E;--white:#FFFFFF;--gold:#C9A84C;--green:#1E7B4B;}
+    :root{--red:#D42B2B;--red2:#E8393A;--cream:#FAF7F2;--warm:#F0EAE0;--sand:#D4C5A9;--ink:#1A1208;--muted:#6B5E4E;--white:#FFFFFF;--gold:#C9A84C;--green:#1E7B4B;}
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
     body{font-family:'Instrument Sans',sans-serif;background:var(--cream);color:var(--ink);}
-    nav{position:fixed;top:0;left:0;right:0;z-index:100;height:58px;display:flex;align-items:center;justify-content:space-between;padding:0 24px;background:rgba(250,247,242,.95);backdrop-filter:blur(14px);border-bottom:1px solid rgba(212,197,169,.4);}
-    .nav-left{display:flex;align-items:center;gap:16px;}
-    .nav-logo-link{display:flex;align-items:center;text-decoration:none;}
-    .nav-logo-link img{height:44px;width:auto;}
-    .nav-tabs{display:flex;gap:2px;}
-    .nav-tab{padding:8px 14px;border-radius:6px;font-size:13px;font-weight:500;color:var(--muted);cursor:pointer;border:none;background:none;font-family:'Instrument Sans',sans-serif;transition:all .15s;text-decoration:none;}
+    .topnav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(250,247,242,0.92);backdrop-filter:blur(14px);border-bottom:1px solid rgba(212,197,169,0.4);display:flex;align-items:center;gap:0;height:58px;}
+    .nav-logo{font-family:'Playfair Display',serif;font-size:18px;font-weight:900;color:var(--ink);padding:0 24px;white-space:nowrap;}
+    .nav-logo span{color:var(--red);}
+    .nav-search{flex:1;max-width:360px;display:flex;align-items:center;gap:8px;background:var(--warm);border:1px solid var(--sand);border-radius:8px;padding:8px 14px;margin:0 16px;}
+    .nav-search input{border:none;background:none;outline:none;font-size:13px;font-family:'Instrument Sans',sans-serif;color:var(--ink);width:100%;}
+    .nav-tabs{display:flex;gap:2px;margin-left:8px;flex:1;}
+    .nav-tab{padding:8px 16px;border-radius:6px;font-size:13px;font-weight:500;color:var(--muted);cursor:pointer;border:none;background:none;font-family:'Instrument Sans',sans-serif;transition:all .15s;text-decoration:none;display:flex;align-items:center;gap:6px;}
     .nav-tab:hover{background:var(--warm);color:var(--ink);}
-    .nav-tab.active{background:var(--navy);color:var(--white);}
-    .nav-right{display:flex;align-items:center;gap:10px;}
-    .nav-avatar{width:34px;height:34px;border-radius:50%;background:var(--red);color:var(--white);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;cursor:pointer;}
+    .nav-tab.active{background:var(--red);color:var(--white);}
+    .nav-right{display:flex;align-items:center;gap:10px;padding:0 20px;}
+    .nav-avatar{width:36px;height:36px;border-radius:50%;background:var(--red);color:var(--white);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;cursor:pointer;}
 
-    .breadcrumb{padding:72px 40px 0;max-width:1100px;margin:0 auto;display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted);}
-    .breadcrumb a{color:var(--muted);text-decoration:none;transition:color .15s;}
-    .breadcrumb a:hover{color:var(--navy);}
-    .breadcrumb span{color:var(--sand);}
+    .page{padding:80px 40px 40px;max-width:1200px;margin:0 auto;}
+    .page-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:28px;}
+    .page-title{font-family:'Playfair Display',serif;font-size:36px;font-weight:900;letter-spacing:-0.8px;}
+    .page-title span{color:var(--red);}
+    .page-sub{font-size:14px;color:var(--muted);margin-top:4px;}
+    .post-btn{display:flex;align-items:center;gap:8px;background:var(--red);color:var(--white);padding:12px 24px;border-radius:8px;font-size:14px;font-weight:600;border:none;cursor:pointer;font-family:'Instrument Sans',sans-serif;transition:background .2s;}
+    .post-btn:hover{background:var(--red2);}
 
-    .page{padding:16px 40px 60px;max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 320px;gap:28px;align-items:start;}
+    /* Filter bar */
+    .filter-bar{display:flex;gap:10px;margin-bottom:28px;flex-wrap:wrap;align-items:center;}
+    .filter-select{padding:9px 14px;border:1.5px solid var(--sand);border-radius:8px;background:var(--white);font-size:13px;font-family:'Instrument Sans',sans-serif;color:var(--ink);outline:none;cursor:pointer;}
+    .filter-select:focus{border-color:var(--red);}
+    .filter-cat{padding:8px 16px;border-radius:20px;border:1.5px solid var(--sand);background:var(--white);font-size:12px;font-weight:600;cursor:pointer;font-family:'Instrument Sans',sans-serif;color:var(--muted);transition:all .15s;}
+    .filter-cat:hover{border-color:var(--red);color:var(--red);}
+    .filter-cat.active{border-color:var(--red);background:var(--red);color:var(--white);}
+    .result-count{margin-left:auto;font-size:13px;color:var(--muted);}
 
-    /* Hero */
-    .biz-hero{height:240px;background:linear-gradient(135deg,#6B0C20,var(--red));border-radius:18px;display:flex;align-items:flex-end;padding:24px;position:relative;overflow:hidden;margin-bottom:-20px;}
-    .biz-hero-emoji{position:absolute;top:50%;left:50%;transform:translate(-50%,-60%);font-size:72px;opacity:.3;}
-    .biz-logo-wrap{width:72px;height:72px;border-radius:16px;background:var(--white);display:flex;align-items:center;justify-content:center;font-size:32px;border:3px solid var(--white);box-shadow:0 4px 12px rgba(0,0,0,.15);flex-shrink:0;z-index:1;}
-    .hero-actions{position:absolute;top:16px;right:16px;display:flex;gap:8px;}
-    .hero-btn{width:36px;height:36px;border-radius:8px;background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.25);color:var(--white);cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;transition:background .15s;}
-    .hero-btn:hover{background:rgba(255,255,255,.3);}
+    /* Grid */
+    .listings-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;}
+    .listing{background:var(--white);border:1px solid var(--sand);border-radius:14px;overflow:hidden;cursor:pointer;transition:all .2s;}
+    .listing:hover{transform:translateY(-3px);box-shadow:0 8px 30px rgba(26,18,8,0.1);}
+    .listing.featured{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold);}
+    .listing-thumb{height:180px;background:var(--warm);display:flex;align-items:center;justify-content:center;font-size:56px;position:relative;}
+    .featured-badge{position:absolute;top:10px;left:10px;background:var(--gold);color:var(--white);font-size:10px;font-weight:700;padding:3px 8px;border-radius:20px;letter-spacing:.05em;}
+    .save-btn{position:absolute;top:10px;right:10px;width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,0.9);border:none;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;}
+    .listing-body{padding:14px 16px;}
+    .listing-price{font-family:'Playfair Display',serif;font-size:22px;font-weight:900;color:var(--ink);}
+    .listing-title{font-size:14px;font-weight:500;color:var(--ink);margin-top:4px;line-height:1.4;}
+    .listing-meta{font-size:11px;color:var(--muted);margin-top:6px;display:flex;align-items:center;gap:6px;}
+    .listing-tag{display:inline-block;padding:2px 8px;border-radius:20px;font-size:10px;font-weight:600;}
 
-    /* Biz header */
-    .biz-header{background:var(--white);border:1px solid var(--sand);border-radius:16px;padding:24px 24px 20px;margin-bottom:16px;padding-top:32px;}
-    .bh-top{display:flex;align-items:flex-start;gap:16px;margin-bottom:14px;}
-    .bh-info{flex:1;}
-    .bh-name{font-family:'Playfair Display',serif;font-size:26px;font-weight:900;color:var(--ink);letter-spacing:-.3px;margin-bottom:4px;}
-    .bh-cat{font-size:13px;color:var(--muted);margin-bottom:8px;}
-    .bh-tags{display:flex;flex-wrap:wrap;gap:5px;}
-    .bh-tag{font-size:11px;font-weight:500;padding:3px 10px;border-radius:20px;background:var(--warm);color:var(--muted);border:1px solid var(--sand);}
-    .bh-tag.featured{background:rgba(201,168,76,.12);color:#854F0B;border-color:rgba(201,168,76,.3);}
-    .bh-rating{display:flex;align-items:center;gap:8px;margin-top:12px;padding-top:12px;border-top:1px solid var(--warm);}
-    .stars{color:var(--gold);font-size:16px;letter-spacing:1px;}
-    .rating-val{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:var(--ink);}
-    .rating-count{font-size:13px;color:var(--muted);}
-    .bh-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:14px;}
-    .bs-item{text-align:center;padding:10px 6px;background:var(--cream);border-radius:9px;}
-    .bs-val{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:var(--ink);}
-    .bs-label{font-size:10px;color:var(--muted);margin-top:2px;}
-
-    /* Info rows */
-    .info-card{background:var(--white);border:1px solid var(--sand);border-radius:16px;padding:20px;margin-bottom:16px;}
-    .ic-title{font-size:14px;font-weight:600;color:var(--ink);margin-bottom:14px;}
-    .info-row{display:flex;align-items:flex-start;gap:12px;padding:9px 0;border-bottom:1px solid var(--warm);}
-    .info-row:last-child{border-bottom:none;}
-    .ir-icon{width:32px;height:32px;border-radius:8px;background:var(--warm);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;}
-    .ir-label{font-size:11px;font-weight:600;color:var(--muted);margin-bottom:2px;}
-    .ir-val{font-size:13px;color:var(--ink);}
-    .ir-val a{color:var(--navy);text-decoration:none;}
-    .ir-val a:hover{text-decoration:underline;}
-
-    /* Hours */
-    .hours-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;}
-    .hour-row{display:flex;justify-content:space-between;font-size:12px;padding:4px 0;}
-    .hour-day{color:var(--muted);}
-    .hour-time{color:var(--ink);font-weight:500;}
-    .hour-row.today .hour-day{color:var(--green);font-weight:600;}
-    .hour-row.today .hour-time{color:var(--green);}
-    .open-badge{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;background:rgba(30,123,75,.1);color:var(--green);margin-bottom:12px;}
-    .open-dot{width:6px;height:6px;border-radius:50%;background:var(--green);}
-
-    /* Reviews */
-    .reviews-card{background:var(--white);border:1px solid var(--sand);border-radius:16px;padding:20px;margin-bottom:16px;}
-    .rc-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
-    .rc-title{font-size:14px;font-weight:600;color:var(--ink);}
-    .write-review-btn{font-size:12px;font-weight:600;color:var(--navy);background:none;border:1.5px solid var(--navy);border-radius:7px;padding:5px 12px;cursor:pointer;font-family:'Instrument Sans',sans-serif;transition:all .15s;}
-    .write-review-btn:hover{background:var(--navy);color:var(--white);}
-
-    /* Rating bars */
-    .rating-bars{margin-bottom:20px;}
-    .rb-row{display:flex;align-items:center;gap:10px;margin-bottom:6px;}
-    .rb-label{font-size:12px;color:var(--muted);width:16px;flex-shrink:0;text-align:right;}
-    .rb-bar{flex:1;height:6px;background:var(--warm);border-radius:3px;overflow:hidden;}
-    .rb-fill{height:100%;background:var(--gold);border-radius:3px;}
-    .rb-count{font-size:11px;color:var(--muted);width:24px;flex-shrink:0;}
-
-    .review{display:flex;gap:12px;padding:14px 0;border-bottom:1px solid var(--warm);}
-    .review:last-of-type{border-bottom:none;}
-    .rev-avatar{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:var(--white);flex-shrink:0;}
-    .rev-name{font-size:13px;font-weight:600;color:var(--ink);}
-    .rev-stars{color:var(--gold);font-size:12px;}
-    .rev-date{font-size:11px;color:var(--muted);margin-left:4px;}
-    .rev-text{font-size:13px;color:var(--muted);line-height:1.55;margin-top:4px;}
-    .rev-useful{font-size:11px;color:var(--muted);cursor:pointer;background:none;border:none;font-family:'Instrument Sans',sans-serif;margin-top:4px;transition:color .15s;}
-    .rev-useful:hover{color:var(--red);}
-
-    /* Write review form */
-    .write-review-form{display:none;padding:16px;background:var(--cream);border-radius:10px;margin-top:14px;}
-    .write-review-form.open{display:block;}
-    .star-select{display:flex;gap:6px;margin-bottom:10px;}
-    .star-btn{font-size:24px;cursor:pointer;background:none;border:none;opacity:.35;transition:opacity .15s;}
-    .star-btn.active,.star-btn:hover{opacity:1;}
-    .review-textarea{width:100%;padding:10px 12px;border:1.5px solid var(--sand);border-radius:8px;font-size:13px;font-family:'Instrument Sans',sans-serif;color:var(--ink);background:var(--white);outline:none;resize:vertical;min-height:80px;margin-bottom:10px;}
-    .review-textarea:focus{border-color:var(--navy);}
-    .submit-review{padding:9px 20px;background:var(--navy);color:var(--white);border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:'Instrument Sans',sans-serif;}
-
-    /* ── RIGHT ── */
-    .right-col{display:flex;flex-direction:column;gap:16px;position:sticky;top:76px;}
-
-    .action-card{background:var(--white);border:1px solid var(--sand);border-radius:16px;padding:20px;}
-    .ac-title{font-size:13px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:14px;}
-    .action-btns{display:flex;flex-direction:column;gap:8px;}
-    .action-btn{width:100%;padding:12px;border-radius:9px;font-size:14px;font-weight:600;cursor:pointer;font-family:'Instrument Sans',sans-serif;transition:all .15s;display:flex;align-items:center;justify-content:center;gap:8px;border:none;}
-    .action-btn.primary{background:var(--navy);color:var(--white);}
-    .action-btn.primary:hover{background:var(--navy2);}
-    .action-btn.secondary{background:var(--warm);color:var(--ink);border:1.5px solid var(--sand);}
-    .action-btn.secondary:hover{border-color:var(--navy);}
-    .action-btn.green{background:var(--green);color:var(--white);}
-    .action-btn.green:hover{opacity:.9;}
-
-    .owner-card{background:var(--white);border:1px solid var(--sand);border-radius:16px;padding:20px;}
-    .ow-label{font-size:11px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);margin-bottom:12px;}
-    .ow-row{display:flex;align-items:center;gap:12px;margin-bottom:14px;}
-    .ow-avatar{width:44px;height:44px;border-radius:50%;background:var(--red);color:var(--white);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;flex-shrink:0;}
-    .ow-name{font-size:14px;font-weight:600;color:var(--ink);}
-    .ow-meta{font-size:12px;color:var(--muted);}
-    .ow-verified{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:600;padding:2px 8px;border-radius:10px;background:rgba(30,123,75,.1);color:var(--green);margin-top:3px;}
-    .ow-btn{width:100%;padding:9px;border-radius:8px;border:1.5px solid var(--sand);background:var(--warm);font-size:13px;font-weight:600;cursor:pointer;font-family:'Instrument Sans',sans-serif;color:var(--ink);transition:all .15s;}
-    .ow-btn:hover{border-color:var(--navy);color:var(--navy);}
-
-    .premium-promo{background:rgba(201,168,76,.08);border:1.5px dashed rgba(201,168,76,.4);border-radius:14px;padding:16px;text-align:center;}
-    .pp-title{font-size:13px;font-weight:600;color:#854F0B;margin-bottom:4px;}
-    .pp-sub{font-size:11px;color:var(--muted);line-height:1.5;margin-bottom:10px;}
-    .pp-btn{padding:8px 18px;background:var(--gold);color:var(--ink);border:none;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Instrument Sans',sans-serif;}
-
-    @media(max-width:900px){
-      .page{grid-template-columns:1fr;padding:16px 20px 60px;}
-      .right-col{position:static;}
-      .breadcrumb{padding:72px 20px 0;}
-      .bh-stats{grid-template-columns:repeat(2,1fr);}
-    }
+    /* Modal */
+    .modal-overlay{position:fixed;inset:0;z-index:200;background:rgba(26,18,8,.6);display:none;align-items:center;justify-content:center;backdrop-filter:blur(4px);}
+    .modal-overlay.open{display:flex;}
+    .modal{background:var(--white);border-radius:20px;padding:40px;max-width:520px;width:90%;max-height:90vh;overflow-y:auto;position:relative;animation:slideUp .3s ease;}
+    @keyframes slideUp{from{transform:translateY(20px);opacity:0}to{transform:translateY(0);opacity:1}}
+    .modal-close{position:absolute;top:16px;right:16px;background:none;border:none;cursor:pointer;font-size:22px;color:var(--muted);}
+    .modal h3{font-family:'Playfair Display',serif;font-size:24px;font-weight:700;margin-bottom:6px;}
+    .modal p{font-size:13px;color:var(--muted);margin-bottom:20px;}
+    .form-group{margin-bottom:16px;}
+    .form-group label{display:block;font-size:11px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);margin-bottom:6px;}
+    .form-group input,.form-group select,.form-group textarea{width:100%;padding:11px 14px;border:1.5px solid var(--sand);border-radius:8px;font-family:'Instrument Sans',sans-serif;font-size:14px;color:var(--ink);background:var(--cream);outline:none;transition:border-color .2s;}
+    .form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--red);}
+    .form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+    .form-group textarea{resize:vertical;min-height:80px;}
+    .submit-btn{width:100%;padding:14px;background:var(--red);color:var(--white);border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;font-family:'Instrument Sans',sans-serif;margin-top:8px;}
+    .submit-btn:hover{background:var(--red2);}
   
     /* ── MOBILE NAV ── */
     .hamburger {
@@ -586,6 +514,10 @@
     document.addEventListener('click', function(e) { if (!e.target.closest('#nav-avatar') && !e.target.closest('#avatar-menu')) { const menu = document.getElementById('avatar-menu'); if (menu) menu.style.display = 'none'; } });
     async function doLogout() { const { createClient } = await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm'); const sb = createClient('https://wxjudojlwksivhzjnmim.supabase.co', 'sb_publishable_52tr_hEnnQ3kllZexTue0Q_ByF71303'); await sb.auth.signOut(); Object.keys(localStorage).forEach(k => localStorage.removeItem(k)); sessionStorage.clear(); window.location.replace('/login.html'); }
 
+    // Populate the nav avatar with the real logged-in user's initials/photo,
+    // reusing the existing session promise this page already sets up above
+    // (window._authReady / window._currentSession) — same visual logic as
+    // mahallem.html's avatar, for consistency.
     if (window._authReady) {
       window._authReady.then(async () => {
         const session = window._currentSession;
@@ -676,238 +608,139 @@
 </script>
 </div>
 
-
-<div class="breadcrumb">
-  <a href="mahallem.html">Ana Sayfa</a><span>/</span>
-  <a href="business.html">İşletmeler</a><span>/</span>
-  <a href="business.html">Restoran</a><span>/</span>
-  <span style="color:var(--ink)">Sultanahmet Restoran</span>
-</div>
-
 <div class="page">
-  <div>
-
-    <!-- Hero -->
-    <div class="biz-hero">
-      <div class="biz-hero-emoji">🍽️</div>
-      <div class="hero-actions">
-        <button class="hero-btn" id="save-biz" onclick="toggleSaveBiz()">🤍</button>
-        <button class="hero-btn" onclick="shareBiz()">↗</button>
-      </div>
-      <div class="biz-logo-wrap">🍽️</div>
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Konut <span>&</span> Emlak</h1>
+      <p class="page-sub">Güvenilir Türk komşularınla ev bul, kirala, sat.</p>
     </div>
-
-    <!-- Header -->
-    <div class="biz-header">
-      <div class="bh-top">
-        <div class="bh-info">
-          <div class="bh-name">Sultanahmet Restoran Frankfurt</div>
-          <div class="bh-cat">🍽️ Türk Mutfağı · Sachsenhausen, Frankfurt</div>
-          <div class="bh-tags">
-            <span class="bh-tag featured">⭐ Öne Çıkan</span>
-            <span class="bh-tag">🍖 Kebap</span>
-            <span class="bh-tag">🥗 Meze</span>
-            <span class="bh-tag">🍷 İçki Lisansı</span>
-            <span class="bh-tag">🅿️ Otopark</span>
-            <span class="bh-tag">♿ Engelli Erişimi</span>
-          </div>
-        </div>
-      </div>
-      <div class="bh-rating">
-        <span class="stars">★★★★★</span>
-        <span class="rating-val">4.9</span>
-        <span class="rating-count">· 127 yorum · BizdenBize topluluğundan</span>
-      </div>
-      <div class="bh-stats">
-        <div class="bs-item"><div class="bs-val">127</div><div class="bs-label">Yorum</div></div>
-        <div class="bs-item"><div class="bs-val">4.9</div><div class="bs-label">Puan</div></div>
-        <div class="bs-item"><div class="bs-val">8 yıl</div><div class="bs-label">Faaliyet</div></div>
-        <div class="bs-item"><div class="bs-val">%98</div><div class="bs-label">Tavsiye</div></div>
-      </div>
-    </div>
-
-    <!-- Info -->
-    <div class="info-card">
-      <div class="ic-title">📋 İşletme Bilgileri</div>
-      <div class="info-row">
-        <div class="ir-icon">📍</div>
-        <div><div class="ir-label">Adres</div><div class="ir-val">Darmstädter Landstr. 28, 60598 Frankfurt am Main</div></div>
-      </div>
-      <div class="info-row">
-        <div class="ir-icon">📞</div>
-        <div><div class="ir-label">Telefon</div><div class="ir-val"><a href="tel:+4969123456">+49 69 123 456</a></div></div>
-      </div>
-      <div class="info-row">
-        <div class="ir-icon">🌐</div>
-        <div><div class="ir-label">Website</div><div class="ir-val"><a href="#">sultanahmet-frankfurt.de</a></div></div>
-      </div>
-      <div class="info-row">
-        <div class="ir-icon">🕐</div>
-        <div style="flex:1">
-          <div class="ir-label">Çalışma Saatleri</div>
-          <div class="open-badge"><div class="open-dot"></div>Şu an açık · 23:00'e kadar</div>
-          <div class="hours-grid">
-            <div class="hour-row"><span class="hour-day">Pazartesi</span><span class="hour-time">09:00–23:00</span></div>
-            <div class="hour-row"><span class="hour-day">Salı</span><span class="hour-time">09:00–23:00</span></div>
-            <div class="hour-row today"><span class="hour-day">Çarşamba ●</span><span class="hour-time">09:00–23:00</span></div>
-            <div class="hour-row"><span class="hour-day">Perşembe</span><span class="hour-time">09:00–23:00</span></div>
-            <div class="hour-row"><span class="hour-day">Cuma</span><span class="hour-time">09:00–00:00</span></div>
-            <div class="hour-row"><span class="hour-day">Cumartesi</span><span class="hour-time">10:00–00:00</span></div>
-            <div class="hour-row"><span class="hour-day">Pazar</span><span class="hour-time">11:00–22:00</span></div>
-          </div>
-        </div>
-      </div>
-      <div class="info-row">
-        <div class="ir-icon">💳</div>
-        <div><div class="ir-label">Ödeme</div><div class="ir-val">Nakit, Kart, EC, PayPal</div></div>
-      </div>
-      <div class="info-row">
-        <div class="ir-icon">🗣️</div>
-        <div><div class="ir-label">Diller</div><div class="ir-val">Türkçe 🇹🇷 · Deutsch 🇩🇪 · English 🇬🇧</div></div>
-      </div>
-    </div>
-
-    <!-- Reviews -->
-    <div class="reviews-card">
-      <div class="rc-header">
-        <span class="rc-title">⭐ Yorumlar (127)</span>
-        <button class="write-review-btn" onclick="toggleReviewForm()">+ Yorum Yaz</button>
-      </div>
-
-      <div class="rating-bars">
-        <div class="rb-row"><span class="rb-label">5</span><div class="rb-bar"><div class="rb-fill" style="width:88%"></div></div><span class="rb-count">112</span></div>
-        <div class="rb-row"><span class="rb-label">4</span><div class="rb-bar"><div class="rb-fill" style="width:9%"></div></div><span class="rb-count">11</span></div>
-        <div class="rb-row"><span class="rb-label">3</span><div class="rb-bar"><div class="rb-fill" style="width:2%"></div></div><span class="rb-count">3</span></div>
-        <div class="rb-row"><span class="rb-label">2</span><div class="rb-bar"><div class="rb-fill" style="width:1%"></div></div><span class="rb-count">1</span></div>
-        <div class="rb-row"><span class="rb-label">1</span><div class="rb-bar"><div class="rb-fill" style="width:0%"></div></div><span class="rb-count">0</span></div>
-      </div>
-
-      <div class="review">
-        <div class="rev-avatar" style="background:#1B3A8C">MK</div>
-        <div>
-          <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
-            <span class="rev-name">Mustafa Kaya</span>
-            <span class="rev-stars">★★★★★</span>
-            <span class="rev-date">2 gün önce</span>
-          </div>
-          <div class="rev-text">Frankfurt'taki en iyi Türk restoranı bu! Özellikle Adana kebabı ve lahmacun mükemmel. Sahibi de çok kibar. Her gittiğimde aynı kalite. Kesinlikle tavsiye ederim! 👍</div>
-          <button class="rev-useful" onclick="this.textContent='✓ Faydalı (13)'">Faydalı (12)</button>
-        </div>
-      </div>
-      <div class="review">
-        <div class="rev-avatar" style="background:#1E7B4B">ZD</div>
-        <div>
-          <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
-            <span class="rev-name">Zeynep Demir</span>
-            <span class="rev-stars">★★★★★</span>
-            <span class="rev-date">1 hafta önce</span>
-          </div>
-          <div class="rev-text">Viyana'dan geçerken uğradım, çok memnun kaldım. Türkçe konuşulması ve ev yemeği tadı insanı rahatlattı. Porsiyon büyüklüğü de süper. Fiyatlar da makul.</div>
-          <button class="rev-useful" onclick="this.textContent='✓ Faydalı (8)'">Faydalı (7)</button>
-        </div>
-      </div>
-      <div class="review">
-        <div class="rev-avatar" style="background:#C9A84C">AK</div>
-        <div>
-          <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
-            <span class="rev-name">Ali Korkmaz</span>
-            <span class="rev-stars">★★★★★</span>
-            <span class="rev-date">2 hafta önce</span>
-          </div>
-          <div class="rev-text">Annelerimizin eli gibi yemekler yapıyorlar. Her gittiğimde aynı lezzet var. Çalışanlar çok sıcakkanlı, kendi ülkendeymiş gibi hissediyorsun. ❤️</div>
-          <button class="rev-useful" onclick="this.textContent='✓ Faydalı (6)'">Faydalı (5)</button>
-        </div>
-      </div>
-
-      <div class="write-review-form" id="review-form">
-        <div class="star-select" id="star-select">
-          <button class="star-btn" onclick="setStars(1)">★</button>
-          <button class="star-btn" onclick="setStars(2)">★</button>
-          <button class="star-btn" onclick="setStars(3)">★</button>
-          <button class="star-btn" onclick="setStars(4)">★</button>
-          <button class="star-btn active" onclick="setStars(5)">★</button>
-        </div>
-        <textarea class="review-textarea" id="review-text" placeholder="Deneyiminizi paylaşın..."></textarea>
-        <button class="submit-review" onclick="submitReview()">Yorumu Gönder</button>
-      </div>
-    </div>
-
+    <button class="post-btn" onclick="openModal()">+ Emlak İlanı Ver</button>
   </div>
 
-  <!-- ── RIGHT ── -->
-  <div class="right-col">
+  <div class="filter-bar">
+    <select class="filter-select">
+      <option>📍 Frankfurt</option>
+      <option>🇩🇪 Tüm Almanya</option>
+      <option>🌍 Tüm Avrupa</option>
+    </select>
+    <select class="filter-select">
+      <option>Fiyat: Hepsi</option>
+      <option>€0 – €500</option>
+      <option>€500 – €1000</option>
+      <option>€1000 – €2000</option>
+      <option>€2000+</option>
+    </select>
+    <button class="filter-cat active" onclick="clFilter('all',this)">Tümü</button>
+    <button class="filter-cat" onclick="clFilter('kiralik',this)">🔑 Kiralık</button>
+    <button class="filter-cat" onclick="clFilter('satilik',this)">🏡 Satılık</button>
+    <button class="filter-cat" onclick="clFilter('sublet',this)">🤝 Sublet</button>
+    <button class="filter-cat" onclick="clFilter('paylasimli',this)">👥 Paylaşımlı</button>
+    <button class="filter-cat" onclick="window.location='ev-takasi.html'" title="Puanla ev takası yap" style="border-color:var(--gold);color:#8a6d1f;">🔄 Tatil Takası ↗</button>
+    <span class="result-count" id="cl-count"></span>
+  </div>
 
-    <div class="action-card">
-      <div class="ac-title">İletişim</div>
-      <div class="action-btns">
-        <button class="action-btn primary" onclick="window.location='tel:+4969123456'">📞 Hemen Ara</button>
-        <button class="action-btn secondary" onclick="window.location='messages.html'">💬 Mesaj Gönder</button>
-        <button class="action-btn green" onclick="alert('Google Haritalar\'da açılıyor...')">🗺️ Yol Tarifi Al</button>
-      </div>
+  <div class="listings-grid" id="listings-grid">
+    <div style="grid-column:1/-1;text-align:center;padding:50px;color:var(--muted);">İlanlar yükleniyor…</div>
+  </div>
+</div>
+
+<!-- Post Ad Modal -->
+<div class="modal-overlay" id="post-modal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">×</button>
+    <h3 id="cl-modal-title">İlan Ver</h3>
+    <p>Mahallenle güvenli ev/konut ilanı paylaş.</p>
+    <div class="form-group">
+      <label>İlan tipi *</label>
+      <select id="cl-tip">
+        <option value="kiralik">🔑 Kiralık</option>
+        <option value="satilik">🏡 Satılık</option>
+        <option value="sublet">🤝 Sublet</option>
+        <option value="paylasimli">👥 Paylaşımlı Ev</option>
+      </select>
     </div>
-
-    <div class="owner-card">
-      <div class="ow-label">İşletme Sahibi</div>
-      <div class="ow-row">
-        <div class="ow-avatar">MŞ</div>
-        <div>
-          <div class="ow-name">Mehmet Şahin</div>
-          <div class="ow-meta">Sahibi · 8 yıldır Frankfurt</div>
-          <div class="ow-verified">✓ Onaylı Üye</div>
+    <div class="form-group">
+      <label>Başlık *</label>
+      <input type="text" id="cl-title" placeholder="Ör: 2+1 Kiralık Daire, Frankfurt Bornheim">
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Fiyat / Kira (€)</label>
+        <input type="number" id="cl-price" min="0" step="1" placeholder="Aylık kira ya da satış fiyatı">
+        <div id="cl-price-help" style="margin-top:10px;padding:12px;background:var(--warm);border:1px solid var(--sand);border-radius:11px;">
+          <div style="font-size:10.5px;font-weight:700;color:var(--gold,#C9A84C);text-transform:uppercase;letter-spacing:.5px;margin-bottom:7px;">✨ Yapay Zeka Destekli</div>
+          <button type="button" id="cl-price-help-btn" onclick="clEstimatePrice()"
+            style="width:100%;background:var(--navy,#1B3A8C);border:none;border-radius:9px;padding:11px;font-size:13.5px;font-weight:700;color:#fff;cursor:pointer;font-family:'Instrument Sans',sans-serif;">
+            💡 Fiyat Tahmini Al
+          </button>
+          <div id="cl-price-help-hint" style="font-size:11px;color:var(--muted);margin-top:7px;line-height:1.5;">Fotoğraf eklersen tahmin daha isabetli olur. Bu bir tahmindir, garanti edilen bir fiyat değildir.</div>
+          <div id="cl-price-help-result" style="display:none;margin-top:10px;padding:10px 12px;background:var(--white);border-radius:10px;font-size:12.5px;line-height:1.5;"></div>
         </div>
       </div>
-      <button class="ow-btn" onclick="window.location='messages.html'">💬 Sahibiyle Konuş</button>
+      <div class="form-group">
+        <label>Yan giderler (€)</label>
+        <input type="number" id="cl-nebenkosten" min="0" step="1" placeholder="Nebenkosten (ops.)">
+      </div>
     </div>
-
-    <div class="premium-promo">
-      <div class="pp-title">🌟 Bu işletme misin?</div>
-      <div class="pp-sub">Premium ile profilini öne çıkar, analitiklere eriş ve daha fazla müşteriye ulaş.</div>
-      <button class="pp-btn" onclick="window.location='premium.html'">Premium'a Geç →</button>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Oda</label>
+        <input type="text" id="cl-rooms" placeholder="Ör: 2+1 / 2 Zimmer">
+      </div>
+      <div class="form-group">
+        <label>Büyüklük (m²)</label>
+        <input type="number" id="cl-size" min="0" step="1" placeholder="Ör: 65">
+      </div>
     </div>
-
+    <div class="form-row">
+      <div class="form-group">
+        <label>Depozito (€)</label>
+        <input type="number" id="cl-kaution" min="0" step="1" placeholder="Kaution (ops.)">
+      </div>
+      <div class="form-group">
+        <label>Kat</label>
+        <input type="text" id="cl-floor" placeholder="Opsiyonel">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Eşyalı mı?</label>
+        <select id="cl-furnished"><option value="false">Hayır</option><option value="true">Evet</option></select>
+      </div>
+      <div class="form-group">
+        <label>Müsait olduğu tarih</label>
+        <input type="date" id="cl-available">
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Açıklama</label>
+      <textarea id="cl-desc" placeholder="Konum, ısıtma, ulaşım, ev kuralları... detaylıca anlat."></textarea>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Şehir *</label>
+        <input type="text" id="cl-city" placeholder="Frankfurt">
+      </div>
+      <div class="form-group">
+        <label>Semt / Konum</label>
+        <input type="text" id="cl-location" placeholder="Ör: Bornheim">
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Fotoğraflar (en fazla 5)</label>
+      <input type="file" id="cl-photos" accept="image/*" multiple>
+      <div id="cl-photo-preview" style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;"></div>
+    </div>
+    <div id="cl-form-err" style="display:none;color:var(--red);font-size:13px;margin-bottom:10px;"></div>
+    <button class="submit-btn" id="cl-submit-btn" onclick="submitAd()">İlanı Yayınla →</button>
   </div>
 </div>
 
 <script>
-  let selectedStars = 5;
-  function setStars(n) {
-    selectedStars = n;
-    document.querySelectorAll('.star-btn').forEach((b,i) => b.classList.toggle('active', i < n));
-  }
-  function toggleReviewForm() {
-    const form = document.getElementById('review-form');
-    form.classList.toggle('open');
-    if (form.classList.contains('open')) form.scrollIntoView({behavior:'smooth',block:'nearest'});
-  }
-  function submitReview() {
-    const text = document.getElementById('review-text').value.trim();
-    if (!text) return;
-    const container = document.querySelector('.reviews-card');
-    const stars = '★'.repeat(selectedStars) + '☆'.repeat(5-selectedStars);
-    const div = document.createElement('div');
-    div.className = 'review';
-    div.innerHTML = `<div class="rev-avatar" style="background:var(--red)">AY</div>
-      <div>
-        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
-          <span class="rev-name">Ayşe Yılmaz</span>
-          <span class="rev-stars">${stars}</span>
-          <span class="rev-date">Şimdi</span>
-        </div>
-        <div class="rev-text">${text}</div>
-        <button class="rev-useful">Faydalı (0)</button>
-      </div>`;
-    document.getElementById('review-form').before(div);
-    document.getElementById('review-text').value = '';
-    document.getElementById('review-form').classList.remove('open');
-  }
-  function toggleSaveBiz() {
-    const btn = document.getElementById('save-biz');
-    btn.textContent = btn.textContent === '🤍' ? '🧡' : '🤍';
-  }
-  function shareBiz() {
-    navigator.clipboard?.writeText(window.location.href);
-    alert('Bağlantı kopyalandı!');
-  }
+  function openModal(){ clResetForm(); __clDraft.restore(); document.getElementById('post-modal').classList.add('open'); }
+  function closeModal(){document.getElementById('post-modal').classList.remove('open');}
+  document.getElementById('post-modal').addEventListener('click',function(e){if(e.target===this)closeModal();});
+  function submitAd(){alert('İlanınız yayınlandı! ✓');closeModal();}
 </script>
 <script>
   // Mobile menu
@@ -1203,5 +1036,411 @@
     }
   </style>
 </footer>
+<script>
+  const _CL_URL='https://wxjudojlwksivhzjnmim.supabase.co';
+  const _CL_KEY='sb_publishable_52tr_hEnnQ3kllZexTue0Q_ByF71303';
+  const _CL_H={'apikey':_CL_KEY,'Authorization':'Bearer '+_CL_KEY};
+  const CL_CATS={kiralik:{l:'Kiralık',e:'🔑'},satilik:{l:'Satılık',e:'🏡'},sublet:{l:'Sublet',e:'🤝'},paylasimli:{l:'Paylaşımlı Ev',e:'👥'}};
+  function clEsc(x){return String(x==null?'':x).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+  function clPrice(e){ if(e.price==null) return (e.tip==='satilik'?'Pazarlık':'Kira belirtilmemiş'); const p='€'+Number(e.price).toLocaleString('de-DE'); return (e.tip==='satilik')?p:(p+'/ay'); }
+
+  function clCard(l){
+    const cat=CL_CATS[l.tip]||{l:l.tip||'',e:'🏠'};
+    const photo=(l.photos&&l.photos.length)?l.photos[0]:null;
+    const isSold=l.status==='dolu';
+    const doneWord=(l.tip==='satilik')?'Satıldı':'Kiralandı';
+    const soldOverlay=isSold?'<div style="position:absolute;inset:0;background:rgba(26,18,8,.45);display:flex;align-items:center;justify-content:center;border-radius:inherit;"><span style="background:var(--red);color:#fff;font-size:13px;font-weight:700;padding:6px 16px;border-radius:20px;transform:rotate(-8deg);">'+doneWord.toUpperCase()+'</span></div>':'';
+    const thumb=(photo
+      ? '<div class="listing-thumb" style="position:relative;background-image:url(\''+clEsc(photo)+'\');background-size:cover;background-position:center;">'
+      : '<div class="listing-thumb" style="position:relative;display:flex;align-items:center;justify-content:center;font-size:44px;">'+cat.e)
+      + soldOverlay + '</div>';
+    const loc=[l.location,l.city].filter(Boolean).join(', ');
+    const specs=[l.rooms, (l.size_sqm!=null? l.size_sqm+' m²':null)].filter(Boolean).join(' · ');
+
+    // Owner controls (only for the listing's owner)
+    let ownerBar='';
+    if(window.__clUserId && l.created_by===window.__clUserId){
+      const soldBtn = isSold
+        ? '<button onclick="event.stopPropagation();clSetSold(\''+l.id+'\',false)" style="flex:1;background:var(--warm);border:1px solid var(--sand);border-radius:7px;padding:6px;font-size:11px;font-weight:600;cursor:pointer;color:var(--ink);">↩ Tekrar aktif</button>'
+        : '<button onclick="event.stopPropagation();clSetSold(\''+l.id+'\',true)" style="flex:1;background:var(--green);border:none;border-radius:7px;padding:6px;font-size:11px;font-weight:600;cursor:pointer;color:#fff;">✓ '+doneWord+'</button>';
+      ownerBar='<div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap;">'
+        + soldBtn
+        + '<button onclick="event.stopPropagation();clEditListing(\''+l.id+'\')" style="flex:1;min-width:70px;background:rgba(27,58,140,.08);border:1px solid rgba(27,58,140,.25);border-radius:7px;padding:6px;font-size:11px;font-weight:600;cursor:pointer;color:var(--navy);">✏️ Düzenle</button>'
+        + '<button onclick="event.stopPropagation();clRemove(\''+l.id+'\')" style="flex:1;min-width:70px;background:rgba(212,43,43,.08);border:1px solid rgba(212,43,43,.25);border-radius:7px;padding:6px;font-size:11px;font-weight:600;cursor:pointer;color:var(--red);">🗑 Kaldır</button>'
+        + '</div>';
+    }
+
+    return '<div class="listing" data-tip="'+clEsc(l.tip||'')+'" style="'+(isSold?'opacity:.85;':'')+'" onclick="window.location=\'emlak-detail.html?id='+l.id+'\'">'
+      + thumb
+      + '<div class="listing-body">'
+      +   '<div class="listing-price">'+clPrice(l)+(isSold?' <span style="font-size:11px;color:var(--red);font-weight:600;">· '+doneWord+'</span>':'')+'</div>'
+      +   '<div class="listing-title">'+clEsc(l.title)+'</div>'
+      +   '<div class="listing-meta">'+cat.e+' '+clEsc(cat.l)+(specs?' · '+clEsc(specs):'')+(loc?' · 📍 '+clEsc(loc):'')+'</div>'
+      +   ownerBar
+      + '</div></div>';
+  }
+
+  let clAll=[];
+  async function loadListings(){
+    const box=document.getElementById('listings-grid');
+    try{
+      // The auth client is set up in a deferred <script type="module"> that runs AFTER
+      // this script. On a fresh page load, wait for it before reading the session —
+      // otherwise __clUserId is null and the owner controls are wrongly hidden.
+      for(let i=0;i<150 && !window._authReady;i++){ await new Promise(r=>setTimeout(r,20)); }
+      await (window._authReady||Promise.resolve());
+      window.__clUserId = (window._currentSession && window._currentSession.user) ? window._currentSession.user.id : null;
+      const r=await fetch(_CL_URL+"/rest/v1/emlak_listings?active=eq.true&order=created_at.desc&select=*",{headers:_CL_H});
+      if(!r.ok) throw new Error('DB '+r.status);
+      clAll=await r.json();
+      renderListings('all');
+    }catch(e){
+      box.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:50px;color:var(--red);">İlanlar yüklenemedi. Sayfayı yenile.</div>';
+    }
+  }
+
+  function renderListings(cat){
+    const box=document.getElementById('listings-grid');
+    const rows = cat==='all' ? clAll : clAll.filter(l=>l.tip===cat);
+    const countEl=document.getElementById('cl-count');
+    if(countEl) countEl.textContent = rows.length+' emlak ilanı';
+    if(!rows.length){
+      box.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:50px;color:var(--muted);">Bu tipte henüz emlak ilanı yok. İlk ilanı sen ver! 👆</div>';
+      return;
+    }
+    box.innerHTML=rows.map(clCard).join('');
+  }
+
+  // ── OWNER CONTROLS: mark sold / remove ──
+  async function clOwnerPatch(id, body){
+    await (window._authReady||Promise.resolve());
+    const session=window._currentSession;
+    if(!session){ alert('Bu işlem için giriş yapmalısın.'); return false; }
+    const r=await fetch(_CL_URL+'/rest/v1/emlak_listings?id=eq.'+id,{
+      method:'PATCH',
+      headers:{ 'apikey':_CL_KEY, 'Authorization':'Bearer '+session.access_token, 'Content-Type':'application/json', 'Prefer':'return=minimal' },
+      body: JSON.stringify(body)
+    });
+    return r.ok;
+  }
+
+  window.clSetSold=async function(id, sold){
+    const ok=await clOwnerPatch(id, { status: sold?'dolu':'aktif' });
+    if(ok){ await loadListings(); }
+    else { alert('Güncellenemedi.'); }
+  };
+
+  window.clRemove=async function(id){
+    if(!confirm('Bu ilanı kaldırmak istediğine emin misin? İlan listeden kalkacak.')) return;
+    const ok=await clOwnerPatch(id, { active: false });
+    if(ok){ await loadListings(); }
+    else { alert('Kaldırılamadı.'); }
+  };
+
+  window.clFilter=function(cat,btn){
+    document.querySelectorAll('.filter-cat').forEach(b=>b.classList.remove('active'));
+    if(btn) btn.classList.add('active');
+    renderListings(cat);
+  };
+
+  // ── PHOTO PREVIEW ──
+  // ── DRAFT AUTOSAVE (protects typed data if the tab is discarded/reloaded) ──
+  function bbDraft(opts){
+    var TTL_MS = 1000*60*60*24*3; // 3 days
+    function read(){
+      try{
+        var raw=localStorage.getItem(opts.key);
+        if(!raw) return null;
+        var obj=JSON.parse(raw);
+        if(!obj || !obj.t || (Date.now()-obj.t)>TTL_MS){ localStorage.removeItem(opts.key); return null; }
+        return obj.v||null;
+      }catch(e){ return null; }
+    }
+    function write(){
+      if(opts.guard && !opts.guard()) return;
+      try{
+        var v={};
+        opts.fields.forEach(function(f){
+          var el=document.getElementById(f.id);
+          if(!el) return;
+          v[f.id]=(f.type==='checkbox')?el.checked:el.value;
+        });
+        localStorage.setItem(opts.key, JSON.stringify({t:Date.now(), v:v}));
+      }catch(e){}
+    }
+    var timer=null;
+    function schedule(){ clearTimeout(timer); timer=setTimeout(write,500); }
+    opts.fields.forEach(function(f){
+      var el=document.getElementById(f.id);
+      if(!el) return;
+      el.addEventListener((f.type==='select'||f.type==='checkbox')?'change':'input', schedule);
+    });
+    return {
+      restore:function(){
+        var v=read(); if(!v) return false;
+        var any=false;
+        opts.fields.forEach(function(f){
+          var el=document.getElementById(f.id); if(!el) return;
+          var val=v[f.id];
+          if(val===undefined||val===null||val==='') return;
+          if(f.type==='checkbox'){ el.checked=!!val; } else { el.value=val; }
+          any=true;
+        });
+        return any;
+      },
+      clear:function(){ try{ localStorage.removeItem(opts.key); }catch(e){} }
+    };
+  }
+  const __clDraft = bbDraft({
+    key:'bb_draft_emlak',
+    guard: function(){ return clEditId===null; },
+    fields:[
+      {id:'cl-tip',type:'select'},{id:'cl-title',type:'text'},{id:'cl-price',type:'text'},
+      {id:'cl-nebenkosten',type:'text'},{id:'cl-kaution',type:'text'},{id:'cl-rooms',type:'text'},
+      {id:'cl-size',type:'text'},{id:'cl-floor',type:'text'},{id:'cl-furnished',type:'select'},
+      {id:'cl-available',type:'text'},{id:'cl-desc',type:'textarea'},{id:'cl-city',type:'text'},
+      {id:'cl-location',type:'text'}
+    ]
+  });
+
+  let clSelectedFiles=[];      // newly picked File objects (uploaded on save)
+  let clExistingPhotos=[];     // existing photo URLs kept during an edit
+  let clEditId=null;           // null = create mode; a listing id = edit mode
+  function clRenderPreviews(){
+    const prev=document.getElementById('cl-photo-preview');
+    if(!prev) return;
+    prev.innerHTML='';
+    const mkThumb=(bg,onRemove)=>{
+      const wrap=document.createElement('div');
+      wrap.style.cssText='position:relative;width:60px;height:60px;';
+      const img=document.createElement('div');
+      img.style.cssText='width:60px;height:60px;border-radius:8px;background-image:url("'+bg+'");background-size:cover;background-position:center;border:1px solid var(--sand);';
+      const del=document.createElement('button');
+      del.type='button'; del.textContent='×'; del.title='Kaldır';
+      del.style.cssText='position:absolute;top:-6px;right:-6px;width:20px;height:20px;border-radius:50%;background:var(--red);color:#fff;border:none;font-size:14px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 1px 4px rgba(0,0,0,.25);';
+      del.onclick=onRemove;
+      wrap.appendChild(img); wrap.appendChild(del);
+      prev.appendChild(wrap);
+    };
+    clExistingPhotos.forEach((url,idx)=>{ mkThumb(url, function(){ clExistingPhotos.splice(idx,1); clRenderPreviews(); }); });
+    clSelectedFiles.forEach((f,idx)=>{ mkThumb(URL.createObjectURL(f), function(){ clSelectedFiles.splice(idx,1); clRenderPreviews(); }); });
+    clSyncPriceHelpBtn();
+  }
+  function clSyncPriceHelpBtn(){
+    const hint=document.getElementById('cl-price-help-hint');
+    const hasPhoto=(clExistingPhotos.length+clSelectedFiles.length)>0;
+    if(hint) hint.textContent = hasPhoto
+      ? 'Bu bir tahmindir, garanti edilen bir fiyat değildir.'
+      : 'Fotoğraf eklersen tahmin daha isabetli olur. Bu bir tahmindir, garanti edilen bir fiyat değildir.';
+    const res=document.getElementById('cl-price-help-result'); if(res) res.style.display='none';
+  }
+  window.clEstimatePrice=async function(){
+    const btn=document.getElementById('cl-price-help-btn');
+    const resultBox=document.getElementById('cl-price-help-result');
+    if(!btn || btn.disabled) return;
+    const title=(document.getElementById('cl-title').value||'').trim();
+    if(!title){ alert('Önce bir başlık gir.'); return; }
+    btn.disabled=true; btn.textContent='⏳ Tahmin ediliyor...';
+    resultBox.style.display='none';
+    try{
+      const toBase64=(file)=>new Promise((resolve,reject)=>{
+        const r=new FileReader();
+        r.onload=()=>resolve({ mime:file.type||'image/jpeg', data:r.result.split(',')[1] });
+        r.onerror=reject;
+        r.readAsDataURL(file);
+      });
+      const photoBase64=await Promise.all(clSelectedFiles.slice(0,3).map(toBase64));
+
+      // Emlak-specific fields don't have a dedicated slot in the estimate
+      // function's schema, so fold rooms/size/furnished into the description
+      // text — that context matters enormously for a real-estate price.
+      const tipEl=document.getElementById('cl-tip');
+      const tipLabel=(CL_CATS[tipEl.value]||{}).l || tipEl.value;
+      const extras=[];
+      const rooms=(document.getElementById('cl-rooms').value||'').trim();
+      const size=document.getElementById('cl-size').value;
+      const furnished=document.getElementById('cl-furnished').value==='true';
+      const floor=(document.getElementById('cl-floor').value||'').trim();
+      if(rooms) extras.push('Oda: '+rooms);
+      if(size) extras.push('Büyüklük: '+size+' m²');
+      extras.push('Eşyalı: '+(furnished?'Evet':'Hayır'));
+      if(floor) extras.push('Kat: '+floor);
+      const baseDesc=(document.getElementById('cl-desc').value||'').trim();
+      const fullDesc=[extras.join(', '), baseDesc].filter(Boolean).join('\n\n');
+
+      const r=await fetch(_CL_URL+'/functions/v1/estimate-price',{
+        method:'POST',
+        headers:{ ..._CL_H, 'Content-Type':'application/json' },
+        body: JSON.stringify({
+          title,
+          description: fullDesc,
+          category: tipLabel,
+          condition: null,
+          city: (document.getElementById('cl-city').value||'').trim(),
+          photoUrls: clExistingPhotos.slice(0,3),
+          photoBase64,
+          domain: 'real_estate'
+        })
+      });
+      const data=await r.json();
+      if(!r.ok || data.error){ throw new Error(data.error||'estimate failed'); }
+
+      const isSale = tipEl.value==='satilik';
+      const suffix = isSale ? '' : '/ay';
+      const usedPhotoCount = clExistingPhotos.slice(0,3).length + photoBase64.length;
+      const noPhotoNote = usedPhotoCount===0
+        ? '<div style="font-size:11px;color:#8a6d1f;margin-bottom:6px;">📷 Fotoğrafsız tahmin — daha geniş bir aralık olabilir.</div>'
+        : '';
+
+      resultBox.innerHTML =
+        '<div style="font-weight:700;color:var(--ink);margin-bottom:4px;">💡 Tahmini fiyat aralığı: €'+data.min.toLocaleString('de-DE')+suffix+' – €'+data.max.toLocaleString('de-DE')+suffix+'</div>'
+        + noPhotoNote
+        + (data.gerekce? '<div style="color:var(--muted);margin-bottom:8px;">'+clEsc(data.gerekce)+'</div>' : '')
+        + '<div style="font-size:11px;color:var(--muted);margin-bottom:8px;">Bu bir yapay zeka tahminidir, gerçek piyasa verisi değildir. Son kararı sen ver.</div>'
+        + '<button type="button" onclick="document.getElementById(\'cl-price\').value='+Math.round((data.min+data.max)/2)+'" style="background:var(--navy,#1B3A8C);color:#fff;border:none;border-radius:8px;padding:6px 12px;font-size:11.5px;font-weight:600;cursor:pointer;font-family:\'Instrument Sans\',sans-serif;">Ortalama değeri kullan (€'+Math.round((data.min+data.max)/2)+suffix+')</button>';
+      resultBox.style.display='block';
+    }catch(e){
+      resultBox.innerHTML='<div style="color:var(--red);">Tahmin alınamadı. Lütfen tekrar dene.</div>';
+      resultBox.style.display='block';
+    }finally{
+      btn.disabled=false; btn.textContent='💡 Fiyat Tahmini Al';
+      btn.style.cursor='pointer';
+    }
+  };
+  function clResetForm(){
+    clEditId=null; clExistingPhotos=[]; clSelectedFiles=[];
+    ['cl-title','cl-price','cl-nebenkosten','cl-kaution','cl-rooms','cl-size','cl-floor','cl-available','cl-desc','cl-city','cl-location'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+    const tip=document.getElementById('cl-tip'); if(tip) tip.value='kiralik';
+    const furn=document.getElementById('cl-furnished'); if(furn) furn.value='false';
+    const t=document.getElementById('cl-modal-title'); if(t) t.textContent='Emlak İlanı Ver';
+    const b=document.getElementById('cl-submit-btn'); if(b) b.textContent='İlanı Yayınla →';
+    const e=document.getElementById('cl-form-err'); if(e) e.style.display='none';
+    const fileInput=document.getElementById('cl-photos'); if(fileInput) fileInput.value='';
+    clRenderPreviews();
+  }
+  window.clEditListing=function(id){
+    const l=(clAll||[]).find(x=>String(x.id)===String(id));
+    if(!l){ alert('İlan bulunamadı.'); return; }
+    if(!window.__clUserId || l.created_by!==window.__clUserId){ alert('Bu ilanı düzenleme yetkin yok.'); return; }
+    clEditId=id;
+    const set=(elid,val)=>{const el=document.getElementById(elid); if(el) el.value=val;};
+    set('cl-tip', l.tip||'kiralik');
+    set('cl-title', l.title||'');
+    set('cl-price', (l.price!=null? l.price : ''));
+    set('cl-nebenkosten', (l.nebenkosten!=null? l.nebenkosten : ''));
+    set('cl-kaution', (l.kaution!=null? l.kaution : ''));
+    set('cl-rooms', l.rooms||'');
+    set('cl-size', (l.size_sqm!=null? l.size_sqm : ''));
+    set('cl-floor', l.floor||'');
+    set('cl-furnished', l.furnished? 'true':'false');
+    set('cl-available', l.available_from||'');
+    set('cl-desc', l.description||'');
+    set('cl-city', l.city||'');
+    set('cl-location', l.location||'');
+    clExistingPhotos=Array.isArray(l.photos)? l.photos.slice() : [];
+    clSelectedFiles=[];
+    clRenderPreviews();
+    const t=document.getElementById('cl-modal-title'); if(t) t.textContent='Emlak İlanını Düzenle';
+    const b=document.getElementById('cl-submit-btn'); if(b) b.textContent='Değişiklikleri Kaydet →';
+    const e=document.getElementById('cl-form-err'); if(e) e.style.display='none';
+    document.getElementById('post-modal').classList.add('open');
+  };
+  document.addEventListener('change', function(ev){
+    if(ev.target && ev.target.id==='cl-photos'){
+      // append newly chosen files to existing selection, cap at 5
+      const picked=Array.from(ev.target.files);
+      const room=Math.max(0, 5 - clExistingPhotos.length);
+      clSelectedFiles=clSelectedFiles.concat(picked).slice(0,room);
+      ev.target.value='';  // reset so the same file can be re-picked if removed
+      clRenderPreviews();
+    }
+  });
+
+  // ── SUBMIT AD (upload photos → insert listing) ──
+  window.submitAd=async function(){
+    const err=document.getElementById('cl-form-err');
+    const btn=document.getElementById('cl-submit-btn');
+    const show=m=>{ if(err){err.textContent=m;err.style.display='block';} };
+    if(err) err.style.display='none';
+
+    await (window._authReady||Promise.resolve());
+    const session=window._currentSession;
+    if(!session){ show('İlan vermek için giriş yapmalısın.'); return; }
+
+    const title=(document.getElementById('cl-title').value||'').trim();
+    const city=(document.getElementById('cl-city').value||'').trim();
+    if(!title){ show('Başlık gerekli.'); return; }
+    if(!city){ show('Şehir gerekli.'); return; }
+
+    if(btn){ btn.disabled=true; btn.textContent='Yükleniyor…'; }
+    try{
+      // 1. upload photos to storage
+      const photoUrls=[];
+      for(let i=0;i<clSelectedFiles.length;i++){
+        const f=clSelectedFiles[i];
+        const ext=(f.name.split('.').pop()||'jpg').toLowerCase();
+        const path=session.user.id+'/emlak_'+Date.now()+'_'+i+'.'+ext;
+        const up=await fetch(_CL_URL+'/storage/v1/object/listing-photos/'+encodeURIComponent(path),{
+          method:'POST',
+          headers:{ 'apikey':_CL_KEY, 'Authorization':'Bearer '+session.access_token, 'Content-Type':f.type||'image/jpeg' },
+          body:f
+        });
+        if(up.ok){
+          photoUrls.push(_CL_URL+'/storage/v1/object/public/listing-photos/'+path);
+        }
+      }
+
+      // 2. build the field payload (shared by create + edit)
+      const priceVal=document.getElementById('cl-price').value;
+      const finalPhotos=clExistingPhotos.concat(photoUrls);
+      const numOrNull=id=>{const v=document.getElementById(id).value; return v!==''? parseFloat(v): null;};
+      const fields={
+        tip: document.getElementById('cl-tip').value,
+        title: title,
+        price: priceVal!==''? parseFloat(priceVal): null,
+        nebenkosten: numOrNull('cl-nebenkosten'),
+        kaution: numOrNull('cl-kaution'),
+        rooms: (document.getElementById('cl-rooms').value||'').trim() || null,
+        size_sqm: numOrNull('cl-size'),
+        floor: (document.getElementById('cl-floor').value||'').trim() || null,
+        furnished: document.getElementById('cl-furnished').value==='true',
+        available_from: document.getElementById('cl-available').value || null,
+        description: (document.getElementById('cl-desc').value||'').trim() || null,
+        city: city,
+        location: (document.getElementById('cl-location').value||'').trim() || null,
+        photos: finalPhotos
+      };
+
+      if(clEditId){
+        // EDIT: update the existing row (RLS restricts this to the owner)
+        const ok=await clOwnerPatch(clEditId, fields);
+        if(!ok) throw new Error('update failed');
+      } else {
+        // CREATE: insert a new row
+        const payload=Object.assign({ created_by: session.user.id, active: true, country: 'de' }, fields);
+        const r=await fetch(_CL_URL+'/rest/v1/emlak_listings',{
+          method:'POST',
+          headers:{ 'apikey':_CL_KEY, 'Authorization':'Bearer '+session.access_token, 'Content-Type':'application/json', 'Prefer':'return=minimal' },
+          body: JSON.stringify(payload)
+        });
+        if(!r.ok) throw new Error(await r.text());
+      }
+
+      // success
+      const wasEdit=!!clEditId;
+      if(!wasEdit) __clDraft.clear();
+      document.getElementById('post-modal').classList.remove('open');
+      clResetForm();
+      await loadListings();  // refresh grid
+      alert(wasEdit ? 'İlanın güncellendi! ✓' : 'İlanın yayınlandı! ✓');
+    }catch(e){
+      show(clEditId ? 'Değişiklikler kaydedilemedi. Lütfen tekrar dene.' : 'İlan yayınlanamadı. Lütfen tekrar dene.');
+    }finally{
+      if(btn){ btn.disabled=false; btn.textContent = clEditId ? 'Değişiklikleri Kaydet →' : 'İlanı Yayınla →'; }
+    }
+  };
+
+  loadListings();
+</script>
 </body>
 </html>

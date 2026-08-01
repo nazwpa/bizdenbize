@@ -3,12 +3,26 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BizdenBize — Frankfurt Türk Festivali 2025</title>
-  <meta name="description" content="Gurbet Hayatını Kolaylaştırıyoruz — bizdenbize.com">
+  <title>BizdenBize — İlan</title>
+  <meta name="description" content="BizdenBize'de ilanlar, ikinci el eşya ve daha fazlası. Gurbet Hayatını Kolaylaştırıyoruz.">
+  <!-- Social sharing preview (OpenGraph / Twitter) -->
+  <meta property="og:site_name" content="BizdenBize">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="BizdenBize — İlan">
+  <meta property="og:description" content="BizdenBize'de ilanlar, ikinci el eşya ve daha fazlası. Gurbet Hayatını Kolaylaştırıyoruz.">
+  <meta property="og:image" content="https://bizdenbize.com/logo.png">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="BizdenBize — İlan">
+  <meta name="twitter:description" content="BizdenBize'de ilanlar, ikinci el eşya ve daha fazlası. Gurbet Hayatını Kolaylaştırıyoruz.">
+  <meta name="twitter:image" content="https://bizdenbize.com/logo.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
-    :root{--red:#D42B2B;--red2:#E8393A;--navy:#1B3A8C;--navy2:#2348A8;--cream:#FAF7F2;--warm:#F0EAE0;--sand:#D4C5A9;--ink:#1A1208;--muted:#6B5E4E;--white:#FFFFFF;--gold:#C9A84C;--green:#1E7B4B;}
+    :root {
+      --red:#D42B2B;--red2:#E8393A;--navy:#1B3A8C;--navy2:#2348A8;
+      --cream:#FAF7F2;--warm:#F0EAE0;--sand:#D4C5A9;
+      --ink:#1A1208;--muted:#6B5E4E;--white:#FFFFFF;--gold:#C9A84C;--green:#1E7B4B;
+    }
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
     body{font-family:'Instrument Sans',sans-serif;background:var(--cream);color:var(--ink);}
     nav{position:fixed;top:0;left:0;right:0;z-index:100;height:58px;display:flex;align-items:center;justify-content:space-between;padding:0 24px;background:rgba(250,247,242,.95);backdrop-filter:blur(14px);border-bottom:1px solid rgba(212,197,169,.4);}
@@ -22,113 +36,103 @@
     .nav-right{display:flex;align-items:center;gap:10px;}
     .nav-avatar{width:34px;height:34px;border-radius:50%;background:var(--red);color:var(--white);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;cursor:pointer;}
 
+    /* Breadcrumb */
     .breadcrumb{padding:72px 40px 0;max-width:1100px;margin:0 auto;display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted);}
     .breadcrumb a{color:var(--muted);text-decoration:none;transition:color .15s;}
     .breadcrumb a:hover{color:var(--navy);}
     .breadcrumb span{color:var(--sand);}
 
-    .page{padding:16px 40px 60px;max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 320px;gap:28px;align-items:start;}
+    .page{padding:16px 40px 60px;max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 340px;gap:28px;align-items:start;}
 
-    /* Hero banner */
-    .event-hero{height:300px;background:var(--navy);border-radius:18px;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;overflow:hidden;margin-bottom:20px;}
-    .event-hero::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--navy) 0%,var(--red) 100%);opacity:.8;}
-    .hero-emoji{font-size:80px;position:relative;z-index:1;margin-bottom:12px;}
-    .hero-date-badge{position:relative;z-index:1;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);border-radius:10px;padding:8px 20px;font-size:13px;font-weight:600;color:var(--white);}
-    .hero-share{position:absolute;top:16px;right:16px;z-index:2;display:flex;gap:8px;}
-    .hero-btn{width:36px;height:36px;border-radius:8px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.2);color:var(--white);cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;transition:background .15s;}
-    .hero-btn:hover{background:rgba(255,255,255,.25);}
+    /* ── LEFT ── */
+    /* Image gallery */
+    .gallery{margin-bottom:20px;}
+    .main-img{height:380px;background:var(--warm);border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:80px;position:relative;overflow:hidden;cursor:pointer;margin-bottom:10px;border:1px solid var(--sand);}
+    .img-nav{position:absolute;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.85);border:none;border-radius:50%;width:36px;height:36px;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;}
+    .img-nav:hover{background:var(--white);box-shadow:0 2px 8px rgba(0,0,0,.12);}
+    .img-prev{left:12px;}
+    .img-next{right:12px;}
+    .img-counter{position:absolute;bottom:12px;right:12px;background:rgba(0,0,0,.5);color:#fff;font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;}
+    .thumbs{display:flex;gap:8px;}
+    .thumb{width:72px;height:56px;border-radius:8px;background:var(--warm);display:flex;align-items:center;justify-content:center;font-size:22px;cursor:pointer;border:2px solid transparent;transition:border-color .15s;flex-shrink:0;}
+    .thumb.active{border-color:var(--navy);}
+    .thumb:hover{border-color:var(--sand);}
 
-    /* Event info */
-    .event-info{background:var(--white);border:1px solid var(--sand);border-radius:16px;padding:24px;margin-bottom:16px;}
-    .ei-category{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;background:rgba(212,43,43,.1);color:var(--red);margin-bottom:12px;}
-    .ei-title{font-family:'Playfair Display',serif;font-size:28px;font-weight:900;color:var(--ink);letter-spacing:-.5px;margin-bottom:14px;line-height:1.15;}
-    .ei-details{display:flex;flex-direction:column;gap:10px;margin-bottom:20px;}
-    .ei-row{display:flex;align-items:center;gap:12px;}
-    .ei-icon{width:36px;height:36px;border-radius:9px;background:var(--warm);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
-    .ei-text{font-size:14px;color:var(--ink);}
-    .ei-text span{color:var(--muted);font-size:12px;display:block;margin-top:1px;}
-    .ei-desc{font-size:14px;color:var(--muted);line-height:1.7;margin-bottom:20px;}
-    .ei-tags{display:flex;flex-wrap:wrap;gap:6px;}
-    .ei-tag{font-size:11px;font-weight:500;padding:4px 12px;border-radius:20px;background:var(--warm);color:var(--muted);border:1px solid var(--sand);}
+    /* Listing info */
+    .listing-info{background:var(--white);border:1px solid var(--sand);border-radius:16px;padding:24px;margin-bottom:16px;}
+    .li-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px;}
+    .li-badge{font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;background:rgba(30,123,75,.1);color:var(--green);}
+    .save-btn{width:36px;height:36px;border-radius:50%;border:1.5px solid var(--sand);background:none;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;transition:all .15s;}
+    .save-btn:hover{border-color:var(--red);color:var(--red);}
+    .li-price{font-family:'Playfair Display',serif;font-size:38px;font-weight:900;color:var(--ink);line-height:1;margin-bottom:6px;}
+    .li-title{font-size:20px;font-weight:600;color:var(--ink);margin-bottom:10px;}
+    .li-meta{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px;}
+    .li-tag{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--muted);background:var(--warm);padding:4px 10px;border-radius:20px;}
+    .li-desc{font-size:14px;color:var(--muted);line-height:1.7;margin-bottom:16px;}
+    .li-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;border-top:1px solid var(--warm);padding-top:16px;}
+    .ls-item{text-align:center;}
+    .ls-val{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--ink);}
+    .ls-label{font-size:11px;color:var(--muted);margin-top:2px;}
 
-    /* Map placeholder */
-    .map-card{background:var(--white);border:1px solid var(--sand);border-radius:16px;overflow:hidden;margin-bottom:16px;}
-    .map-placeholder{height:180px;background:linear-gradient(135deg,#e8f0fe,#d2e3fc);display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:36px;cursor:pointer;transition:opacity .15s;}
-    .map-placeholder:hover{opacity:.9;}
-    .map-placeholder p{font-size:13px;color:var(--navy);margin-top:8px;font-weight:600;}
-    .map-address{padding:14px 18px;font-size:13px;color:var(--muted);display:flex;align-items:center;gap:8px;}
+    /* Details table */
+    .details-card{background:var(--white);border:1px solid var(--sand);border-radius:16px;padding:20px;margin-bottom:16px;}
+    .dc-title{font-size:14px;font-weight:600;color:var(--ink);margin-bottom:14px;}
+    .details-table{width:100%;border-collapse:collapse;}
+    .details-table tr:nth-child(odd) td{background:rgba(250,247,242,.6);}
+    .details-table td{padding:9px 12px;font-size:13px;border-bottom:1px solid var(--warm);}
+    .details-table td:first-child{color:var(--muted);font-weight:500;width:40%;}
+    .details-table td:last-child{color:var(--ink);}
+    .details-table tr:last-child td{border-bottom:none;}
 
-    /* Attendees */
-    .attendees-card{background:var(--white);border:1px solid var(--sand);border-radius:16px;padding:20px;margin-bottom:16px;}
-    .ac-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
-    .ac-title{font-size:14px;font-weight:600;color:var(--ink);}
-    .ac-count{font-size:13px;color:var(--muted);}
-    .attendee-list{display:flex;flex-direction:column;gap:10px;}
-    .attendee-row{display:flex;align-items:center;gap:10px;}
-    .att-avatar{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:var(--white);flex-shrink:0;}
-    .att-name{font-size:13px;font-weight:500;color:var(--ink);}
-    .att-city{font-size:11px;color:var(--muted);}
-    .att-you{margin-left:auto;font-size:10px;font-weight:600;padding:2px 8px;border-radius:10px;background:rgba(30,123,75,.1);color:var(--green);}
-    .show-more{width:100%;padding:8px;border-radius:8px;border:1.5px solid var(--sand);background:none;font-size:12px;font-weight:600;color:var(--muted);cursor:pointer;margin-top:10px;font-family:'Instrument Sans',sans-serif;transition:all .15s;}
-    .show-more:hover{border-color:var(--navy);color:var(--navy);}
-
-    /* Comments */
-    .comments-card{background:var(--white);border:1px solid var(--sand);border-radius:16px;padding:20px;}
-    .cc-title{font-size:14px;font-weight:600;color:var(--ink);margin-bottom:16px;}
-    .comment{display:flex;gap:10px;margin-bottom:16px;}
-    .comment:last-of-type{margin-bottom:0;}
-    .com-avatar{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--white);flex-shrink:0;}
-    .com-body{flex:1;}
-    .com-header{display:flex;align-items:center;gap:8px;margin-bottom:4px;}
-    .com-name{font-size:13px;font-weight:600;color:var(--ink);}
-    .com-time{font-size:11px;color:var(--muted);}
-    .com-text{font-size:13px;color:var(--muted);line-height:1.55;}
-    .com-like{font-size:11px;color:var(--muted);cursor:pointer;margin-top:4px;background:none;border:none;font-family:'Instrument Sans',sans-serif;transition:color .15s;}
-    .com-like:hover{color:var(--red);}
-    .add-comment{display:flex;gap:10px;margin-top:16px;padding-top:16px;border-top:1px solid var(--warm);}
-    .comment-input{flex:1;padding:10px 14px;border:1.5px solid var(--sand);border-radius:9px;font-size:13px;font-family:'Instrument Sans',sans-serif;color:var(--ink);background:var(--cream);outline:none;transition:border-color .2s;}
-    .comment-input:focus{border-color:var(--navy);}
-    .comment-send{padding:10px 16px;background:var(--navy);color:var(--white);border:none;border-radius:9px;font-size:13px;font-weight:600;cursor:pointer;font-family:'Instrument Sans',sans-serif;transition:background .2s;white-space:nowrap;}
-    .comment-send:hover{background:var(--navy2);}
+    /* Similar listings */
+    .similar-card{background:var(--white);border:1px solid var(--sand);border-radius:16px;padding:20px;}
+    .sc-title{font-size:14px;font-weight:600;color:var(--ink);margin-bottom:14px;}
+    .similar-list{display:flex;flex-direction:column;gap:10px;}
+    .sim-item{display:flex;gap:12px;cursor:pointer;padding:8px;border-radius:10px;transition:background .15s;}
+    .sim-item:hover{background:var(--warm);}
+    .sim-thumb{width:60px;height:50px;border-radius:8px;background:var(--warm);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;}
+    .sim-price{font-family:'Playfair Display',serif;font-size:15px;font-weight:700;color:var(--ink);}
+    .sim-title{font-size:12px;color:var(--muted);margin-top:1px;}
 
     /* ── RIGHT ── */
     .right-col{display:flex;flex-direction:column;gap:16px;position:sticky;top:76px;}
 
-    /* RSVP card */
-    .rsvp-card{background:var(--white);border:1px solid var(--sand);border-radius:16px;padding:24px;text-align:center;}
-    .rc-date{display:inline-flex;flex-direction:column;align-items:center;background:var(--red);border-radius:14px;padding:12px 24px;margin-bottom:16px;}
-    .rc-month{font-size:12px;font-weight:600;color:rgba(255,255,255,.7);text-transform:uppercase;}
-    .rc-day{font-family:'Playfair Display',serif;font-size:48px;font-weight:900;color:var(--white);line-height:1;}
-    .rc-time{font-size:13px;color:var(--muted);margin-bottom:6px;}
-    .rc-spots{font-size:12px;font-weight:600;color:var(--green);margin-bottom:18px;}
-    .rsvp-btn{width:100%;padding:14px;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;font-family:'Instrument Sans',sans-serif;transition:all .2s;border:none;}
-    .rsvp-btn.join{background:var(--navy);color:var(--white);}
-    .rsvp-btn.join:hover{background:var(--navy2);}
-    .rsvp-btn.going{background:var(--green);color:var(--white);}
-    .rsvp-share{display:flex;gap:8px;margin-top:10px;}
-    .share-btn{flex:1;padding:9px;border-radius:8px;border:1.5px solid var(--sand);background:none;font-size:12px;font-weight:600;cursor:pointer;font-family:'Instrument Sans',sans-serif;color:var(--muted);transition:all .15s;}
-    .share-btn:hover{border-color:var(--navy);color:var(--navy);}
+    /* Seller card */
+    .seller-card{background:var(--white);border:1px solid var(--sand);border-radius:16px;padding:20px;}
+    .seller-header{display:flex;align-items:center;gap:12px;margin-bottom:16px;}
+    .seller-avatar{width:52px;height:52px;border-radius:50%;background:var(--red);color:var(--white);display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;flex-shrink:0;}
+    .seller-name{font-size:15px;font-weight:600;color:var(--ink);}
+    .seller-meta{font-size:12px;color:var(--muted);margin-top:2px;}
+    .seller-verified{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:600;padding:2px 8px;border-radius:10px;background:rgba(30,123,75,.1);color:var(--green);margin-top:4px;}
+    .seller-stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:16px;}
+    .ss-item{text-align:center;padding:8px 4px;background:var(--cream);border-radius:8px;}
+    .ss-val{font-size:16px;font-weight:700;color:var(--ink);}
+    .ss-label{font-size:10px;color:var(--muted);margin-top:1px;}
+    .contact-btns{display:flex;flex-direction:column;gap:8px;}
+    .contact-btn{width:100%;padding:12px;border-radius:9px;font-size:14px;font-weight:600;cursor:pointer;font-family:'Instrument Sans',sans-serif;transition:all .15s;display:flex;align-items:center;justify-content:center;gap:8px;border:none;}
+    .contact-btn.primary{background:var(--navy);color:var(--white);}
+    .contact-btn.primary:hover{background:var(--navy2);}
+    .contact-btn.secondary{background:var(--warm);color:var(--ink);border:1.5px solid var(--sand);}
+    .contact-btn.secondary:hover{border-color:var(--navy);}
+    .contact-btn.danger{background:none;color:var(--red);border:1.5px solid rgba(212,43,43,.2);}
+    .contact-btn.danger:hover{background:rgba(212,43,43,.05);}
 
-    /* Organizer */
-    .organizer-card{background:var(--white);border:1px solid var(--sand);border-radius:16px;padding:20px;}
-    .org-title{font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:12px;}
-    .org-row{display:flex;align-items:center;gap:12px;margin-bottom:12px;}
-    .org-avatar{width:44px;height:44px;border-radius:50%;background:var(--navy);color:var(--white);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;flex-shrink:0;}
-    .org-name{font-size:14px;font-weight:600;color:var(--ink);}
-    .org-meta{font-size:12px;color:var(--muted);}
-    .msg-org-btn{width:100%;padding:9px;border-radius:8px;border:1.5px solid var(--sand);background:var(--warm);font-size:13px;font-weight:600;cursor:pointer;font-family:'Instrument Sans',sans-serif;color:var(--ink);transition:all .15s;}
-    .msg-org-btn:hover{border-color:var(--navy);color:var(--navy);}
+    /* Price offer */
+    .offer-card{background:var(--white);border:1px solid var(--sand);border-radius:16px;padding:20px;}
+    .oc-title{font-size:14px;font-weight:600;color:var(--ink);margin-bottom:4px;}
+    .oc-sub{font-size:12px;color:var(--muted);margin-bottom:14px;}
+    .offer-input-wrap{display:flex;gap:8px;}
+    .offer-input{flex:1;padding:10px 14px;border:1.5px solid var(--sand);border-radius:8px;font-size:14px;font-family:'Instrument Sans',sans-serif;color:var(--ink);background:var(--cream);outline:none;transition:border-color .2s;}
+    .offer-input:focus{border-color:var(--navy);}
+    .offer-btn{padding:10px 16px;background:var(--gold);color:var(--ink);border:none;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;font-family:'Instrument Sans',sans-serif;transition:opacity .2s;white-space:nowrap;}
+    .offer-btn:hover{opacity:.9;}
 
-    /* Similar events */
-    .similar-card{background:var(--white);border:1px solid var(--sand);border-radius:16px;padding:20px;}
-    .sc-title{font-size:14px;font-weight:600;color:var(--ink);margin-bottom:14px;}
-    .sim-event{display:flex;gap:12px;padding:8px;border-radius:10px;cursor:pointer;transition:background .15s;margin-bottom:6px;}
-    .sim-event:hover{background:var(--warm);}
-    .se-date{width:40px;flex-shrink:0;text-align:center;background:var(--navy);border-radius:8px;padding:5px 4px;}
-    .se-m{font-size:9px;font-weight:600;color:rgba(255,255,255,.6);text-transform:uppercase;}
-    .se-d{font-family:'Playfair Display',serif;font-size:18px;font-weight:900;color:var(--white);line-height:1;}
-    .se-title{font-size:13px;font-weight:500;color:var(--ink);}
-    .se-meta{font-size:11px;color:var(--muted);margin-top:2px;}
+    /* Safety tips */
+    .safety-card{background:rgba(27,58,140,.04);border:1px solid rgba(27,58,140,.15);border-radius:14px;padding:16px;}
+    .safety-title{font-size:12px;font-weight:600;color:var(--navy);margin-bottom:8px;display:flex;align-items:center;gap:6px;}
+    .safety-tips{display:flex;flex-direction:column;gap:5px;}
+    .safety-tip{font-size:11px;color:var(--muted);display:flex;gap:6px;line-height:1.4;}
+    .safety-tip::before{content:'✓';color:var(--navy);font-weight:700;flex-shrink:0;}
 
     @media(max-width:900px){
       .page{grid-template-columns:1fr;padding:16px 20px 60px;}
@@ -139,14 +143,14 @@
     /* ── MOBILE NAV ── */
     .hamburger {
       display: none; flex-direction: column; gap: 5px;
-      background: #D42B2B; border: none; cursor: pointer;
+      background: none; border: none; cursor: pointer;
       padding: 6px; border-radius: 8px; transition: background .15s;
       flex-shrink: 0;
     }
-    .hamburger:hover { background: #E8393A; }
+    .hamburger:hover { background: var(--warm, #F0EAE0); }
     .hamburger span {
-      display: block; width: 22px; height: 2.5px;
-      background: #ffffff; border-radius: 2px;
+      display: block; width: 22px; height: 2px;
+      background: var(--ink, #1A1208); border-radius: 2px;
       transition: transform .3s, opacity .3s;
     }
     .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
@@ -374,55 +378,7 @@
   .cm-accept-all:hover { background: #E8393A; }
     @media (max-width: 900px) { }
   
-    /* ── DROPDOWN NAV ── */
-    .nav-logo-link { display:flex;align-items:center;flex-shrink:0;margin-right:12px; }
-    .nav-menu { display:flex;gap:2px;flex:1;align-items:center; }
-    .nav-item { position:relative; }
-    .nav-item-btn {
-      display:flex;align-items:center;gap:5px;
-      padding:8px 12px; border-radius:7px;
-      font-size:13px;font-weight:500;color:var(--muted,#6B5E4E);
-      cursor:pointer;border:none;background:none;
-      font-family:'Instrument Sans',sans-serif;
-      transition:all .15s; white-space:nowrap;
-    }
-    .nav-item-btn:hover,.nav-item-btn.open { background:var(--warm,#F0EAE0);color:var(--ink,#1A1208); }
-    .nav-item-btn.active { background:var(--red,#D42B2B);color:#fff; }
-    .nav-item-btn .chevron { font-size:9px;opacity:.5;transition:transform .2s; }
-    .nav-item-btn.open .chevron { transform:rotate(180deg); }
-    .nav-dropdown {
-      display:none;position:absolute;top:calc(100% + 8px);left:0;
-      background:var(--white,#fff);border:1px solid rgba(212,197,169,.5);
-      border-radius:12px;padding:8px;min-width:200px;
-      box-shadow:0 8px 32px rgba(0,0,0,.1);z-index:300;
-    }
-    .nav-dropdown.open { display:block;animation:dropIn .15s ease; }
-    @keyframes dropIn { from{opacity:0;transform:translateY(-6px)} to{opacity:1;transform:translateY(0)} }
-    .nav-dropdown a {
-      display:flex;align-items:center;gap:9px;padding:9px 12px;border-radius:8px;
-      font-size:13px;font-weight:500;color:var(--ink,#1A1208);text-decoration:none;transition:background .12s;white-space:nowrap;
-    }
-    .nav-dropdown a:hover { background:var(--warm,#F0EAE0); }
-    .nav-dropdown a.active { color:var(--red,#D42B2B);font-weight:600; }
-    .nav-dropdown hr { border:none;border-top:1px solid var(--warm,#F0EAE0);margin:4px 0; }
-    .nav-right { display:flex;align-items:center;gap:8px;flex-shrink:0;margin-left:auto; }
-    .hamburger { display:none;flex-direction:column;justify-content:center;align-items:center;gap:5px;width:38px;height:38px;background:var(--red,#D42B2B);border:none;cursor:pointer;border-radius:8px;flex-shrink:0; }
-    .hamburger:hover { background:#E8393A; }
-    .hamburger span { display:block;width:20px;height:2.5px;background:#fff;border-radius:2px;transition:all .3s; }
-    .hamburger.open span:nth-child(1) { transform:translateY(7px) rotate(45deg); }
-    .hamburger.open span:nth-child(2) { opacity:0; }
-    .hamburger.open span:nth-child(3) { transform:translateY(-7px) rotate(-45deg); }
-    .mobile-menu { display:none;position:fixed;inset:0;z-index:500;flex-direction:column;background:#fff;overflow-y:auto; }
-    .mobile-menu.open { display:flex; }
-    .mm-header { display:flex;align-items:center;justify-content:space-between;padding:12px 20px;border-bottom:1px solid var(--warm,#F0EAE0);height:58px;flex-shrink:0; }
-    .mm-section { padding:12px 20px 4px; }
-    .mm-section-title { font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted,#6B5E4E);margin-bottom:6px; }
-    .mm-link { display:flex;align-items:center;gap:12px;padding:11px 14px;border-radius:10px;text-decoration:none;color:var(--ink,#1A1208);font-size:14px;font-weight:500;transition:background .15s; }
-    .mm-link:hover { background:var(--warm,#F0EAE0); }
-    .mm-link.active { background:rgba(212,43,43,.07);color:#D42B2B;font-weight:600; }
-    .mm-link-icon { font-size:20px;width:28px;text-align:center;flex-shrink:0; }
-    .mm-footer { padding:16px 20px 32px;border-top:1px solid var(--warm,#F0EAE0);margin-top:auto; }
-        @media (max-width:900px) { .nav-primary { display:none!important; } .bottom-tabbar { display:flex!important; } body{ padding-bottom:64px; } }
+    @media (max-width:900px) { .nav-primary { display:none!important; } .bottom-tabbar { display:flex!important; } body{ padding-bottom:64px; } }
 
     /* ── SIMPLIFIED PRIMARY NAV ── */
     .nav-primary{display:flex;align-items:center;gap:2px;margin-left:10px;}
@@ -472,8 +428,7 @@
     .kesfet-sheet-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
     .kesfet-sheet-title{font-size:15px;font-weight:700;color:var(--ink);}
     .kesfet-sheet-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
-
-  </style>
+</style>
 
   <!-- PWA -->
   <link rel="manifest" href="manifest.json">
@@ -497,37 +452,6 @@
   <link rel="icon" type="image/png" sizes="32x32" href="icons/icon-96.png">
   <link rel="shortcut icon" href="icons/icon-96.png">
   <script src="i18n.js"></script>
-<script>
-  function toggleDropdown(id, btn) {
-    const dropdown = document.getElementById(id);
-    const isOpen = dropdown.classList.contains('open');
-    document.querySelectorAll('.nav-dropdown').forEach(d => d.classList.remove('open'));
-    document.querySelectorAll('.nav-item-btn').forEach(b => b.classList.remove('open'));
-    if (!isOpen) { dropdown.classList.add('open'); btn.classList.add('open'); }
-  }
-  document.addEventListener('click', e => {
-    if (!e.target.closest('.nav-item')) {
-      document.querySelectorAll('.nav-dropdown').forEach(d => d.classList.remove('open'));
-      document.querySelectorAll('.nav-item-btn').forEach(b => b.classList.remove('open'));
-    }
-  });
-  function toggleMenu() {
-    const hb = document.getElementById('hamburger');
-    const menu = document.getElementById('mobile-menu');
-    hb.classList.toggle('open');
-    menu.classList.toggle('open');
-    document.body.style.overflow = menu.classList.contains('open') ? 'hidden' : '';
-  }
-  (function() {
-    const page = window.location.pathname.split('/').pop() || 'mahallem.html';
-    document.querySelectorAll('.nav-dropdown a, .mm-link').forEach(a => {
-      if ((a.getAttribute('href')||'').split('?')[0] === page) a.classList.add('active');
-    });
-    document.querySelectorAll('.nav-item').forEach(item => {
-      if (item.querySelector('a.active')) item.querySelector('.nav-item-btn').classList.add('active');
-    });
-  })();
-</script>
   <script type="module">
     import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
     const _authSb = createClient('https://wxjudojlwksivhzjnmim.supabase.co','sb_publishable_52tr_hEnnQ3kllZexTue0Q_ByF71303');
@@ -536,7 +460,7 @@
   </script>
 </head>
 <body>
-<!-- NAV -->
+
 <nav style="position:sticky;top:0;z-index:200;background:rgba(250,247,242,0.97);backdrop-filter:blur(14px);border-bottom:1px solid rgba(212,197,169,0.4);height:58px;display:flex;align-items:center;padding:0 16px 0 12px;gap:4px;">
   <a href="mahallem.html" class="nav-logo-link"><img src="logo.png" alt="BizdenBize" style="height:44px;width:auto;display:block;"></a>
   <div class="nav-primary">
@@ -667,15 +591,14 @@
     }
   })();
 </script>
-</div>
 
 
 <div class="breadcrumb" style="flex-direction:column;align-items:flex-start;gap:10px;">
-  <button onclick="bbGoBack('events.html')" style="display:inline-flex;align-items:center;gap:6px;background:var(--navy,#1B3A8C);border:none;border-radius:9px;padding:9px 16px;font-size:13.5px;font-weight:700;color:#fff;cursor:pointer;font-family:'Instrument Sans',sans-serif;box-shadow:0 2px 8px rgba(27,58,140,.3);">← Geri</button>
+  <button onclick="bbGoBack('emlak.html')" style="display:inline-flex;align-items:center;gap:6px;background:var(--navy,#1B3A8C);border:none;border-radius:9px;padding:9px 16px;font-size:13.5px;font-weight:700;color:#fff;cursor:pointer;font-family:'Instrument Sans',sans-serif;box-shadow:0 2px 8px rgba(27,58,140,.3);">← Geri</button>
   <div style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted);">
     <a href="mahallem.html">Ana Sayfa</a><span>/</span>
-    <a href="events.html">Etkinlikler</a><span>/</span>
-    <span id="bc-title" style="color:var(--ink)">Etkinlik</span>
+    <a href="emlak.html">İlanlar</a><span>/</span>
+    <span id="bc-title" style="color:var(--ink)">İlan</span>
   </div>
 </div>
 <script>
@@ -688,11 +611,10 @@
   }
 </script>
 
-<div class="page" id="event-detail-root">
-  <div style="text-align:center;padding:60px;color:var(--muted);">Etkinlik yükleniyor…</div>
+<div class="page" id="listing-root">
+  <div style="text-align:center;padding:60px;color:var(--muted);">İlan yükleniyor…</div>
 </div>
 
-<!-- SITE FOOTER -->
 <footer style="background:var(--ink);color:rgba(255,255,255,.55);font-family:'Instrument Sans',sans-serif;padding:56px 24px 32px;margin-top:auto;">
   <div style="max-width:1100px;margin:0 auto;">
 
@@ -774,138 +696,294 @@
     }
   </style>
 </footer>
+
+
 <script>
-  const _ED_URL='https://wxjudojlwksivhzjnmim.supabase.co';
-  const _ED_KEY='sb_publishable_52tr_hEnnQ3kllZexTue0Q_ByF71303';
-  const _ED_H={'apikey':_ED_KEY,'Authorization':'Bearer '+_ED_KEY};
-  const ED_CAT={muzik:{l:'Müzik & Kültür',c:'#185FA5',e:'🎵'},is:{l:'İş & Girişim',c:'#185FA5',e:'💼'},genel:{l:'Genel Buluşma',c:'#C9A84C',e:'🎉'},yemek:{l:'Yemek',c:'#C9A84C',e:'🍽️'},spor:{l:'Spor',c:'#D42B2B',e:'⚽'},aile:{l:'Aile',c:'#1E7B4B',e:'👶'}};
-  const ED_M=['Ocak','Şubat','Mart','Nisan','Mayıs','Haziran','Temmuz','Ağustos','Eylül','Ekim','Kasım','Aralık'];
-  function edEsc(x){return String(x==null?'':x).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
-  function edId(){return new URLSearchParams(location.search).get('id');}
+  const emojis = ['🚗','🪟','🛞','💺','🔧'];
+  let current = 0;
+  function setImg(i) {
+    current = i;
+    document.getElementById('main-emoji').textContent = emojis[i];
+    document.getElementById('img-counter').textContent = (i+1)+' / '+emojis.length;
+    document.querySelectorAll('.thumb').forEach((t,idx) => t.classList.toggle('active', idx===i));
+  }
+  function changeImg(dir) { setImg((current + dir + emojis.length) % emojis.length); }
+  function toggleSave() {
+    const btn = document.getElementById('save-btn');
+    const saved = btn.textContent === '🧡';
+    btn.textContent = saved ? '🤍' : '🧡';
+  }
+  function sendOffer() {
+    const val = document.getElementById('offer-val').value;
+    if (!val) return;
+    alert(`€${val} teklifiniz satıcıya iletildi!`);
+    document.getElementById('offer-val').value = '';
+  }
+</script>
 
-  function edActionBlock(e){
-    const t=e.event_type||'external';
-    if(t==='external'){
-      const url=e.registration_url||e.link_url;
-      const label=e.link_label||'Bilet / Bilgi';
-      if(url) return '<a href="'+edEsc(url)+'" target="_blank" rel="noopener" class="rsvp-btn join" style="display:block;text-align:center;text-decoration:none;box-sizing:border-box;">🎟️ '+edEsc(label)+' →</a>';
-      return '<div style="color:var(--muted);font-size:13px;">Bu etkinlik için kayıt dış bağlantıda.</div>';
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js', { scope: '/' })
+          .then(reg => console.log('[BizdenBize] SW registered:', reg.scope))
+          .catch(err => console.warn('[BizdenBize] SW failed:', err));
+      });
     }
-    if(t==='hosted_free'){
-      return '<button class="rsvp-btn join" id="ed-reg-btn" onclick="edRegister(\''+e.id+'\')">✓ Ücretsiz Kayıt Ol</button>';
-    }
-    if(t==='hosted_paid'){
-      return '<div style="font-size:22px;font-weight:800;color:var(--ink);margin-bottom:10px;">€'+Number(e.price||0).toFixed(0)+'</div>'
-        +'<button class="rsvp-btn" disabled style="background:var(--warm);color:var(--muted);border:1px solid var(--sand);cursor:not-allowed;">💳 Kayıt yakında</button>';
-    }
-    return '';
-  }
+  </script>
 
-  async function edRegister(eventId){
-    await (window._authReady||Promise.resolve());
-    const session=window._currentSession;
-    if(!session){ alert('Kayıt için giriş yapmalısın.'); return; }
-    const btn=document.getElementById('ed-reg-btn');
-    if(btn){btn.disabled=true;btn.textContent='Kaydediliyor…';}
-    try{
-      const r=await fetch(_ED_URL+'/rest/v1/event_registrations',{method:'POST',
-        headers:{'apikey':_ED_KEY,'Authorization':'Bearer '+session.access_token,'Content-Type':'application/json','Prefer':'return=minimal'},
-        body:JSON.stringify({event_id:eventId,user_id:session.user.id,status:'registered',payment_status:'none'})});
-      if(r.status===409){ if(btn){btn.textContent='✓ Zaten kayıtlısın';btn.classList.add('going');} return; }
-      if(!r.ok) throw new Error(await r.text());
-      if(btn){btn.textContent='✓ Kaydoldun';btn.classList.add('going');} if(window.__edEvent) edFillMeeting(window.__edEvent);
-    }catch(e){ if(btn){btn.disabled=false;btn.textContent='✓ Ücretsiz Kayıt Ol';} alert('Kayıt yapılamadı.'); }
-  }
-  window.edRegister=edRegister;
-
-  function edSection(title, body){
-    if(!body) return '';
-    return '<div style="margin-bottom:18px;"><div style="font-size:14px;font-weight:700;color:var(--ink);margin-bottom:6px;">'+title+'</div>'
-      + '<div style="font-size:14px;line-height:1.7;color:var(--muted);white-space:pre-line;">'+edEsc(body)+'</div></div>';
-  }
-  function edOrganizer(e){
-    if(!e.organizer_name && !e.organizer_info) return '';
-    return '<div style="margin-bottom:18px;padding:14px 16px;background:var(--warm,#F0EAE0);border-radius:12px;">'
-      + '<div style="font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;">Organizatör</div>'
-      + (e.organizer_name?'<div style="font-size:15px;font-weight:700;color:var(--ink);">'+edEsc(e.organizer_name)+'</div>':'')
-      + (e.organizer_info?'<div style="font-size:13px;color:var(--muted);margin-top:2px;">'+edEsc(e.organizer_info)+'</div>':'')
-      + '</div>';
-  }
-  function edMeetingBlock(e){
-    // Placeholder; filled async after we check registration + fetch the gated link.
-    const t=e.event_type||'external';
-    if(t!=='hosted_free' && t!=='hosted_paid') return '';
-    return '<div id="ed-meeting-block" style="margin-bottom:18px;"></div>';
-  }
-  async function edFillMeeting(e){
-    const block=document.getElementById('ed-meeting-block');
-    if(!block) return;
-    await (window._authReady||Promise.resolve());
-    const session=window._currentSession;
-    // Try to read the gated link — RLS returns it only if this user is registered.
-    let link=null;
-    if(session){
-      try{
-        const r=await fetch(_ED_URL+'/rest/v1/event_meeting_links?event_id=eq.'+encodeURIComponent(e.id)+'&select=meeting_url,meeting_note',{
-          headers:{'apikey':_ED_KEY,'Authorization':'Bearer '+session.access_token}
-        });
-        if(r.ok){ const rows=await r.json(); if(rows.length) link=rows[0]; }
-      }catch(_){}
+  <!-- PWA install banner -->
+  <div id="pwa-banner" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:9999;
+    background:#1B3A8C;color:#fff;padding:14px 20px;
+    display:none;align-items:center;gap:14px;
+    box-shadow:0 -4px 20px rgba(0,0,0,.2);">
+    <img src="logo.png" style="height:32px;width:auto;filter:brightness(0) invert(1);flex-shrink:0;">
+    <div style="flex:1;">
+      <div style="font-size:13px;font-weight:600;">BizdenBize'yi yükle</div>
+      <div style="font-size:11px;opacity:.6;margin-top:1px;">Ana ekrana ekle, uygulama gibi kullan</div>
+    </div>
+    <button id="pwa-install-btn" style="background:#D42B2B;color:#fff;border:none;border-radius:8px;
+      padding:8px 16px;font-size:12px;font-weight:700;cursor:pointer;
+      font-family:inherit;white-space:nowrap;">Yükle</button>
+    <button onclick="localStorage.setItem('bb_pwa_dismissed','1');document.getElementById('pwa-banner').style.display='none'"
+      style="background:rgba(255,255,255,.15);color:#fff;border:none;border-radius:6px;
+      padding:8px 10px;cursor:pointer;font-size:16px;flex-shrink:0;">✕</button>
+  </div>
+  <script>
+    let deferredPrompt;
+    window.addEventListener('beforeinstallprompt', e => {
+      e.preventDefault();
+      deferredPrompt = e;
+      if (localStorage.getItem('bb_pwa_dismissed')) return;
+      const banner = document.getElementById('pwa-banner');
+      if (banner) banner.style.display = 'flex';
+    });
+    const installBtn = document.getElementById('pwa-install-btn');
+    if (installBtn) {
+      installBtn.addEventListener('click', async () => {
+        const banner = document.getElementById('pwa-banner');
+        if (banner) banner.style.display = 'none';
+        if (!deferredPrompt) return;
+        deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+        console.log('[BizdenBize] PWA install:', outcome);
+        deferredPrompt = null;
+      });
     }
-    if(link){
-      block.innerHTML='<div style="padding:14px 16px;background:rgba(30,123,75,.08);border:1px solid rgba(30,123,75,.25);border-radius:12px;">'
-        +'<div style="font-size:13px;font-weight:700;color:var(--green,#1E7B4B);margin-bottom:6px;">🔗 Online Katılım Bağlantısı</div>'
-        +'<a href="'+edEsc(link.meeting_url)+'" target="_blank" rel="noopener" style="font-size:14px;color:var(--navy,#1B3A8C);font-weight:600;word-break:break-all;">'+edEsc(link.meeting_url)+'</a>'
-        +(link.meeting_note?'<div style="font-size:12px;color:var(--muted);margin-top:4px;">'+edEsc(link.meeting_note)+'</div>':'')
-        +'</div>';
+    window.addEventListener('appinstalled', () => {
+      localStorage.setItem('bb_pwa_dismissed','1');
+      const banner = document.getElementById('pwa-banner');
+      if (banner) banner.style.display = 'none';
+      deferredPrompt = null;
+    });
+  </script>
+<script>
+  // ══ COOKIE CONSENT LOGIC ══
+  (function() {
+    var STORAGE_KEY = 'bb_cookie_consent';
+    var consent = null;
+    try { consent = JSON.parse(localStorage.getItem(STORAGE_KEY)); } catch(e) {}
+
+    // Show banner if no consent yet
+    if (!consent) {
+      document.addEventListener('DOMContentLoaded', function() {
+        setTimeout(function() {
+          var b = document.getElementById('cookie-banner');
+          if (b) b.classList.add('visible');
+        }, 800);
+      });
     } else {
-      block.innerHTML='<div style="padding:14px 16px;background:var(--warm,#F0EAE0);border:1px dashed var(--sand);border-radius:12px;font-size:13px;color:var(--muted);">🔒 Online katılım bağlantısı yalnızca kayıtlı katılımcılara gösterilir. Kaydolduğunda burada görünecek.</div>';
+      applyConsent(consent);
     }
-  }
-  async function loadEventDetail(){
-    const root=document.getElementById('event-detail-root');
-    const id=edId();
-    if(!id){ root.innerHTML='<div style="text-align:center;padding:60px;color:var(--red);">Etkinlik bulunamadı. <a href="events.html">← Etkinliklere dön</a></div>'; return; }
+
+    window.acceptAll = function() {
+      var c = { essential:true, prefs:true, analytics:true, marketing:true, ts: Date.now() };
+      saveConsent(c);
+      hideBanner();
+      closeCookieModal();
+    };
+
+    window.acceptEssential = function() {
+      var c = { essential:true, prefs:false, analytics:false, marketing:false, ts: Date.now() };
+      saveConsent(c);
+      hideBanner();
+    };
+
+    window.savePreferences = function() {
+      var c = {
+        essential: true,
+        prefs:     document.getElementById('toggle-prefs')?.classList.contains('on') || false,
+        analytics: document.getElementById('toggle-analytics')?.classList.contains('on') || false,
+        marketing: document.getElementById('toggle-marketing')?.classList.contains('on') || false,
+        ts: Date.now()
+      };
+      saveConsent(c);
+      hideBanner();
+      closeCookieModal();
+      showToast('✓ Çerez tercihleriniz kaydedildi.');
+    };
+
+    function saveConsent(c) {
+      try { localStorage.setItem(STORAGE_KEY, JSON.stringify(c)); } catch(e) {}
+      applyConsent(c);
+    }
+
+    function applyConsent(c) {
+      // Analytics: load only if consented
+      if (c.analytics) {
+        // Plausible or similar would load here
+        // e.g. loadScript('https://plausible.io/js/plausible.js')
+        console.log('[BizdenBize] Analytics enabled');
+      }
+      // Marketing
+      if (c.marketing) {
+        console.log('[BizdenBize] Marketing enabled');
+      }
+    }
+
+    function hideBanner() {
+      var b = document.getElementById('cookie-banner');
+      if (b) { b.style.animation = 'none'; b.style.transform = 'translateY(100%)'; b.style.opacity = '0'; b.style.transition = 'transform .3s ease, opacity .3s'; setTimeout(function(){ b.classList.remove('visible'); b.style = ''; }, 350); }
+    }
+
+    window.openCookieModal = function() {
+      var m = document.getElementById('cookie-modal');
+      if (m) m.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    };
+
+    window.closeCookieModal = function() {
+      var m = document.getElementById('cookie-modal');
+      if (m) m.classList.remove('open');
+      document.body.style.overflow = '';
+    };
+
+    // Close modal on backdrop click
+    document.addEventListener('click', function(e) {
+      var m = document.getElementById('cookie-modal');
+      if (m && e.target === m) closeCookieModal();
+    });
+
+    window.toggleCat = function(cat) {
+      var el = document.getElementById('cat-' + cat);
+      if (el) el.classList.toggle('open');
+    };
+
+    window.toggleCookie = function(e, cat) {
+      e.stopPropagation();
+      var btn = document.getElementById('toggle-' + cat);
+      if (btn) btn.classList.toggle('on');
+    };
+
+    function showToast(msg) {
+      var t = document.createElement('div');
+      t.style.cssText = 'position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#1B3A8C;color:#fff;padding:10px 20px;border-radius:30px;font-size:13px;font-weight:600;z-index:10001;font-family:inherit;white-space:nowrap;';
+      t.textContent = msg;
+      document.body.appendChild(t);
+      setTimeout(function(){ t.remove(); }, 2500);
+    }
+  })();
+
+  </script>
+<script>
+  const _LD_URL='https://wxjudojlwksivhzjnmim.supabase.co';
+  const _LD_KEY='sb_publishable_52tr_hEnnQ3kllZexTue0Q_ByF71303';
+  const _LD_H={'apikey':_LD_KEY,'Authorization':'Bearer '+_LD_KEY};
+  const LD_CATS={kiralik:{l:'Kiralık',e:'🔑'},satilik:{l:'Satılık',e:'🏡'},sublet:{l:'Sublet',e:'🤝'},paylasimli:{l:'Paylaşımlı Ev',e:'👥'}};
+  const LD_COND={sifir:'Sıfır gibi',iyi:'İyi',orta:'Kullanılmış'};
+  const LD_DELIV={elden:'🤝 Elden teslim',kargo:'📦 Kargo',ikisi:'🤝📦 Elden veya kargo'};
+  function ldEsc(x){return String(x==null?'':x).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+  function ldId(){return new URLSearchParams(location.search).get('id');}
+  function ldPrice(l){ if(l.price==null) return (l.tip==='satilik'?'Pazarlık':'Kira belirtilmemiş'); const p='€'+Number(l.price).toLocaleString('de-DE'); return (l.tip==='satilik')?p:(p+'/ay'); }
+
+  async function loadListing(){
+    const root=document.getElementById('listing-root');
+    const id=ldId();
+    if(!id){ root.innerHTML='<div style="text-align:center;padding:60px;color:var(--red);">İlan bulunamadı. <a href="emlak.html">← Emlak sayfasına dön</a></div>'; return; }
     try{
-      const r=await fetch(_ED_URL+'/rest/v1/events?id=eq.'+encodeURIComponent(id)+'&select=*',{headers:_ED_H});
+      const r=await fetch(_LD_URL+'/rest/v1/emlak_listings?id=eq.'+encodeURIComponent(id)+'&select=*',{headers:_LD_H});
       const rows=await r.json();
-      if(!rows.length){ root.innerHTML='<div style="text-align:center;padding:60px;color:var(--red);">Etkinlik bulunamadı ya da henüz onaylanmadı. <a href="events.html">← Etkinliklere dön</a></div>'; return; }
-      const e=rows[0];
-      const cat=ED_CAT[e.category]||{l:e.category||'Etkinlik',c:'#6B5E4E',e:'📅'};
-      const dt=e.event_date?new Date(e.event_date+'T00:00:00'):null;
-      const dateStr=dt&&!isNaN(dt)?(dt.getDate()+' '+ED_M[dt.getMonth()]+' '+dt.getFullYear()):'Tarih belirtilmemiş';
-      document.getElementById('bc-title').textContent=e.title;
-      document.title='BizdenBize — '+e.title;
-      const venue=e.venue?(edEsc(e.venue)+(e.city?', '+edEsc(e.city):'')):(e.city?edEsc(e.city):'—');
+      if(!rows.length){ root.innerHTML='<div style="text-align:center;padding:60px;color:var(--red);">İlan bulunamadı ya da kaldırılmış. <a href="emlak.html">← Emlak sayfasına dön</a></div>'; return; }
+      const l=rows[0];
+      const cat=LD_CATS[l.tip]||{l:l.tip||'',e:'🏠'};
+      const isSold=l.status==='dolu';
+      const doneWord=(l.tip==='satilik')?'Satıldı':'Kiralandı';
+      document.getElementById('bc-title').textContent=l.title;
+      document.title='BizdenBize — '+l.title;
+
+      // gallery
+      const photos=(l.photos&&l.photos.length)?l.photos:[];
+      let gallery;
+      if(photos.length){
+        gallery='<div class="gallery"><div id="ld-main" style="width:100%;aspect-ratio:4/3;border-radius:14px;background-image:url(\''+ldEsc(photos[0])+'\');background-size:cover;background-position:center;"></div>';
+        if(photos.length>1){
+          gallery+='<div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;">'+photos.map((p,i)=>'<div onclick="ldSwap(\''+ldEsc(p)+'\')" style="width:64px;height:64px;border-radius:8px;background-image:url(\''+ldEsc(p)+'\');background-size:cover;background-position:center;cursor:pointer;border:2px solid '+(i===0?'var(--red)':'transparent')+';"></div>').join('')+'</div>';
+        }
+        gallery+='</div>';
+      } else {
+        gallery='<div class="gallery"><div style="width:100%;aspect-ratio:4/3;border-radius:14px;background:var(--warm);display:flex;align-items:center;justify-content:center;font-size:72px;">'+cat.e+'</div></div>';
+      }
+
+      const row=(label,val)=> val?('<tr><td style="padding:4px 24px 4px 0;color:var(--muted);">'+label+'</td><td style="padding:4px 0;font-weight:600;">'+val+'</td></tr>'):'';
+      const rooms=row('Oda', l.rooms?ldEsc(l.rooms):'');
+      const size=row('Büyüklük', l.size_sqm!=null?(l.size_sqm+' m²'):'');
+      const neben=row('Yan giderler', l.nebenkosten!=null?('€'+Number(l.nebenkosten).toLocaleString('de-DE')+'/ay'):'');
+      const kaution=row('Depozito', l.kaution!=null?('€'+Number(l.kaution).toLocaleString('de-DE')):'');
+      const floor=row('Kat', l.floor?ldEsc(l.floor):'');
+      const furn=row('Eşyalı', l.furnished?'Evet':'');
+      const avail=row('Müsait olduğu tarih', l.available_from?ldEsc(new Date(l.available_from).toLocaleDateString('tr-TR')):'');
+      const cond=rooms+size, deliv=neben+kaution+floor+furn+avail;
+      const loc=[l.location,l.city].filter(Boolean).join(', ');
+
+      const shareHtml = `<div style="margin-top:16px;padding-top:16px;border-top:1px solid var(--sand);"><div style="font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px;">Bu İlanı Paylaş</div><div style="display:flex;gap:8px;"><button onclick="ldShareWhatsApp()" style="flex:1;background:#1E7B4B;color:#fff;border:none;border-radius:10px;padding:10px;font-size:13px;font-weight:600;cursor:pointer;font-family:'Instrument Sans',sans-serif;display:flex;align-items:center;justify-content:center;gap:6px;"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.5 15.3L2 22l4.8-1.5A10 10 0 1 0 12 2zm0 18a8 8 0 0 1-4.1-1.1l-.3-.2-2.8.9.9-2.8-.2-.3A8 8 0 1 1 12 20zm4.4-6c-.2-.1-1.4-.7-1.6-.8s-.4-.1-.5.1-.6.8-.7.9-.3.2-.5.1a6.5 6.5 0 0 1-3.2-2.8c-.2-.4.2-.4.6-1.2.1-.2 0-.3 0-.4l-.7-1.7c-.2-.5-.4-.4-.5-.4h-.5a.9.9 0 0 0-.7.3A2.8 2.8 0 0 0 6 8.9a4.9 4.9 0 0 0 1 2.6 11 11 0 0 0 4.3 3.8c1.6.6 1.9.5 2.2.5a2.4 2.4 0 0 0 1.6-1.1 2 2 0 0 0 .1-1.1c0-.2-.2-.2-.4-.3z"/></svg>WhatsApp</button><button onclick="ldShareEmail()" style="flex:1;background:var(--navy,#1B3A8C);color:#fff;border:none;border-radius:10px;padding:10px;font-size:13px;font-weight:600;cursor:pointer;font-family:'Instrument Sans',sans-serif;display:flex;align-items:center;justify-content:center;gap:6px;">✉️ E-posta</button></div></div>`;
+
       root.innerHTML=
         '<div>'
-        + '<div class="event-hero" style="background:'+cat.c+'"><div class="hero-emoji">'+cat.e+'</div>'
-        +   '<div class="hero-date-badge">📅 '+dateStr+(e.event_note?' · '+edEsc(e.event_note):'')+'</div></div>'
-        + '<h1 style="font-family:\'Playfair Display\',serif;font-size:28px;color:var(--ink);margin:0 0 14px;">'+edEsc(e.title)+'</h1>'
-        + '<div class="ei-details" style="display:flex;flex-direction:column;gap:8px;margin-bottom:20px;">'
-        +   '<div>📍 <strong>'+venue+'</strong></div>'
-        +   '<div><span class="ei-tag" style="background:'+cat.c+'1a;color:'+cat.c+';padding:3px 10px;border-radius:8px;font-size:12px;font-weight:600;">'+cat.l+'</span></div>'
+        + gallery
+        + (isSold?'<div style="margin:14px 0;background:var(--red);color:#fff;text-align:center;padding:8px;border-radius:10px;font-weight:700;">'+doneWord.toUpperCase()+'</div>':'')
+        + '<div class="li-price">'+ldPrice(l)+'</div>'
+        + '<div class="li-title">'+ldEsc(l.title)+'</div>'
+        + '<div style="color:var(--muted);font-size:14px;margin:8px 0 20px;">'+cat.e+' '+ldEsc(cat.l)+(loc?' · 📍 '+ldEsc(loc):'')+'</div>'
+        + (l.description?'<div id="ld-description" style="font-size:15px;line-height:1.7;color:var(--ink);margin-bottom:8px;white-space:pre-line;">'+ldEsc(l.description)+'</div><div style="margin-bottom:20px;">'+mhTranslateMenuHtml('#ld-description')+'</div>':'')
+        + ((cond||deliv)?'<table style="width:auto;font-size:14px;border-collapse:collapse;"><tbody>'+cond+deliv+'</tbody></table>':'')
         + '</div>'
-        + (e.description?'<div id="ld-description" style="font-size:15px;line-height:1.7;color:var(--ink);margin-bottom:8px;">'+edEsc(e.description)+'</div><div style="margin-bottom:20px;">'+mhTranslateMenuHtml('#ld-description')+'</div>':'')
-        + edSection('👥 Kimler için faydalı?', e.target_audience)
-        + edSection('🗒️ Program', e.agenda)
-        + edMeetingBlock(e)
-        + edOrganizer(e)
-        + (e.contact_info?edSection('📞 İletişim', e.contact_info):'')
-        + '</div>' 
-        + '<div class="right-col"><div class="rsvp-card">'
-        +   '<div class="rc-date"><div class="rc-month">'+(dt&&!isNaN(dt)?ED_M[dt.getMonth()].slice(0,3):'—')+'</div><div class="rc-day">'+(dt&&!isNaN(dt)?dt.getDate():'·')+'</div></div>'
-        +   (e.event_note?'<div class="rc-time">'+edEsc(e.event_note)+'</div>':'')
-        +   (e.capacity?'<div class="rc-spots">Kontenjan: '+e.capacity+'</div>':'')
-        +   edActionBlock(e)
-        +   '<div class="rsvp-share" style="margin-top:10px;"><button class="share-btn" onclick="edShareWA()">💬 WhatsApp</button></div>'
+        + '<div class="right-col"><div class="seller-card">'
+        +   '<div style="font-size:13px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:12px;">Satıcı ile İletişim</div>'
+        +   (isSold
+              ? '<div style="color:var(--muted);font-size:14px;">Bu ilan artık müsait değil.</div>'
+              : '<button onclick="ldContact(\''+l.created_by+'\')" style="width:100%;background:var(--red);color:#fff;border:none;border-radius:11px;padding:13px;font-size:14px;font-weight:600;cursor:pointer;font-family:\'Instrument Sans\',sans-serif;">💬 Mesaj Gönder</button>')
+        +   '<div style="font-size:12px;color:var(--muted);margin-top:12px;line-height:1.5;">Güvenliğin için tüm iletişim BizdenBize üzerinden yapılır. Kişisel bilgilerini paylaşmadan önce dikkatli ol.</div>'
+        +   shareHtml
         + '</div></div>';
-      window.__edEvent=e; edFillMeeting(e);
-    }catch(err){ root.innerHTML='<div style="text-align:center;padding:60px;color:var(--red);">Yüklenemedi. <a href="events.html">← Etkinliklere dön</a></div>'; }
+      window.__ldListing=l;
+    }catch(e){ root.innerHTML='<div style="text-align:center;padding:60px;color:var(--red);">Yüklenemedi. <a href="emlak.html">← Emlak sayfasına dön</a></div>'; }
   }
-  function edShareWA(){ const e=window.__edEvent; if(!e)return; const txt=e.title+' — BizdenBize\n'+location.href; window.open('https://wa.me/?text='+encodeURIComponent(txt),'_blank'); }
-  window.edShareWA=edShareWA;
-  loadEventDetail();
+  window.ldSwap=function(url){ const m=document.getElementById('ld-main'); if(m) m.style.backgroundImage='url(\''+url+'\')'; };
+  window.ldContact=async function(sellerId){
+    await (window._authReady||Promise.resolve());
+    const session=window._currentSession;
+    if(!session){ alert('Mesaj göndermek için giriş yapmalısın.'); location.href='login.html'; return; }
+    if(session.user.id===sellerId){ alert('Bu senin kendi ilanın.'); return; }
+    // hand off to messages with the seller preselected
+    const ref=encodeURIComponent('"'+(window.__ldListing?window.__ldListing.title:'İlan')+'" ilanı hakkında:');
+    location.href='messages.html?with='+sellerId+'&ref='+ref+'&listing='+(window.__ldListing?window.__ldListing.id:'');
+  };
+  function ldShareData(){
+    const l=window.__ldListing||{};
+    const url=location.origin+location.pathname+'?id='+encodeURIComponent(l.id||'');
+    return { url:url, price:ldPrice(l), title:l.title||'İlan' };
+  }
+  window.ldShareWhatsApp=function(){
+    const s=ldShareData();
+    const text='"'+s.title+'" · '+s.price+'\n\nBu ilanı BizdenBize\'de gör:\n'+s.url;
+    window.open('https://wa.me/?text='+encodeURIComponent(text),'_blank');
+  };
+  window.ldShareEmail=function(){
+    const s=ldShareData();
+    const subject='BizdenBize\'de bir ilan: '+s.title;
+    const body='Merhaba,\n\nBu ilanı BizdenBize\'de gördüm, ilgini çekebilir:\n\n"'+s.title+'" · '+s.price+'\n\n'+s.url+'\n\nBizdenBize — Gurbet Hayatını Kolaylaştırıyoruz.';
+    location.href='mailto:?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(body);
+  };
+  loadListing();
 </script>
   <script src="translate-widget.js"></script>
 </body>

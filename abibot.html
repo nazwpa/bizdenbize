@@ -131,6 +131,22 @@
     .abibot-name { font-size: 15px; font-weight: 600; color: var(--ink); }
     .abibot-sub { font-size: 12px; color: var(--muted); margin-top: 1px; }
 
+    /* AbiBOT-brand avatar treatment — split black/red echoing the "Abi"+"BOT" wordmark.
+       Scoped to body.abibot-brand so bizdenbize.com's version is untouched. */
+    body.abibot-brand .abibot-avatar,
+    body.abibot-brand .welcome-icon,
+    body.abibot-brand .msg-avatar.ai {
+      background: linear-gradient(135deg, var(--ink) 0%, var(--ink) 50%, var(--red) 50%, var(--red) 100%) !important;
+    }
+
+    /* Collapsed how-to bar (shown after first visit) */
+    .howto-collapsed {
+      display: none; align-items: center; gap: 8px; padding: 8px 20px;
+      background: #1A1208; cursor: pointer; flex-shrink: 0;
+    }
+    .howto-collapsed:hover { background: #2a1f10; }
+    .howto-collapsed span { font-size: 12px; color: rgba(255,255,255,.75); }
+
     /* How-to bar */
     .howto-bar {
       display: flex !important; align-items: center; gap: 8px;
@@ -209,6 +225,19 @@
     .msg-action:hover { border-color: var(--red); color: var(--red); }
     .msg-action.escalate-btn { background: var(--ink); color: var(--white); border-color: var(--ink); }
     .msg-action.escalate-btn:hover { background: var(--red); border-color: var(--red); }
+    .msg-action.verify-btn { }
+    .verify-box { margin-top: 10px; padding: 12px 14px; border-radius: 12px; font-size: 13.5px; line-height: 1.55; border: 1px solid var(--sand); background: var(--cream, #FAF7F2); display: none; }
+    .verify-box.show { display: block; }
+    .verify-box .vb-head { display: flex; align-items: center; gap: 8px; font-weight: 700; margin-bottom: 4px; }
+    .verify-box .vb-dot { width: 9px; height: 9px; border-radius: 50%; flex: 0 0 auto; }
+    .verify-box.reliable  { border-color: rgba(30,123,75,.4);  background: rgba(30,123,75,.07); }
+    .verify-box.reliable  .vb-dot { background: #1E7B4B; } .verify-box.reliable  .vb-head { color: #1E7B4B; }
+    .verify-box.partial   { border-color: rgba(201,168,76,.5); background: rgba(201,168,76,.09); }
+    .verify-box.partial   .vb-dot { background: #C9A84C; } .verify-box.partial   .vb-head { color: #9A7D2E; }
+    .verify-box.doubtful  { border-color: rgba(212,43,43,.4);  background: rgba(212,43,43,.06); }
+    .verify-box.doubtful  .vb-dot { background: var(--red); } .verify-box.doubtful  .vb-head { color: var(--red); }
+    .verify-box .vb-reason { color: var(--ink); }
+    .verify-box .vb-foot { margin-top: 6px; font-size: 11px; color: var(--muted); }
     .translate-wrap { position: relative; display: inline-block; }
     .translate-dropdown {
       display: none; position: absolute; bottom: calc(100% + 6px); left: 0;
@@ -287,6 +316,29 @@
     .send-btn:hover { background: var(--red2); }
     .send-btn:active { transform: scale(.95); }
     .send-btn:disabled { background: var(--sand); cursor: not-allowed; }
+    .attach-btn {
+      width: 36px; height: 36px; border-radius: 8px; flex-shrink: 0;
+      background: none; border: 1.5px solid var(--sand); cursor: pointer;
+      display: flex; align-items: center; justify-content: center; font-size: 17px;
+      transition: background .2s;
+    }
+    .attach-btn:hover { background: var(--warm); }
+    .photo-preview-bar {
+      display: none; align-items: center; gap: 10px; margin-bottom: 10px;
+      padding: 8px 10px; background: var(--warm); border-radius: 10px;
+    }
+    .photo-preview-bar.show { display: flex; }
+    .photo-preview-thumb { width: 44px; height: 44px; border-radius: 8px; object-fit: cover; flex-shrink: 0; }
+    .photo-preview-name { flex: 1; font-size: 12px; color: var(--ink); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .photo-preview-remove {
+      background: none; border: none; color: var(--muted); font-size: 20px; line-height: 1;
+      cursor: pointer; flex-shrink: 0; padding: 2px 6px;
+    }
+    .photo-preview-remove:hover { color: var(--red); }
+    .msg-image { max-width: 220px; border-radius: 10px; display: block; margin-bottom: 6px; }
+    .msg-pdf-chip { display: inline-flex; align-items: center; gap: 6px; padding: 8px 12px; background: rgba(255,255,255,.15); border-radius: 8px; font-size: 12.5px; margin-bottom: 6px; }
+    .bubble.user .msg-pdf-chip { background: rgba(255,255,255,.2); }
+    .bubble.ai .msg-pdf-chip { background: var(--warm); }
     .input-hints {
       display: flex; gap: 8px; margin-top: 10px; align-items: center;
       font-size: 11px; color: var(--muted); flex-wrap: wrap;
@@ -333,7 +385,7 @@
     @media (max-width: 768px) {
       .shell { grid-template-columns: 1fr !important; width: 100vw !important; overflow: hidden !important; }
       .left-panel { display: none !important; }
-      .chat-area { height: calc(100vh - 58px); width: 100% !important; overflow-x: hidden !important; }
+      .chat-area { height: calc(100vh - 58px - 64px) !important; width: 100% !important; overflow-x: hidden !important; }
       .messages { overflow-x: hidden !important; padding: 16px !important; }
       .welcome-state { max-width: 100% !important; width: 100% !important; padding: 20px 16px !important; box-sizing: border-box !important; }
       .welcome-title { font-size: 22px !important; }
@@ -627,6 +679,14 @@
     .nav-logo-link { display:flex;align-items:center;flex-shrink:0;margin-right:12px; }
     .nav-menu { display:flex;gap:2px;flex:1;align-items:center; }
     .nav-item { position:relative; }
+    .nav-cat-pill {
+      display:flex;align-items:center;gap:6px;flex-shrink:0;white-space:nowrap;
+      padding:8px 13px;border-radius:20px;border:1.5px solid var(--sand,#D4C5A9);
+      background:var(--white,#fff);font-size:12px;font-weight:600;color:var(--ink,#1A1208);
+      cursor:pointer;font-family:'Instrument Sans',sans-serif;transition:all .15s;
+    }
+    .nav-cat-pill:hover { border-color:var(--ink,#1A1208); }
+    .nav-cat-pill.active { background:var(--ink,#1A1208); border-color:var(--ink,#1A1208); color:#fff; }
     .nav-item-btn {
       display:flex;align-items:center;gap:5px;
       padding:8px 12px; border-radius:7px;
@@ -671,7 +731,56 @@
     .mm-link.active { background:rgba(212,43,43,.07);color:#D42B2B;font-weight:600; }
     .mm-link-icon { font-size:20px;width:28px;text-align:center;flex-shrink:0; }
     .mm-footer { padding:16px 20px 32px;border-top:1px solid var(--warm,#F0EAE0);margin-top:auto; }
-    @media (max-width:900px) { .nav-menu { display:none!important; } .hamburger { display:flex!important; } }
+        @media (max-width:900px) { .nav-primary { display:none!important; } .bottom-tabbar { display:flex!important; } body{ padding-bottom:64px; } .chat-area { height: calc(100vh - 58px - 64px) !important; } }
+
+    /* ── SIMPLIFIED PRIMARY NAV ── */
+    .nav-primary{display:flex;align-items:center;gap:2px;margin-left:10px;}
+    .nav-primary a,.nav-kesfet-btn{
+      display:flex;align-items:center;gap:6px;padding:9px 14px;border-radius:8px;
+      font-size:14px;font-weight:600;color:var(--ink);text-decoration:none;
+      background:none;border:none;cursor:pointer;font-family:inherit;white-space:nowrap;
+    }
+    .nav-primary a:hover,.nav-kesfet-btn:hover{background:var(--warm);}
+    .nav-primary a.active{background:var(--warm);color:var(--red);}
+
+    /* ── KEŞFET PANEL (desktop) ── */
+    .kesfet-panel{
+      display:none;position:absolute;top:64px;left:50%;transform:translateX(-50%);
+      background:#fff;border:1px solid var(--sand);border-radius:14px;
+      box-shadow:0 12px 32px rgba(26,18,8,.14);padding:18px;width:560px;z-index:250;
+    }
+    .kesfet-panel.open{display:block;}
+    .kesfet-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
+    .kesfet-tile{display:flex;flex-direction:column;align-items:center;gap:6px;
+      padding:14px 8px;border-radius:10px;text-decoration:none;color:var(--ink);
+      font-size:12.5px;font-weight:600;text-align:center;background:var(--cream);}
+    .kesfet-tile:hover{background:var(--warm);}
+    .kesfet-tile .e{font-size:22px;}
+
+    /* ── UTILITY: messages icon (matches existing notif-bell styling) ── */
+    .nav-msg{position:relative;background:none;border:none;font-size:19px;cursor:pointer;
+      padding:8px;border-radius:8px;text-decoration:none;display:inline-flex;color:var(--ink);}
+    .nav-msg:hover{background:var(--warm);}
+
+    /* ── BOTTOM TAB BAR (mobile only) ── */
+    .bottom-tabbar{display:none;position:fixed;left:0;right:0;bottom:0;z-index:300;
+      background:#fff;border-top:1px solid var(--sand);
+      padding:6px 4px calc(6px + env(safe-area-inset-bottom));}
+    .bt-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;
+      font-size:10px;font-weight:600;color:var(--muted);text-decoration:none;padding:5px 0;
+      background:none;border:none;font-family:inherit;cursor:pointer;}
+    .bt-item.active{color:var(--red);}
+    .bt-icon{font-size:20px;}
+
+    /* ── KEŞFET SHEET (mobile) ── */
+    .kesfet-sheet-overlay{display:none;position:fixed;inset:0;background:rgba(26,18,8,.35);z-index:350;}
+    .kesfet-sheet-overlay.open{display:block;}
+    .kesfet-sheet{position:fixed;left:0;right:0;bottom:0;background:#fff;
+      border-radius:18px 18px 0 0;padding:16px 14px calc(16px + env(safe-area-inset-bottom));
+      z-index:351;max-height:75vh;overflow-y:auto;}
+    .kesfet-sheet-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
+    .kesfet-sheet-title{font-size:15px;font-weight:700;color:var(--ink);}
+    .kesfet-sheet-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
 
   </style>
 
@@ -696,221 +805,127 @@
   <!-- Favicon -->
   <link rel="icon" type="image/png" sizes="32x32" href="icons/icon-96.png">
   <link rel="shortcut icon" href="icons/icon-96.png">
+  <script src="platform-config.js"></script>
+  <script src="sso.js"></script>
   <script src="i18n.js"></script>
 <script>
-  function toggleDropdown(id, btn) {
-    const dropdown = document.getElementById(id);
-    const isOpen = dropdown.classList.contains('open');
-    document.querySelectorAll('.nav-dropdown').forEach(d => d.classList.remove('open'));
-    document.querySelectorAll('.nav-item-btn').forEach(b => b.classList.remove('open'));
-    if (!isOpen) { dropdown.classList.add('open'); btn.classList.add('open'); }
-  }
-  document.addEventListener('click', e => {
-    if (!e.target.closest('.nav-item')) {
-      document.querySelectorAll('.nav-dropdown').forEach(d => d.classList.remove('open'));
-      document.querySelectorAll('.nav-item-btn').forEach(b => b.classList.remove('open'));
-    }
-  });
-  function toggleMenu() {
-    const hb = document.getElementById('hamburger');
-    const menu = document.getElementById('mobile-menu');
-    hb.classList.toggle('open');
-    menu.classList.toggle('open');
-    document.body.style.overflow = menu.classList.contains('open') ? 'hidden' : '';
-  }
-  (function() {
-    const page = window.location.pathname.split('/').pop() || 'mahallem.html';
-    document.querySelectorAll('.nav-dropdown a, .mm-link').forEach(a => {
-      if ((a.getAttribute('href')||'').split('?')[0] === page) a.classList.add('active');
-    });
-    document.querySelectorAll('.nav-item').forEach(item => {
-      if (item.querySelector('a.active')) item.querySelector('.nav-item-btn').classList.add('active');
-    });
-  })();
 </script>
 </head>
 <body>
 <!-- NAV -->
 <nav style="position:sticky;top:0;z-index:200;background:rgba(250,247,242,0.97);backdrop-filter:blur(14px);border-bottom:1px solid rgba(212,197,169,0.4);height:58px;display:flex;align-items:center;padding:0 16px 0 12px;gap:4px;">
-  <a href="mahallem.html" class="nav-logo-link"><img src="logo.png" alt="BizdenBize" style="height:44px;width:auto;display:block;"></a>
-  <div class="nav-menu">
-    <div class="nav-item">
-      <button class="nav-item-btn" onclick="toggleDropdown('dd-mahallem',this)">🏘️ Mahallem <span class="chevron">▼</span></button>
-      <div class="nav-dropdown" id="dd-mahallem">
-        <a href="mahallem.html">🏘️ Komşularım</a>
-        <a href="events.html">🎉 Etkinlikler</a>
-        <a href="mahallem.html">📝 Paylaşımlar</a>
-      </div>
-    </div>
-    <div class="nav-item">
-      <button class="nav-item-btn" onclick="toggleDropdown('dd-is',this)">💼 İş & Göç <span class="chevron">▼</span></button>
-      <div class="nav-dropdown" id="dd-is">
-        <a href="is-guc.html">💼 İş İlanları</a>
-        <a href="is-guc.html">⚡ Freelance & Gig</a>
-        <a href="is-guc.html">👤 İş Arayanlar</a>
-        <a href="is-guc.html">✈️ Avrupa'ya Göç</a>
-        <hr>
-        <a href="business.html">🏢 İşletmeler</a>
-      </div>
-    </div>
-    <div class="nav-item">
-      <button class="nav-item-btn" onclick="toggleDropdown('dd-ogrenim',this)">🎓 Öğrenim <span class="chevron">▼</span></button>
-      <div class="nav-dropdown" id="dd-ogrenim">
-        <a href="ogrenim.html">🗣️ Dil Kursları</a>
-        <a href="ogrenim.html">🎓 Yüksek Öğrenim</a>
-        <a href="ogrenim.html">📜 Diploma Denkliği</a>
-        <a href="ogrenim.html">🏭 Ausbildung</a>
-        <hr>
-        <a href="nachhilfe.html">✏️ Nachhilfe</a>
-        <a href="webinar.html">🎥 Webinarlar</a>
-        <a href="ogrenim.html">📚 Weiterbildung</a>
-      </div>
-    </div>
-    <div class="nav-item">
-      <button class="nav-item-btn" onclick="toggleDropdown('dd-emlak',this)">🏠 Konut & Emlak <span class="chevron">▼</span></button>
-      <div class="nav-dropdown" id="dd-emlak">
-        <a href="classifieds.html">🔑 Kiralık Ev</a>
-        <a href="classifieds.html">🏡 Satılık Ev</a>
-        <a href="classifieds.html">🤝 Sublet</a>
-        <a href="classifieds.html">👥 Paylaşımlı Ev</a>
-        <hr>
-        <a href="ev-takasi.html">🔄 Ev Takası</a>
-        <a href="classifieds.html">📋 Tüm Emlak İlanları</a>
-      </div>
-    </div>
-    <div class="nav-item">
-      <button class="nav-item-btn" onclick="toggleDropdown('dd-ilanlar',this)">🛍️ İlanlar <span class="chevron">▼</span></button>
-      <div class="nav-dropdown" id="dd-ilanlar">
-        <a href="classifieds.html">🚗 Araç</a>
-        <a href="classifieds.html">🛋️ Ev Eşyası</a>
-        <a href="classifieds.html">📱 Elektronik</a>
-        <a href="classifieds.html">👗 Giyim</a>
-        <a href="classifieds.html">📋 Tümü</a>
-      </div>
-    </div>
-    <div class="nav-item">
-      <button class="nav-item-btn" onclick="toggleDropdown('dd-bilgiler',this)">📚 Bilgiler <span class="chevron">▼</span></button>
-      <div class="nav-dropdown" id="dd-bilgiler">
-        <a href="library.html">📚 Tüm Kaynaklar</a>
-        <hr>
-        <a href="library.html">💶 Kindergeld & Sosyal Yardımlar</a>
-        <a href="library.html">🏫 Okul & Çocuklar</a>
-        <a href="library.html">🛂 Vize & Oturum</a>
-        <a href="library.html">🚗 Sigorta</a>
-        <a href="library.html">💼 Çalışma Hayatı</a>
-      </div>
-    </div>
-    <div class="nav-item">
-      <button class="nav-item-btn" onclick="toggleDropdown('dd-abibot',this)">🤖 AbiBOT <span class="chevron">▼</span></button>
-      <div class="nav-dropdown" id="dd-abibot">
-        <a href="abibot.html">🤖 AbiBOT'a Sor</a>
-        <hr>
-        <a href="abibot.html">⚖️ Hukuk</a>
-        <a href="abibot.html">🏥 Tıbbi</a>
-        <a href="abibot.html">💼 Çalışma & Sigorta</a>
-        <a href="abibot.html">💶 Vergi & Finans</a>
-        <a href="abibot.html">🛂 Vize & Oturum</a>
-        <a href="abibot.html">👶 Okul & Yardımlar</a>
-        <a href="abibot.html">✈️ Avrupa'ya Göç</a>
-      </div>
+  <a href="mahallem.html" class="nav-logo-link" id="nav-logo-link"><img src="logo.png" alt="BizdenBize" style="height:44px;width:auto;display:block;"></a>
+  <div class="nav-primary" id="nav-menu">
+    <a href="mahallem.html" id="np-mahallem">🏘️ Mahallem</a>
+    <a href="abibot.html" id="np-abibot">🤖 AbiBOT</a>
+    <a href="classifieds.html" id="np-ilanlar">🛍️ İlanlar</a>
+    <button class="nav-kesfet-btn" onclick="toggleKesfet(event)" id="np-kesfet">🔍 Keşfet</button>
+  </div>
+  <div class="kesfet-panel" id="kesfet-panel">
+    <div class="kesfet-grid">
+      <a class="kesfet-tile" href="is-guc.html"><span class="e">💼</span>İş İlanları</a>
+      <a class="kesfet-tile" href="business.html"><span class="e">🏢</span>İşletmeler</a>
+      <a class="kesfet-tile" href="uzmanlar.html"><span class="e">👨‍⚖️</span>Uzmanlar</a>
+      <a class="kesfet-tile" href="ogrenim.html"><span class="e">🎓</span>Öğrenim</a>
+      <a class="kesfet-tile" href="nachhilfe.html"><span class="e">✏️</span>Nachhilfe</a>
+      <a class="kesfet-tile" href="webinar.html"><span class="e">🎥</span>Webinarlar</a>
+      <a class="kesfet-tile" href="saglik.html"><span class="e">🏥</span>Sağlık</a>
+      <a class="kesfet-tile" href="emlak.html"><span class="e">🏠</span>Konut & Emlak</a>
+      <a class="kesfet-tile" href="ev-takasi.html"><span class="e">🔄</span>Tatil Takası</a>
+      <a class="kesfet-tile" href="library.html"><span class="e">📚</span>Bilgi & Belge</a>
+      <a class="kesfet-tile" href="events.html"><span class="e">🎉</span>Etkinlikler</a>
     </div>
   </div>
+  <div style="flex:1;"></div>
   <div class="nav-right">
-    <div class="credit-pill" style="cursor:pointer" title="Kredi yükle" onclick="window.location='premium.html'"><div class="credit-dot"></div><span id="credit-display">12 kredi</span></div><div class="nav-avatar" onclick="window.location='profile.html'" title="Profilim">AY</div>
-    <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menü"><span></span><span></span><span></span></button>
+    <a class="nav-msg" href="messages.html" title="Mesajlar">💬</a>
+    <div class="credit-pill" style="cursor:pointer" title="Kredi yükle" onclick="window.location='premium.html'"><div class="credit-dot"></div><span id="credit-display">— kredi</span></div>
+    <div class="nav-avatar" id="nav-avatar" onclick="toggleAvatarMenu()" title="Profilim" style="position:relative;">—</div>
+    <div id="avatar-menu" style="display:none;position:absolute;top:54px;right:16px;background:#fff;border:1px solid rgba(212,197,169,.5);border-radius:12px;padding:8px;min-width:180px;box-shadow:0 8px 32px rgba(0,0,0,.1);z-index:300;">
+      <a href="profile.html" style="display:flex;align-items:center;gap:9px;padding:9px 12px;border-radius:8px;font-size:13px;font-weight:500;color:#1A1208;text-decoration:none;">👤 Profilim</a>
+      <hr style="border:none;border-top:1px solid #F0EAE0;margin:4px 0;">
+      <button onclick="doLogout()" style="display:flex;align-items:center;gap:9px;padding:9px 12px;border-radius:8px;font-size:13px;font-weight:500;color:#D42B2B;background:none;border:none;cursor:pointer;width:100%;font-family:inherit;">Çıkış Yap</button>
+    </div>
   </div>
 </nav>
+<script>
+  function toggleAvatarMenu() { const menu = document.getElementById('avatar-menu'); menu.style.display = menu.style.display === 'none' ? 'block' : 'none'; }
+  document.addEventListener('click', function(e) { if (!e.target.closest('#nav-avatar') && !e.target.closest('#avatar-menu')) { const menu = document.getElementById('avatar-menu'); if (menu) menu.style.display = 'none'; } });
+  async function doLogout() { const { createClient } = await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm'); const sb = createClient('https://wxjudojlwksivhzjnmim.supabase.co', 'sb_publishable_52tr_hEnnQ3kllZexTue0Q_ByF71303'); await sb.auth.signOut(); Object.keys(localStorage).forEach(k => localStorage.removeItem(k)); sessionStorage.clear(); window.location.replace('/login.html'); }
+</script>
 
-<!-- MOBILE MENU -->
-<div class="mobile-menu" id="mobile-menu">
-  <div class="mm-header">
-    <div style="font-family:'Playfair Display',serif;font-size:18px;font-weight:900;color:#1A1208;">Bizden<span style="color:#D42B2B;">Bize</span></div>
-    <button onclick="toggleMenu()" style="background:none;border:none;font-size:26px;color:#6B5E4E;cursor:pointer;line-height:1;">×</button>
+<!-- KEŞFET SHEET (mobile) -->
+<div class="kesfet-sheet-overlay" id="kesfet-sheet-overlay" onclick="closeKesfetSheet()"></div>
+<div class="kesfet-sheet" id="kesfet-sheet" style="display:none;">
+  <div class="kesfet-sheet-header">
+    <div class="kesfet-sheet-title">Keşfet</div>
+    <button onclick="closeKesfetSheet()" style="background:none;border:none;font-size:22px;color:var(--muted);cursor:pointer;line-height:1;">×</button>
   </div>
-  <div class="mm-section"><div class="mm-section-title">Topluluk</div>
-    <a class="mm-link" href="mahallem.html"><span class="mm-link-icon">🏘️</span>Komşularım</a>
-    <a class="mm-link" href="events.html"><span class="mm-link-icon">🎉</span>Etkinlikler</a>
-  </div>
-  <div class="mm-section"><div class="mm-section-title">İş & Göç</div>
-    <a class="mm-link" href="is-guc.html"><span class="mm-link-icon">💼</span>İş İlanları</a>
-    <a class="mm-link" href="is-guc.html"><span class="mm-link-icon">⚡</span>Freelance & Gig</a>
-    <a class="mm-link" href="is-guc.html"><span class="mm-link-icon">✈️</span>Avrupa'ya Göç</a>
-    <a class="mm-link" href="business.html"><span class="mm-link-icon">🏢</span>İşletmeler</a>
-  </div>
-  <div class="mm-section"><div class="mm-section-title">Öğrenim</div>
-    <a class="mm-link" href="ogrenim.html"><span class="mm-link-icon">🗣️</span>Dil Kursları</a>
-    <a class="mm-link" href="ogrenim.html"><span class="mm-link-icon">🎓</span>Yüksek Öğrenim</a>
-    <a class="mm-link" href="ogrenim.html"><span class="mm-link-icon">🏭</span>Ausbildung</a>
-  </div>
-  <div class="mm-section"><div class="mm-section-title">Sağlık</div>
-    <a class="mm-link" href="saglik.html"><span class="mm-link-icon">🏥</span>Doktor Bul</a>
-    <a class="mm-link" href="saglik.html"><span class="mm-link-icon">🧠</span>Ruh Sağlığı</a>
-    <a class="mm-link" href="saglik.html"><span class="mm-link-icon">🚨</span>Acil Durumlar</a>
-  </div>
-  <div class="mm-section"><div class="mm-section-title">Konut & Emlak</div>
-    <a class="mm-link" href="classifieds.html"><span class="mm-link-icon">🔑</span>Kiralık Ev</a>
-    <a class="mm-link" href="classifieds.html"><span class="mm-link-icon">🏡</span>Satılık Ev</a>
-    <a class="mm-link" href="classifieds.html"><span class="mm-link-icon">👥</span>Paylaşımlı Ev</a>
-  </div>
-  <div class="mm-section"><div class="mm-section-title">İlanlar & Bilgiler</div>
-    <a class="mm-link" href="classifieds.html"><span class="mm-link-icon">🛍️</span>İlanlar</a>
-    <a class="mm-link" href="library.html"><span class="mm-link-icon">📚</span>Bilgiler</a>
-    <a class="mm-link" href="abibot.html"><span class="mm-link-icon">🤖</span>AbiBOT</a>
-  </div>
-  <div class="mm-footer">
-    <a href="profile.html" style="display:flex;align-items:center;gap:10px;text-decoration:none;color:#1A1208;">
-      <div style="width:36px;height:36px;border-radius:50%;background:#D42B2B;color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;">AY</div>
-      <div><div style="font-size:13px;font-weight:600;">Profilim</div><div style="font-size:11px;color:#6B5E4E;">Hesabımı gör</div></div>
-    </a>
+  <div class="kesfet-sheet-grid">
+    <a class="kesfet-tile" href="is-guc.html"><span class="e">💼</span>İş İlanları</a>
+    <a class="kesfet-tile" href="business.html"><span class="e">🏢</span>İşletmeler</a>
+    <a class="kesfet-tile" href="uzmanlar.html"><span class="e">👨‍⚖️</span>Uzmanlar</a>
+    <a class="kesfet-tile" href="ogrenim.html"><span class="e">🎓</span>Öğrenim</a>
+    <a class="kesfet-tile" href="nachhilfe.html"><span class="e">✏️</span>Nachhilfe</a>
+    <a class="kesfet-tile" href="webinar.html"><span class="e">🎥</span>Webinarlar</a>
+    <a class="kesfet-tile" href="saglik.html"><span class="e">🏥</span>Sağlık</a>
+    <a class="kesfet-tile" href="emlak.html"><span class="e">🏠</span>Konut & Emlak</a>
+    <a class="kesfet-tile" href="ev-takasi.html"><span class="e">🔄</span>Tatil Takası</a>
+    <a class="kesfet-tile" href="library.html"><span class="e">📚</span>Bilgi & Belge</a>
+    <a class="kesfet-tile" href="events.html"><span class="e">🎉</span>Etkinlikler</a>
+    <a class="kesfet-tile" href="messages.html"><span class="e">💬</span>Mesajlar</a>
   </div>
 </div>
+
+<!-- BOTTOM TAB BAR (mobile) -->
+<div class="bottom-tabbar" id="bottom-tabbar">
+  <a class="bt-item" href="mahallem.html" id="bt-mahallem"><span class="bt-icon">🏘️</span>Mahallem</a>
+  <a class="bt-item" href="abibot.html" id="bt-abibot"><span class="bt-icon">🤖</span>AbiBOT</a>
+  <a class="bt-item" href="classifieds.html" id="bt-ilanlar"><span class="bt-icon">🛍️</span>İlanlar</a>
+  <button class="bt-item" onclick="openKesfetSheet()" id="bt-kesfet"><span class="bt-icon">🔍</span>Keşfet</button>
+  <a class="bt-item" href="profile.html" id="bt-profil"><span class="bt-icon">👤</span>Profil</a>
+</div>
+
+<script>
+  function toggleKesfet(e) {
+    e.stopPropagation();
+    document.getElementById('kesfet-panel').classList.toggle('open');
+  }
+  document.addEventListener('click', function(e) {
+    const panel = document.getElementById('kesfet-panel');
+    if (panel && panel.classList.contains('open') && !panel.contains(e.target) && e.target.id !== 'np-kesfet') {
+      panel.classList.remove('open');
+    }
+  });
+  function openKesfetSheet() {
+    document.getElementById('kesfet-sheet-overlay').classList.add('open');
+    document.getElementById('kesfet-sheet').style.display = 'block';
+  }
+  function closeKesfetSheet() {
+    document.getElementById('kesfet-sheet-overlay').classList.remove('open');
+    document.getElementById('kesfet-sheet').style.display = 'none';
+  }
+  (function() {
+    const page = window.location.pathname.split('/').pop() || 'mahallem.html';
+    const map = { 'mahallem.html': 'mahallem', 'abibot.html': 'abibot', 'classifieds.html': 'ilanlar', 'profile.html': 'profil' };
+    const key = map[page];
+    if (key) {
+      const npEl = document.getElementById('np-' + key);
+      const btEl = document.getElementById('bt-' + key);
+      if (npEl) npEl.classList.add('active');
+      if (btEl) btEl.classList.add('active');
+    }
+  })();
+</script>
 
 <div class="shell">
 
   <!-- LEFT PANEL -->
   <aside class="left-panel">
 
-    <div class="panel-section">
+    <div class="panel-section" id="sidebar-cat-section">
       <div class="ps-label">Kategori seç</div>
-      <div class="cat-list" id="cat-list">
-        <div class="cat-item active" data-cat="legal" data-price="5" data-icon="⚖️" onclick="selectCat(this)">
-          <span class="cat-icon">⚖️</span>
-          <div class="cat-info"><div class="cat-name">Hukuki</div></div>
-          <span class="cat-badge">Popüler</span>
-        </div>
-        <div class="cat-item" data-cat="medical" data-price="4" data-icon="🏥" onclick="selectCat(this)">
-          <span class="cat-icon">🏥</span>
-          <div class="cat-info"><div class="cat-name">Tıbbi</div></div>
-        </div>
-        <div class="cat-item" data-cat="tax" data-price="4" data-icon="💶" onclick="selectCat(this)">
-          <span class="cat-icon">💶</span>
-          <div class="cat-info"><div class="cat-name">Vergi & Finans</div></div>
-        </div>
-        <div class="cat-item" data-cat="visa" data-price="5" data-icon="🛂" onclick="selectCat(this)">
-          <span class="cat-icon">🛂</span>
-          <div class="cat-info"><div class="cat-name">Vize & Oturma</div></div>
-        </div>
-        <div class="cat-item" data-cat="housing" data-price="3" data-icon="🏠" onclick="selectCat(this)">
-          <span class="cat-icon">🏠</span>
-          <div class="cat-info"><div class="cat-name">Konut & Kira</div></div>
-        </div>
-        <div class="cat-item" data-cat="employment" data-price="3" data-icon="💼" onclick="selectCat(this)">
-          <span class="cat-icon">💼</span>
-          <div class="cat-info"><div class="cat-name">İş & Çalışma</div></div>
-        </div>
-        <div class="cat-item" data-cat="school" data-price="2" data-icon="👶" onclick="selectCat(this)">
-          <span class="cat-icon">👶</span>
-          <div class="cat-info"><div class="cat-name">Okul & Yardımlar</div></div>
-        </div>
-        <div class="cat-item" data-cat="insurance" data-price="2" data-icon="🚗" onclick="selectCat(this)">
-          <span class="cat-icon">🚗</span>
-          <div class="cat-info"><div class="cat-name">Sigorta & Araç</div></div>
-        </div>
-        <div class="cat-item" data-cat="migration" data-price="5" data-icon="✈️" onclick="selectCat(this)">
-          <span class="cat-icon">✈️</span>
-          <div class="cat-info"><div class="cat-name">Avrupa'ya Göç</div><span class="cat-badge" style="background:rgba(212,43,43,.1);color:var(--red);font-size:9px;padding:2px 6px;border-radius:10px;font-weight:700;">YENİ</span></div>
-        </div>
-      </div>
+      <div class="cat-list" id="cat-list"></div>
     </div>
 
     <div class="panel-section">
@@ -941,6 +956,12 @@
       <button class="eb-btn" id="escalate-sidebar-btn" disabled onclick="openEscalate()">Uzman İncelesin →</button>
     </div>
 
+    <div class="panel-section" style="padding-top:14px;padding-bottom:14px;">
+      <button onclick="window.BB_SSO && window.BB_SSO.crossTo('https://abibot.eu','/')" style="background:none;border:none;cursor:pointer;padding:0;font-size:11.5px;font-weight:600;color:var(--muted);display:flex;align-items:center;gap:5px;font-family:inherit;">
+        🌐 AbiBOT'u abibot.eu'da aç →
+      </button>
+    </div>
+
   </aside>
 
   <!-- CHAT AREA -->
@@ -954,11 +975,15 @@
         <div class="abibot-name">AbiBOT — Dijital Abiniz</div>
         <div class="abibot-sub" id="abibot-sub">Hukuki kategorisinde yanıtlıyor · TR / DE / EN / FR / NL</div>
       </div>
+      <button class="active-cat-badge" id="expert-answers-btn" onclick="openExpertAnswersModal()"
+        style="display:none;background:rgba(30,123,75,.1);border:1px solid rgba(30,123,75,.3);color:#1E7B4B;cursor:pointer;margin-right:8px;">
+        ✅ Uzman Yanıtları <span id="expert-answers-count"></span>
+      </button>
       <span class="active-cat-badge" id="active-cat-badge">⚖️ Hukuki</span>
     </div>
 
     <!-- How-to steps -->
-    <div class="howto-bar" style="background:#1A1208;display:flex;align-items:center;gap:8px;padding:11px 20px;flex-wrap:wrap;flex-shrink:0;">
+    <div class="howto-bar" id="howto-bar-full" style="background:#1A1208;display:flex;align-items:center;gap:8px;padding:11px 20px;flex-wrap:wrap;flex-shrink:0;">
       <div class="howto-step">
         <span class="howto-num" style="background:rgba(255,255,255,.25);color:#fff;border:1px solid rgba(255,255,255,.4);width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;">1</span>
         <span class="howto-text" style="color:rgba(255,255,255,.85);font-size:12px;">Soldaki menüden <strong style="color:#fff;font-weight:700;">kategori seç</strong></span>
@@ -973,6 +998,11 @@
         <span class="howto-num" style="background:rgba(255,255,255,.25);color:#fff;border:1px solid rgba(255,255,255,.4);width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;">3</span>
         <span class="howto-text" style="color:rgba(255,255,255,.85);font-size:12px;">Yanıtı <strong style="color:#fff;font-weight:700;">PDF indir</strong>, çevir veya uzmana gönder</span>
       </div>
+      <button onclick="collapseHowto()" style="margin-left:auto;background:none;border:none;color:rgba(255,255,255,.5);font-size:16px;cursor:pointer;padding:2px 6px;flex-shrink:0;" title="Küçült">×</button>
+    </div>
+    <div class="howto-collapsed" id="howto-bar-collapsed" onclick="expandHowto()">
+      <span style="color:rgba(255,255,255,.6);">ℹ️</span>
+      <span>Nasıl kullanılır?</span>
     </div>
 
     <div class="messages" id="messages">
@@ -997,7 +1027,15 @@
     </div>
 
     <div class="input-bar">
+      <div class="photo-preview-bar" id="photo-preview-bar">
+        <img class="photo-preview-thumb" id="photo-preview-thumb" src="" alt="" style="display:none;">
+        <div class="photo-preview-thumb" id="photo-preview-pdf-icon" style="display:none;align-items:center;justify-content:center;font-size:20px;background:var(--sand);">📄</div>
+        <span class="photo-preview-name" id="photo-preview-name"></span>
+        <button class="photo-preview-remove" onclick="removeAttachedPhoto()" title="Kaldır">×</button>
+      </div>
       <div class="input-wrap">
+        <input type="file" id="photo-input" accept="image/*,application/pdf" style="display:none;" onchange="handlePhotoSelect(this)">
+        <button class="attach-btn" onclick="document.getElementById('photo-input').click()" title="Belge veya fotoğraf ekle">📎</button>
         <textarea id="chat-input" placeholder="Sorunuzu Türkçe, Almanca, İngilizce, Hollandaca veya Fransızca yazın..." rows="1" onkeydown="handleKey(event)" oninput="autoResize(this)"></textarea>
         <button class="send-btn" id="send-btn" onclick="sendMessage()" title="Gönder">
           <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
@@ -1081,7 +1119,46 @@
     const { createClient } = await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm');
     supabase = createClient(SUPABASE_URL, SUPABASE_ANON);
     window.supabase = supabase;
+
+    // Redeem an incoming cross-domain SSO handoff, if we arrived via one
+    if (window.BB_SSO) await window.BB_SSO.consumeIfPresent();
+
+    // Load current user's own profile to populate nav avatar (was hardcoded "AY" placeholder)
+    // and credit balance (was hardcoded "12 kredi" placeholder — see Backlog).
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('first_name, last_name, expert_credits')
+          .eq('id', user.id)
+          .single();
+        const initials = ((profile?.first_name?.[0] || '') + (profile?.last_name?.[0] || '')).toUpperCase() || 'K';
+        window.__bbUserInitials = initials;
+        document.querySelectorAll('#nav-avatar, #mm-avatar').forEach(el => el.textContent = initials);
+
+        window.__bbUserCredits = profile?.expert_credits || 0;
+        const creditDisplay = document.getElementById('credit-display');
+        if (creditDisplay) creditDisplay.textContent = window.__bbUserCredits + ' kredi';
+      }
+    } catch (e) { console.error('Could not load current user profile:', e); }
+
     await loadExpertResponses();
+
+    // Deep link from the "Uzman yanıtınız hazır" email — open straight to the answer
+    const deepLinkReviewId = new URLSearchParams(window.location.search).get('review');
+    if (deepLinkReviewId) {
+      openExpertAnswersModal();
+      setTimeout(() => {
+        const target = document.getElementById(`review-${deepLinkReviewId}`);
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          target.style.transition = 'background-color 0.3s';
+          target.style.backgroundColor = 'rgba(30,123,75,.08)';
+          setTimeout(() => { target.style.backgroundColor = ''; }, 2500);
+        }
+      }, 150); // brief delay so the modal's DOM is painted before scrolling
+    }
   })();
 
   // ── RATING WIDGET HELPERS ──
@@ -1181,16 +1258,13 @@
 
       if (error || !reviews || !reviews.length) return;
 
-      hideWelcome();
-      const msgs = document.getElementById('messages');
+      const btn = document.getElementById('expert-answers-btn');
+      const countEl = document.getElementById('expert-answers-count');
+      btn.style.display = 'inline-flex';
+      countEl.textContent = `(${reviews.length})`;
 
-      // Section header
-      const header = document.createElement('div');
-      header.style.cssText = 'text-align:center;padding:8px 0 4px;';
-      header.innerHTML = `<span style="font-size:11px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:#1E7B4B;background:rgba(30,123,75,.08);padding:4px 14px;border-radius:20px;">✅ Uzman Yanıtlarınız</span>`;
-      msgs.appendChild(header);
-
-      reviews.forEach(review => {
+      const list = document.getElementById('expert-answers-list');
+      list.innerHTML = reviews.map(review => {
         const cat = catData[review.category] || { icon: '❓', name: review.category };
         const date = new Date(review.answered_at || review.created_at).toLocaleDateString('tr-TR');
         const formattedResponse = (review.expert_response || '')
@@ -1200,64 +1274,174 @@
         const formattedQuestion = (review.question || '')
           .replace(/\n/g, '<br>');
 
-        const div = document.createElement('div');
-        div.className = 'msg';
-        div.innerHTML = `
-          <div class="msg-avatar ai" style="background:#1E7B4B;">✅</div>
-          <div class="msg-body" style="max-width:85%">
-            <div style="font-size:10px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:#1E7B4B;margin-bottom:6px;">
-              ${cat.icon} ${cat.name} · Uzman Yanıtı · ${date}
-            </div>
-            <div style="background:rgba(30,123,75,.05);border:1px solid rgba(30,123,75,.25);border-left:3px solid #1E7B4B;border-radius:4px 14px 14px 14px;padding:14px 16px;font-size:14px;line-height:1.65;color:var(--ink);">
-              <div style="font-size:12px;color:var(--muted);border-bottom:1px solid rgba(30,123,75,.15);padding-bottom:10px;margin-bottom:12px;">
-                <strong style="color:var(--ink);">Sorunuz:</strong> ${formattedQuestion}
+        return `
+          <div class="msg" style="margin:0;" data-review-id="${review.id}" id="review-${review.id}">
+            <div class="msg-body" style="max-width:100%">
+              <div style="font-size:10px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:#1E7B4B;margin-bottom:6px;">
+                ${cat.icon} ${cat.name} · Uzman Yanıtı · ${date}
               </div>
-              ${formattedResponse}
+              <div style="background:rgba(30,123,75,.05);border:1px solid rgba(30,123,75,.25);border-left:3px solid #1E7B4B;border-radius:4px 14px 14px 14px;padding:14px 16px;font-size:14px;line-height:1.65;color:var(--ink);">
+                <div style="font-size:12px;color:var(--muted);border-bottom:1px solid rgba(30,123,75,.15);padding-bottom:10px;margin-bottom:12px;">
+                  <strong style="color:var(--ink);">Sorunuz:</strong> ${formattedQuestion}
+                </div>
+                ${formattedResponse}
+              </div>
+              ${buildRatingWidget(review)}
             </div>
-            ${buildRatingWidget(review)}
-            <div class="msg-time">${date}</div>
           </div>`;
-        msgs.appendChild(div);
-      });
-
-      scrollToBottom();
+      }).join('<hr style="border:none;border-top:1px solid var(--warm);margin:0;">');
     } catch(e) {
       console.error('Expert responses load error:', e);
     }
   }
+
+  window.openExpertAnswersModal = function() {
+    document.getElementById('expert-answers-modal').classList.add('open');
+  };
+
+  window.closeExpertAnswersModal = function() {
+    document.getElementById('expert-answers-modal').classList.remove('open');
+  };
 
   // ── STATE ──
   let selectedLang = 'tr';
   let selectedCat = 'legal';
   let selectedCatPrice = 5;
   let selectedCatIcon = '⚖️';
+  let selectedExpertId = null;
+  let expertSelectionMade = false;
   let credits = 60; // €60 starting credits
   let messageHistory = [];
   let hasAnswered = false;
   let isLoading = false;
 
-  const catData = {
-    legal:      { name: 'Hukuki',       icon: '⚖️',  price: 5 },
-    medical:    { name: 'Tıbbi',        icon: '🏥',  price: 4 },
-    tax:        { name: 'Vergi & Finans', icon: '💶', price: 4 },
-    visa:       { name: 'Vize & Oturma', icon: '🛂', price: 5 },
-    housing:    { name: 'Konut & Kira', icon: '🏠',  price: 3 },
-    employment: { name: 'İş & Çalışma', icon: '💼',  price: 3 },
-    school:     { name: 'Okul & Yardımlar', icon: '👶', price: 2 },
-    insurance:  { name: 'Sigorta & Araç', icon: '🚗', price: 2 },
-    migration:  { name: "Avrupa'ya Göç", icon: '✈️', price: 5 },
-    employment: { name: 'İş & Çalışma', icon: '💼',  price: 3 },
-    school:     { name: 'Okul & Yardımlar', icon: '👶', price: 2 },
-    insurance:  { name: 'Sigorta & Araç', icon: '🚗', price: 2 },
+  const catData = Object.fromEntries(
+    window.BB_CONFIG.categories.map(c => [c.id, { name: c.label, icon: c.icon, price: c.price }])
+  );
+
+  function renderCatList() {
+    const container = document.getElementById('cat-list');
+    container.innerHTML = window.BB_CONFIG.categories.map((c, i) => `
+      <div class="cat-item ${i === 0 ? 'active' : ''}" data-cat="${c.id}" data-price="${c.price}" data-icon="${c.icon}" onclick="selectCat(this)">
+        <span class="cat-icon">${c.icon}</span>
+        <div class="cat-info"><div class="cat-name">${c.label}</div>${c.badge ? `<span class="cat-badge" style="${c.badgeStyle || ''}">${c.badge}</span>` : ''}</div>
+      </div>`).join('');
+  }
+  // ── HOWTO BAR: full version only on first visit, collapsed after that ──
+  const HOWTO_SEEN_KEY = 'bb_abibot_howto_seen';
+  window.collapseHowto = function() {
+    document.getElementById('howto-bar-full').style.display = 'none';
+    document.getElementById('howto-bar-collapsed').style.display = 'flex';
+    try { localStorage.setItem(HOWTO_SEEN_KEY, '1'); } catch(e) {}
   };
+  window.expandHowto = function() {
+    document.getElementById('howto-bar-full').style.display = 'flex';
+    document.getElementById('howto-bar-collapsed').style.display = 'none';
+  };
+  try {
+    if (localStorage.getItem(HOWTO_SEEN_KEY) === '1') {
+      document.getElementById('howto-bar-full').style.display = 'none';
+      document.getElementById('howto-bar-collapsed').style.display = 'flex';
+    }
+  } catch(e) {}
+
+  renderCatList();
+
+  // ── DOMAIN-BASED BRANDING ──
+  // abibot.eu aliases this same file (see vercel.json) but shouldn't show BizdenBize's
+  // community nav or logo — this is meant to read as AbiBOT's own product now.
+  const ABIBOT_HOSTS = ['abibot.eu', 'www.abibot.eu'];
+  const isAbibotDomain = ABIBOT_HOSTS.includes(window.location.hostname);
+
+  // On abibot.eu, AbiBOT shouldn't describe itself as "on the BizdenBize platform" —
+  // it's its own product now. Strips both phrasings used across the category prompts.
+  function stripBizdenBizeRef(prompt) {
+    if (!isAbibotDomain) return prompt;
+    return prompt
+      .replace(/ on the BizdenBize platform/g, '')
+      .replace(/ on BizdenBize helping/g, ' helping');
+  }
+
+  if (ABIBOT_HOSTS.includes(window.location.hostname)) {
+    // Browser tab title + PWA "add to home screen" name
+    document.title = 'AbiBOT — Dijital Abiniz';
+    const appleTitle = document.querySelector('meta[name="apple-mobile-web-app-title"]');
+    if (appleTitle) appleTitle.content = 'AbiBOT';
+    const appName = document.querySelector('meta[name="application-name"]');
+    if (appName) appName.content = 'AbiBOT';
+
+    // PWA install banner text
+    const pwaLabel = document.querySelector('#pwa-banner div');
+    if (pwaLabel && pwaLabel.textContent.includes('BizdenBize')) pwaLabel.textContent = "AbiBOT'u yükle";
+    const pwaLogo = document.querySelector('#pwa-banner img');
+    if (pwaLogo) pwaLogo.style.display = 'none'; // no AbiBOT icon asset exists yet to swap in
+
+    // NOTE: og:site_name / og:title (used for link-preview cards on WhatsApp, etc.) are NOT
+    // fixed here — those are static <meta> tags scraped server-side by crawlers that don't
+    // execute JavaScript, so a client-side swap like this wouldn't actually change what
+    // someone sees when this link is shared. Fixing that needs either a build-time template
+    // per domain or Vercel Edge Middleware rewriting the meta tags per-host — a bigger change,
+    // flagged here rather than silently left broken.
+
+    document.body.classList.add('abibot-brand');
+
+    const logoLink = document.getElementById('nav-logo-link');
+    logoLink.href = '/';
+    logoLink.innerHTML = `<span style="font-family:'Playfair Display',serif;font-size:20px;font-weight:900;"><span style="color:var(--ink)">Abi</span><span style="color:var(--red)">BOT</span></span>`;
+
+    // Cross-domain bridge back to BizdenBize — carries the session over via SSO
+    // if logged in, plain navigation if not (BB_SSO.crossTo handles both).
+    const navRight = document.querySelector('.nav-right');
+    if (navRight) {
+      const bbBtn = document.createElement('div');
+      bbBtn.innerHTML = `🏘️ BizdenBize`;
+      bbBtn.style.cssText = 'cursor:pointer;display:flex;align-items:center;gap:5px;padding:8px 14px;border-radius:20px;border:1.5px solid var(--sand);font-size:12px;font-weight:600;color:var(--ink);white-space:nowrap;';
+      bbBtn.onclick = () => window.BB_SSO.crossTo('https://bizdenbize.com', '/mahallem.html');
+      navRight.insertBefore(bbBtn, navRight.firstChild);
+    }
+
+    const mmLogo = document.getElementById('mm-logo');
+    if (mmLogo) mmLogo.innerHTML = `<span style="color:#1A1208">Abi</span><span style="color:#D42B2B">BOT</span>`;
+
+    const navMenu = document.getElementById('nav-menu');
+    if (navMenu) {
+      navMenu.style.cssText = 'display:flex;gap:6px;flex:1;align-items:center;overflow-x:auto;min-width:0;padding:2px 0;';
+      navMenu.innerHTML = window.BB_CONFIG.categories.map((c, i) =>
+        `<button type="button" class="nav-cat-pill ${i === 0 ? 'active' : ''}" data-cat="${c.id}" onclick="selectCatByName('${c.id}')">
+          <span>${c.icon}</span><span>${c.label}</span>
+        </button>`
+      ).join('');
+    }
+
+    const mmSections = document.getElementById('mm-bb-sections');
+    if (mmSections) mmSections.style.display = 'none';
+
+    // Nav pills now own category-switching — the sidebar list is redundant clutter here.
+    // Hidden, not removed: #cat-list still holds the data-cat/price/icon attributes
+    // selectCatByName() depends on.
+    const sidebarCatSection = document.getElementById('sidebar-cat-section');
+    if (sidebarCatSection) sidebarCatSection.style.display = 'none';
+  }
+
+  // ── Shared honesty & escalation rules — applied to EVERY category. ──
+  // This exists to make good on a specific promise on the BizdenBize landing
+  // page: "AbiBOT bilmediğini uydurmaz; ne zaman gerçek bir uzmana danışman
+  // gerektiğini açıkça söyler." Do not remove without updating that copy too.
+  const BASE_RULES = `
+CRITICAL RULES — always follow these, in every answer, regardless of topic:
+1. NEVER invent facts, laws, numbers, deadlines, or procedures you are not confident about. If you don't know something, or it depends on details you don't have (the person's specific city, visa type, contract, etc.), say so plainly in Turkish instead of guessing — e.g. "Bundan emin değilim, bu durum kişiye göre değişebilir" or "Bu konuda net bilgim yok, resmi kaynağı kontrol etmeni öneririm."
+2. When a question has real legal, medical, financial, or immigration consequences (something that could cost the person money, their residence status, their health, or a legal deadline), explicitly recommend they use BizdenBize's paid expert review ("Uzmana Gönder") for a final check — even after giving your best general answer. Say this directly, don't bury it.
+3. Prefer saying "emin değilim" over sounding confident when you are not. Being honestly uncertain is more helpful to this community than a wrong answer stated with false confidence.
+4. Never present yourself as a substitute for a lawyer, doctor, tax advisor, or immigration official on decisions that matter — you are a starting point, not the final word.
+`;
 
   const systemPrompts = {
-    legal:      `You are AbiBOT, an AbiBOT — Dijital Abiniz for the Turkish community in Europe on the BizdenBize platform. You specialize in LEGAL matters — German, Dutch, Belgian, Austrian, and EU law as it applies to Turkish immigrants and diaspora. You understand the specific challenges of 1st, 2nd, and 3rd generation Turkish Europeans.`,
-    medical:    `You are AbiBOT, an AbiBOT — Dijital Abiniz for the Turkish community in Europe on the BizdenBize platform. You specialize in MEDICAL topics — European healthcare systems, Krankenkasse, medication, symptoms, and navigating healthcare as a Turkish person in Europe.`,
-    tax:        `You are AbiBOT, an AbiBOT — Dijital Abiniz for the Turkish community in Europe on the BizdenBize platform. You specialize in TAX and FINANCE — German Steuer, Dutch belasting, income tax, Kindergeld, Wohngeld, social benefits, and financial planning for Turkish diaspora.`,
-    visa:       `You are AbiBOT, an AbiBOT — Dijital Abiniz for the Turkish community in Europe on the BizdenBize platform. You specialize in VISA and RESIDENCE PERMITS — Niederlassungserlaubnis, Aufenthaltstitel, family reunification, citizenship applications, and EU free movement rights for Turkish citizens.`,
-    housing:    `You are AbiBOT, an AbiBOT — Dijital Abiniz for the Turkish community in Europe on the BizdenBize platform. You specialize in HOUSING and TENANCY — German Mietrecht, rental contracts, deposit rules, tenant rights, Nebenkosten, and housing benefits for Turkish residents in Europe.`,
-    migration:  `You are AbiBOT, an AI assistant on BizdenBize helping Turkish people in Turkey who want to find work and move to Europe — especially Germany, Netherlands, Austria, and Belgium. Your audience is working-class people: factory workers, truck drivers, healthcare workers, skilled tradespeople, construction workers. They are NOT necessarily highly educated and may be vulnerable to exploitation by unqualified job placement consultants who take their money and deliver nothing.
+    legal: BASE_RULES + `You are AbiBOT, an AbiBOT — Dijital Abiniz for the Turkish community in Europe on the BizdenBize platform. You specialize in LEGAL matters — German, Dutch, Belgian, Austrian, and EU law as it applies to Turkish immigrants and diaspora. You understand the specific challenges of 1st, 2nd, and 3rd generation Turkish Europeans.`,
+    medical: BASE_RULES + `You are AbiBOT, an AbiBOT — Dijital Abiniz for the Turkish community in Europe on the BizdenBize platform. You specialize in MEDICAL topics — European healthcare systems, Krankenkasse, medication, symptoms, and navigating healthcare as a Turkish person in Europe.`,
+    tax: BASE_RULES + `You are AbiBOT, an AbiBOT — Dijital Abiniz for the Turkish community in Europe on the BizdenBize platform. You specialize in TAX and FINANCE — German Steuer, Dutch belasting, income tax, Kindergeld, Wohngeld, social benefits, and financial planning for Turkish diaspora.`,
+    visa: BASE_RULES + `You are AbiBOT, an AbiBOT — Dijital Abiniz for the Turkish community in Europe on the BizdenBize platform. You specialize in VISA and RESIDENCE PERMITS — Niederlassungserlaubnis, Aufenthaltstitel, family reunification, citizenship applications, and EU free movement rights for Turkish citizens.`,
+    housing: BASE_RULES + `You are AbiBOT, an AbiBOT — Dijital Abiniz for the Turkish community in Europe on the BizdenBize platform. You specialize in HOUSING and TENANCY — German Mietrecht, rental contracts, deposit rules, tenant rights, Nebenkosten, and housing benefits for Turkish residents in Europe.`,
+    migration: BASE_RULES + `You are AbiBOT, an AI assistant on BizdenBize helping Turkish people in Turkey who want to find work and move to Europe — especially Germany, Netherlands, Austria, and Belgium. Your audience is working-class people: factory workers, truck drivers, healthcare workers, skilled tradespeople, construction workers. They are NOT necessarily highly educated and may be vulnerable to exploitation by unqualified job placement consultants who take their money and deliver nothing.
 
 Your role is to:
 1. Explain the LEGITIMATE process for finding work in Europe from Turkey
@@ -1270,9 +1454,9 @@ Your role is to:
 CRITICAL SCAM WARNING — always include when relevant: Hiçbir meşru işveren veya danışman sizden önceden para talep etmez. Para isteyen kişilerden uzak durun.
 
 Be simple, direct, and protective. Use plain Turkish. These users may be desperate and that makes them vulnerable — your job is to protect them, not just inform them.`,
-    employment: `You are AbiBOT, an AbiBOT — Dijital Abiniz for the Turkish community in Europe on the BizdenBize platform. You specialize in EMPLOYMENT and LABOR LAW — Kündigung, Arbeitsvertrag, sick leave, discrimination at work, unemployment benefits (ALG), and workers' rights in Germany and Europe.`,
-    school:     `You are AbiBOT, an AbiBOT — Dijital Abiniz for the Turkish community in Europe on the BizdenBize platform. You specialize in SCHOOLS, CHILDREN, and SOCIAL BENEFITS — Kindergeld, Elterngeld, school enrollment, childcare (Kita), Bafög, and family support systems for Turkish families in Europe.`,
-    insurance:  `You are AbiBOT, an AbiBOT — Dijital Abiniz for the Turkish community in Europe on the BizdenBize platform. You specialize in INSURANCE and VEHICLES — Kfz-Versicherung, Haftpflicht, car registration, accidents, claims, and navigating German/European insurance as a Turkish resident.`,
+    employment: BASE_RULES + `You are AbiBOT, an AbiBOT — Dijital Abiniz for the Turkish community in Europe on the BizdenBize platform. You specialize in EMPLOYMENT and LABOR LAW — Kündigung, Arbeitsvertrag, sick leave, discrimination at work, unemployment benefits (ALG), and workers' rights in Germany and Europe.`,
+    school: BASE_RULES + `You are AbiBOT, an AbiBOT — Dijital Abiniz for the Turkish community in Europe on the BizdenBize platform. You specialize in SCHOOLS, CHILDREN, and SOCIAL BENEFITS — Kindergeld, Elterngeld, school enrollment, childcare (Kita), Bafög, and family support systems for Turkish families in Europe.`,
+    insurance: BASE_RULES + `You are AbiBOT, an AbiBOT — Dijital Abiniz for the Turkish community in Europe on the BizdenBize platform. You specialize in INSURANCE and VEHICLES — Kfz-Versicherung, Haftpflicht, car registration, accidents, claims, and navigating German/European insurance as a Turkish resident.`,
   };
 
   const langInstructions = {
@@ -1621,6 +1805,7 @@ Be simple, direct, and protective. Use plain Turkish. These users may be despera
   function selectCat(el) {
     document.querySelectorAll('.cat-item').forEach(i => i.classList.remove('active'));
     el.classList.add('active');
+    document.querySelectorAll('.nav-cat-pill').forEach(p => p.classList.toggle('active', p.dataset.cat === el.dataset.cat));
     selectedCat = el.dataset.cat;
     selectedCatPrice = parseInt(el.dataset.price);
     selectedCatIcon = el.dataset.icon;
@@ -1631,7 +1816,7 @@ Be simple, direct, and protective. Use plain Turkish. These users may be despera
   }
 
   function selectCatByName(cat) {
-    const el = document.querySelector(`[data-cat="${cat}"]`);
+    const el = document.querySelector(`#cat-list [data-cat="${cat}"]`);
     if (el) selectCat(el);
     document.getElementById('chat-input').focus();
   }
@@ -1684,7 +1869,7 @@ Be simple, direct, and protective. Use plain Turkish. These users may be despera
     if (w) w.style.display = 'none';
   }
 
-  function addMessage(role, content, showActions = false) {
+  function addMessage(role, content, showActions = false, imageDataUrl = null, fileName = null) {
     hideWelcome();
     const msgs = document.getElementById('messages');
     const isUser = role === 'user';
@@ -1694,7 +1879,7 @@ Be simple, direct, and protective. Use plain Turkish. These users may be despera
     div.className = 'msg' + (isUser ? ' user' : '');
 
     const avatarHtml = isUser
-      ? `<div class="msg-avatar user">AY</div>`
+      ? `<div class="msg-avatar user">${window.__bbUserInitials || 'K'}</div>`
       : `<div class="msg-avatar ai">AI</div>`;
 
     const actionsHtml = (!isUser && showActions) ? `
@@ -1710,16 +1895,19 @@ Be simple, direct, and protective. Use plain Turkish. These users may be despera
             <button class="translate-opt" onclick="translateAnswer(this, 'nl')">🇳🇱 Hollandaca</button>
           </div>
         </div>
+        <button class="msg-action verify-btn" onclick="verifyAnswer(this)">🔍 2. Kontrol</button>
         <button class="msg-action escalate-btn" onclick="openEscalate()">👨‍⚕️ Uzmana gönder →</button>
       </div>
       <div class="ai-disclaimer">⚠️ Bu yanıt bilgi amaçlıdır ve profesyonel tavsiye yerine geçmez. Önemli kararlar için bir uzmana danışın.</div>
     ` : '';
 
     const formattedContent = content.replace(/\n/g, '<br>').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\*(.*?)\*/g, '<em>$1</em>');
+    const imageHtml = imageDataUrl ? `<img class="msg-image" src="${imageDataUrl}" alt="Eklenen görsel">` : '';
+    const pdfChipHtml = fileName ? `<div class="msg-pdf-chip">📄 ${fileName}</div>` : '';
 
     div.innerHTML = avatarHtml + `
       <div class="msg-body">
-        <div class="bubble ${isUser ? 'user' : 'ai'}">${formattedContent}</div>
+        <div class="bubble ${isUser ? 'user' : 'ai'}">${imageHtml}${pdfChipHtml}${formattedContent}</div>
         <div class="msg-time">${now}</div>
         ${actionsHtml}
       </div>`;
@@ -1727,6 +1915,78 @@ Be simple, direct, and protective. Use plain Turkish. These users may be despera
     msgs.appendChild(div);
     scrollToBottom();
     return div;
+  }
+
+  // ── Level 2: independent cross-check via Gemini (abibot-verify) ──
+  async function verifyAnswer(btn) {
+    const msgBody = btn.closest('.msg-body');
+    const bubble = msgBody ? msgBody.querySelector('.bubble') : null;
+    if (!bubble) return;
+    const answer = bubble.innerText.trim();
+
+    // find the question = nearest preceding user message bubble
+    let question = '';
+    const thisMsg = btn.closest('.msg');
+    let prev = thisMsg ? thisMsg.previousElementSibling : null;
+    while (prev) {
+      if (prev.classList && prev.classList.contains('user')) {
+        const ub = prev.querySelector('.bubble');
+        if (ub) { question = ub.innerText.trim(); break; }
+      }
+      prev = prev.previousElementSibling;
+    }
+
+    // one result box per message (reuse if already there)
+    let box = msgBody.querySelector('.verify-box');
+    if (!box) {
+      box = document.createElement('div');
+      box.className = 'verify-box';
+      const actionsEl = msgBody.querySelector('.msg-actions');
+      if (actionsEl) actionsEl.insertAdjacentElement('afterend', box);
+      else msgBody.appendChild(box);
+    }
+    box.className = 'verify-box show';
+    box.innerHTML = '<div class="vb-reason" style="color:var(--muted)">⏳ İkinci yapay zeka cevabı kontrol ediyor…</div>';
+    btn.disabled = true;
+
+    try {
+      let token = SUPABASE_ANON;
+      try {
+        const sbClient = window.supabase || (typeof supabase !== 'undefined' ? supabase : null);
+        if (sbClient) {
+          const { data: { session } } = await sbClient.auth.getSession();
+          if (session?.access_token) token = session.access_token;
+        }
+      } catch (e) {}
+
+      const res = await fetch(SUPABASE_URL + '/functions/v1/abibot-verify', {
+        method: 'POST',
+        headers: { 'Content-Type':'application/json', 'apikey': SUPABASE_ANON, 'Authorization': 'Bearer ' + token },
+        body: JSON.stringify({ question, answer }),
+      });
+      const d = await res.json();
+      if (!res.ok) {
+        box.className = 'verify-box show partial';
+        box.innerHTML = '<div class="vb-reason">Kontrol şu an yapılamadı. Lütfen birazdan tekrar deneyin.</div>';
+        return;
+      }
+      const labels = {
+        reliable: { t: 'Güvenilir görünüyor', },
+        partial:  { t: 'Kısmen güvenilir — dikkatli ol', },
+        doubtful: { t: 'Şüpheli — mutlaka teyit et', },
+      };
+      const v = labels[d.verdict] ? d.verdict : 'partial';
+      box.className = 'verify-box show ' + v;
+      box.innerHTML =
+        '<div class="vb-head"><span class="vb-dot"></span>' + labels[v].t + '</div>' +
+        '<div class="vb-reason">' + (d.reason ? d.reason.replace(/</g,'&lt;') : '') + '</div>' +
+        '<div class="vb-foot">Bu, ayrı bir yapay zeka (Gemini) tarafından yapılan ikinci bir görüştür — kesinlik garantisi değildir. Kesin güvence için uzman incelemesini kullan.</div>';
+    } catch (e) {
+      box.className = 'verify-box show partial';
+      box.innerHTML = '<div class="vb-reason">Bağlantı hatası. Lütfen tekrar deneyin.</div>';
+    } finally {
+      btn.disabled = false;
+    }
   }
 
   function addTyping() {
@@ -1761,27 +2021,72 @@ Be simple, direct, and protective. Use plain Turkish. These users may be despera
 
   // ── SEND MESSAGE ──
   // ── CATEGORY TOPICS FOR AI CHECK ──
-  const catTopics = {
-    legal:      'legal matters, German/EU law, rights, contracts, courts, lawyers, Recht',
-    medical:    'medical topics, health, symptoms, doctors, Krankenkasse, medications',
-    tax:        'tax, finance, Steuer, Kindergeld, Wohngeld, income, social benefits',
-    visa:       'visa, residence permits, Aufenthaltstitel, immigration, citizenship',
-    housing:    'housing, rental, Mietrecht, tenancy, deposit, Nebenkosten, landlord',
-    employment: 'employment, work, Kündigung, Arbeitsvertrag, salary, unemployment',
-    school:     'school, children, Kita, Kindergeld, Elterngeld, education, Bafög',
-    insurance:  'insurance, Kfz-Versicherung, car, vehicle, accident, claims',
+  // Sourced from shared config — this also fixes a prior gap where 'migration' had no
+  // topic string here and silently fell back to the raw category id in the classifier prompt.
+  const catTopics = window.BB_CONFIG.categoryTopics;
+
+  // ── PHOTO / PDF ATTACHMENT (for document/photo questions) ──
+  let attachedPhoto = null; // { file, dataUrl, isPdf }
+  const MAX_IMAGE_BYTES = 3.5 * 1024 * 1024; // 3.5MB raw (~4.7MB after base64) — stays safely under Anthropic's ~5MB per-image API limit
+  const MAX_PDF_BYTES = 10 * 1024 * 1024; // 10MB raw — comfortably covers a multi-page scanned letter/contract without approaching Anthropic's 32MB/100-page ceiling
+
+  window.handlePhotoSelect = function(input) {
+    const file = input.files && input.files[0];
+    if (!file) return;
+    const isImage = file.type.startsWith('image/');
+    const isPdf = file.type === 'application/pdf';
+    if (!isImage && !isPdf) {
+      alert('Lütfen bir görsel (fotoğraf) veya PDF dosyası seçin.');
+      input.value = '';
+      return;
+    }
+    const limit = isPdf ? MAX_PDF_BYTES : MAX_IMAGE_BYTES;
+    if (file.size > limit) {
+      const limitLabel = isPdf ? '10MB' : '3.5MB';
+      alert(`Dosya çok büyük. Lütfen ${limitLabel} altında bir ${isPdf ? 'PDF' : 'görsel'} seçin.`);
+      input.value = '';
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = () => {
+      attachedPhoto = { file, dataUrl: reader.result, isPdf };
+      const imgEl = document.getElementById('photo-preview-thumb');
+      const pdfIconEl = document.getElementById('photo-preview-pdf-icon');
+      if (isPdf) {
+        imgEl.style.display = 'none';
+        pdfIconEl.style.display = 'flex';
+      } else {
+        imgEl.src = reader.result;
+        imgEl.style.display = 'block';
+        pdfIconEl.style.display = 'none';
+      }
+      document.getElementById('photo-preview-name').textContent = file.name;
+      document.getElementById('photo-preview-bar').classList.add('show');
+    };
+    reader.readAsDataURL(file);
+    input.value = ''; // allow re-selecting the same file later
+  };
+
+  window.removeAttachedPhoto = function() {
+    attachedPhoto = null;
+    document.getElementById('photo-preview-bar').classList.remove('show');
+    document.getElementById('photo-preview-thumb').src = '';
+    document.getElementById('photo-preview-thumb').style.display = 'none';
+    document.getElementById('photo-preview-pdf-icon').style.display = 'none';
   };
 
   async function sendMessage() {
     const input = document.getElementById('chat-input');
     const text = input.value.trim();
-    if (!text || isLoading) return;
+    if ((!text && !attachedPhoto) || isLoading) return;
+    isLoading = true; // set immediately to block overlapping calls (was previously set much later, allowing rapid double-sends to race through)
 
     // ── COOLDOWN CHECK (3s between messages) ──
     const now = Date.now();
     const lastSent = window._lastMessageTime || 0;
     const COOLDOWN_MS = 3000;
     if (now - lastSent < COOLDOWN_MS) {
+      isLoading = false;
       const remaining = Math.ceil((COOLDOWN_MS - (now - lastSent)) / 1000);
       const sendBtn = document.getElementById('send-btn');
       const orig = sendBtn.innerHTML;
@@ -1828,12 +2133,16 @@ Be simple, direct, and protective. Use plain Turkish. These users may be despera
               }).eq('id', session.user.id);
             }
 
-            const limit = profile.is_premium ? 10 : 2;
+            // TEMP TESTING OVERRIDE (2026-07): limit raised to 10 for all users regardless of
+            // premium status, to allow QA testing of cooldown/limit behavior. Revert to
+            // `profile.is_premium ? 10 : 2` when testing is done.
+            const limit = 10;
             console.log(`[AbiBOT] Daily usage: ${usedToday}/${limit} | resetDate: ${resetDate} | today: ${today} | match: ${resetDate === today}`);
 
             if (usedToday >= limit) {
               hideWelcome();
-              addMessage('user', text);
+              addMessage('user', text, false, (attachedPhoto && !attachedPhoto.isPdf) ? attachedPhoto.dataUrl : null, (attachedPhoto && attachedPhoto.isPdf) ? attachedPhoto.file.name : null);
+              removeAttachedPhoto();
               const limitDiv = document.createElement('div');
               limitDiv.className = 'msg';
               const limitMsg = profile.is_premium
@@ -1847,6 +2156,7 @@ Be simple, direct, and protective. Use plain Turkish. These users may be despera
                 </div>`;
               document.getElementById('messages').appendChild(limitDiv);
               scrollToBottom();
+              isLoading = false;
               return;
             }
           }
@@ -1854,13 +2164,44 @@ Be simple, direct, and protective. Use plain Turkish. These users may be despera
       } catch(e) { console.warn('Daily limit check failed:', e); }
     }
 
-    isLoading = true;
     document.getElementById('send-btn').disabled = true;
     input.value = '';
     input.style.height = 'auto';
 
-    addMessage('user', text);
-    messageHistory.push({ role: 'user', content: text });
+    // If a photo or PDF is attached, the message sent to Claude carries both
+    // the attachment and the text as a multimodal content array (Anthropic's
+    // native format) instead of a plain string — callClaude forwards
+    // messageHistory as-is, so no other change is needed downstream.
+    // Images use a 'image' content block; PDFs use Claude's native 'document'
+    // block (application/pdf) — both are base64-encoded the same way.
+    const sentPhoto = attachedPhoto;
+    let historyContent = text;
+    if (sentPhoto) {
+      if (sentPhoto.isPdf) {
+        const pdfMatch = /^data:application\/pdf;base64,(.*)$/.exec(sentPhoto.dataUrl);
+        if (pdfMatch) {
+          historyContent = [
+            { type: 'document', source: { type: 'base64', media_type: 'application/pdf', data: pdfMatch[1] } },
+            { type: 'text', text: text || 'Bu belgeyi açıklar mısın?' }
+          ];
+        }
+      } else {
+        const mimeMatch = /^data:(image\/[a-zA-Z0-9.+-]+);base64,(.*)$/.exec(sentPhoto.dataUrl);
+        if (mimeMatch) {
+          historyContent = [
+            { type: 'image', source: { type: 'base64', media_type: mimeMatch[1], data: mimeMatch[2] } },
+            { type: 'text', text: text || 'Bu belgeyi/görseli açıklar mısın?' }
+          ];
+        }
+      }
+    }
+
+    const displayText = text || (sentPhoto && sentPhoto.isPdf ? '📄 PDF gönderildi' : '📷 Fotoğraf gönderildi');
+    const displayImage = (sentPhoto && !sentPhoto.isPdf) ? sentPhoto.dataUrl : null;
+    const displayFileName = (sentPhoto && sentPhoto.isPdf) ? sentPhoto.file.name : null;
+    addMessage('user', displayText, false, displayImage, displayFileName);
+    messageHistory.push({ role: 'user', content: historyContent });
+    removeAttachedPhoto();
     hideWelcome();
     addTyping();
 
@@ -1891,10 +2232,14 @@ Be simple, direct, and protective. Use plain Turkish. These users may be despera
       }
 
       // ── 2. CATEGORY RELEVANCE CHECK ──
-      const verdict = await callClaude([{
-        role: 'user',
-        content: `You are a topic classifier. Is this question relevant to the topic of "${catTopics[selectedCat] || selectedCat}"? Question: "${text}" — Reply with ONLY the word YES or NO. Nothing else.`
-      }], 'You are a topic classifier. Reply only YES or NO.');
+      // Skipped for photo-only sends (no text to classify) — the selected
+      // category already scopes the question in that case.
+      const verdict = (sentPhoto && !text)
+        ? 'YES'
+        : await callClaude([{
+            role: 'user',
+            content: `You are a topic classifier. Is this question relevant to the topic of "${catTopics[selectedCat] || selectedCat}"? Question: "${text}" — Reply with ONLY the word YES or NO. Nothing else.`
+          }], 'You are a topic classifier. Reply only YES or NO.');
 
       if (verdict.trim().toUpperCase().startsWith('NO')) {
         removeTyping();
@@ -1929,7 +2274,7 @@ Be simple, direct, and protective. Use plain Turkish. These users may be despera
       }
 
       // ── 3. MAIN ANSWER ──
-      const systemPrompt = systemPrompts[selectedCat] || systemPrompts['legal'];
+      const systemPrompt = stripBizdenBizeRef(systemPrompts[selectedCat] || systemPrompts['legal']);
       const reply = await callClaude(messageHistory, systemPrompt);
       lastAnswer = reply;
       lastQuestion = text;
@@ -1987,6 +2332,8 @@ Be simple, direct, and protective. Use plain Turkish. These users may be despera
     }
 
     // Show modal immediately
+    selectedExpertId = null;
+    expertSelectionMade = false;
     document.getElementById('escalate-modal').classList.add('open');
     document.getElementById('esc-question-preview').textContent = lastQuestion;
     document.getElementById('esc-expert-list').innerHTML =
@@ -2001,7 +2348,7 @@ Be simple, direct, and protective. Use plain Turkish. These users may be despera
     // Load profile and experts
     const [{ data: profile }, { data: experts }] = await Promise.all([
       sb.from('profiles').select('*').eq('id', session.user.id).single(),
-      sb.from('experts').select('*, profiles:profile_id(first_name, last_name)').eq('is_active', true)
+      sb.from('experts').select('*, profiles!profile_id(first_name, last_name)').eq('is_active', true)
     ]);
 
     const credits = profile?.expert_credits || 0;
@@ -2050,25 +2397,13 @@ Be simple, direct, and protective. Use plain Turkish. These users may be despera
       document.getElementById('esc-expert-list').innerHTML =
         '<div style="text-align:center;padding:16px;font-size:13px;color:var(--muted);">Bu kategori için henüz uzman atanmamış.</div>';
     } else {
-      document.getElementById('esc-expert-list').innerHTML = categoryExperts.map((e, i) => {
-        const initials = ((e.profiles?.first_name?.[0]||'') + (e.profiles?.last_name?.[0]||'')).toUpperCase() || 'U';
-        const name = `${e.profiles?.first_name || ''} ${e.profiles?.last_name || ''}`.trim();
-        const avgRating = e.rating ? parseFloat(e.rating).toFixed(1) : null;
-        const ratingHtml = avgRating
-          ? `<span style="font-size:11px;color:var(--gold);font-weight:600;">⭐ ${avgRating}</span>`
-          : '';
-        return `<div class="expert-option" style="cursor:default;pointer-events:none;">
-          <div class="exp-avatar" style="background:${expertColors[i % expertColors.length]}">${initials}</div>
-          <div style="flex:1;">
-            <div class="exp-name">${name}</div>
-            <div class="exp-cred">${e.title || 'Uzman'}</div>
-            ${ratingHtml}
-          </div>
-          <a href="expert-profile.html?id=${e.id}" target="_blank" style="font-size:11px;font-weight:600;color:var(--navy);text-decoration:none;padding:4px 8px;border:1px solid rgba(27,58,140,.2);border-radius:6px;flex-shrink:0;pointer-events:all;" onclick="event.stopPropagation()">👤 Profil</a>
-          <div style="font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;background:rgba(30,123,75,.1);color:#1E7B4B;flex-shrink:0;">Müsait</div>
-        </div>`;
-      }).join('');
+      window._escCategoryExperts = categoryExperts;
+      window._escExpertColors = expertColors;
+      if (selectedExpertId === undefined) selectedExpertId = null;
+      if (!expertSelectionMade) { selectedExpertId = null; expertSelectionMade = true; } // default: send to team
+      renderExpertCards();
     }
+
 
     // Pro-bono check
     const probono = checkProbonoEligibility(profile);
@@ -2079,6 +2414,49 @@ Be simple, direct, and protective. Use plain Turkish. These users may be despera
       const hasSlots = slots?.some(e => (e.probono_slots_used||0) < (e.probono_slots_total||5));
       if (hasSlots) document.getElementById('esc-probono-bar').style.display = 'block';
     }
+  }
+
+  function renderExpertCards() {
+    const categoryExperts = window._escCategoryExperts || [];
+    const expertColors = window._escExpertColors || ['#D42B2B','#1B3A8C','#1E7B4B','#C9A84C','#185FA5'];
+
+    const teamSelected = expertSelectionMade && selectedExpertId === null;
+    const teamCard = `<div class="expert-option" data-expert-id="" onclick="selectExpert(null)" style="cursor:pointer;${teamSelected ? 'border-color:var(--red);background:rgba(212,43,43,.05);' : ''}">
+      <div class="exp-avatar" style="background:var(--muted);">🧑‍🤝‍🧑</div>
+      <div style="flex:1;">
+        <div class="exp-name">Uzman Ekibimize Bırak</div>
+        <div class="exp-cred">İlk müsait uzman yanıtlasın</div>
+      </div>
+      <div style="font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;flex-shrink:0;${teamSelected ? 'background:var(--red);color:#fff;' : 'background:rgba(30,123,75,.1);color:#1E7B4B;'}">${teamSelected ? '✓ Seçildi' : 'Öneri'}</div>
+    </div>`;
+
+    const expertCards = categoryExperts.map((e, i) => {
+      const initials = ((e.profiles?.first_name?.[0]||'') + (e.profiles?.last_name?.[0]||'')).toUpperCase() || 'U';
+      const name = `${e.profiles?.first_name || ''} ${e.profiles?.last_name || ''}`.trim();
+      const avgRating = e.rating ? parseFloat(e.rating).toFixed(1) : null;
+      const ratingHtml = avgRating
+        ? `<span style="font-size:11px;color:var(--gold);font-weight:600;">⭐ ${avgRating}</span>`
+        : '';
+      const isSelected = expertSelectionMade && selectedExpertId === e.id;
+      return `<div class="expert-option" data-expert-id="${e.id}" onclick="selectExpert('${e.id}')" style="cursor:pointer;${isSelected ? 'border-color:var(--red);background:rgba(212,43,43,.05);' : ''}">
+        <div class="exp-avatar" style="background:${expertColors[i % expertColors.length]}">${initials}</div>
+        <div style="flex:1;">
+          <div class="exp-name">${name}</div>
+          <div class="exp-cred">${e.title || 'Uzman'}</div>
+          ${ratingHtml}
+        </div>
+        <a href="expert-profile.html?id=${e.id}" target="_blank" style="font-size:11px;font-weight:600;color:var(--navy);text-decoration:none;padding:4px 8px;border:1px solid rgba(27,58,140,.2);border-radius:6px;flex-shrink:0;" onclick="event.stopPropagation()">👤 Profil</a>
+        <div style="font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;flex-shrink:0;${isSelected ? 'background:var(--red);color:#fff;' : 'background:rgba(30,123,75,.1);color:#1E7B4B;'}">${isSelected ? '✓ Seçildi' : 'Müsait'}</div>
+      </div>`;
+    }).join('');
+
+    document.getElementById('esc-expert-list').innerHTML = teamCard + expertCards;
+  }
+
+  function selectExpert(id) {
+    selectedExpertId = id;
+    expertSelectionMade = true;
+    renderExpertCards();
   }
 
   function checkProbonoEligibility(profile) {
@@ -2122,8 +2500,16 @@ Be simple, direct, and protective. Use plain Turkish. These users may be despera
       const userId = session.user.id;
       const userEmail = session.user.email;
 
+      if (!expertSelectionMade) {
+        if (mainBtn) { mainBtn.disabled = false; mainBtn.textContent = 'Uzmana Gönder →'; }
+        alert('Lütfen bir uzman seçin veya ekibimize bırakın.');
+        return;
+      }
+
       const review = {
         user_id: userId,
+        expert_id: selectedExpertId,
+        ...(selectedExpertId ? { assigned_at: new Date().toISOString() } : {}),
         category: selectedCat || 'legal',
         language: selectedLang || 'tr',
         question: lastQuestion || '',
@@ -2309,48 +2695,20 @@ ${text.replace(/\n/g,'<br>')}
     setTimeout(() => btn.textContent = '⬇️ PDF indir', 3000);
   }
 </script>
-<script>
-  // Mobile menu
-  function toggleMenu() {
-    const hb = document.getElementById('hamburger');
-    const menu = document.getElementById('mobile-menu');
-    hb.classList.toggle('open');
-    menu.classList.toggle('open');
-    document.body.style.overflow = menu.classList.contains('open') ? 'hidden' : '';
-  }
-  // Close on outside click
-  document.addEventListener('click', function(e) {
-    const menu = document.getElementById('mobile-menu');
-    const hb = document.getElementById('hamburger');
-    if (menu && menu.classList.contains('open') &&
-        !menu.contains(e.target) && !hb.contains(e.target)) {
-      hb.classList.remove('open');
-      menu.classList.remove('open');
-      document.body.style.overflow = '';
-    }
-  });
-  // Close on nav link click
-  document.querySelectorAll('.mm-link').forEach(link => {
-    link.addEventListener('click', () => {
-      document.getElementById('hamburger').classList.remove('open');
-      document.getElementById('mobile-menu').classList.remove('open');
-      document.body.style.overflow = '';
-    });
-  });
-  // Mark active link
-  (function() {
-    const page = window.location.pathname.split('/').pop() || 'index.html';
-    document.querySelectorAll('.mm-link').forEach(link => {
-      const href = link.getAttribute('href');
-      if (href && (href === page || href.split('#')[0] === page)) {
-        link.classList.add('active');
-      }
-    });
-  })();
-
-</script>
 
 <!-- INFO MODAL -->
+<div class="modal-overlay" id="expert-answers-modal" onclick="if(event.target===this)closeExpertAnswersModal()">
+  <div class="modal modal-flex" style="max-width:560px;max-height:80vh;">
+    <div style="padding:24px 24px 16px;flex-shrink:0;border-bottom:1px solid var(--warm);">
+      <button class="modal-close" onclick="closeExpertAnswersModal()">×</button>
+      <div style="font-family:'Playfair Display',serif;font-size:19px;font-weight:700;color:var(--ink);">✅ Uzman Yanıtlarınız</div>
+      <div style="font-size:12px;color:var(--muted);margin-top:2px;">Uzmanlara sorduğunuz sorular ve yanıtları burada</div>
+    </div>
+    <div style="overflow-y:auto;flex:1;padding:16px 24px 24px;display:flex;flex-direction:column;gap:16px;" id="expert-answers-list">
+    </div>
+  </div>
+</div>
+
 <div class="modal-overlay" id="info-modal" onclick="if(event.target===this)closeInfoModal()">
   <div class="modal modal-flex" style="max-width:500px;">
     <div style="padding:24px 24px 0;flex-shrink:0;border-bottom:1px solid var(--warm);">

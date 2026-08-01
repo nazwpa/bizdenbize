@@ -6,6 +6,7 @@
   <title>BizdenBize — Uzman Profili</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <script src="platform-config.js"></script>
   <style>
     :root{--red:#D42B2B;--red2:#E8393A;--cream:#FAF7F2;--warm:#F0EAE0;--sand:#D4C5A9;--ink:#1A1208;--muted:#6B5E4E;--gold:#C9A84C;--green:#1E7B4B;--navy:#1B3A8C;--white:#FFFFFF;}
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
@@ -100,17 +101,93 @@
       .stats-row .stat-card:last-child{grid-column:1/-1;}
       .hero-name{font-size:22px;}
     }
+
+    /* OWNER PANEL — private, visible only to the logged-in expert viewing their own profile */
+    .owner-panel{margin-top:32px;border:1.5px dashed var(--navy);border-radius:20px;padding:24px;background:rgba(27,58,140,.03);}
+    .owner-panel-head{display:flex;align-items:center;gap:8px;margin-bottom:4px;}
+    .owner-panel-title{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:var(--ink);}
+    .owner-panel-note{font-size:12px;color:var(--muted);margin-bottom:16px;}
+    .owner-tabs{display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap;}
+    .owner-tab{padding:7px 14px;border-radius:20px;border:1.5px solid var(--sand);background:var(--white);font-size:12px;font-weight:600;color:var(--muted);cursor:pointer;font-family:'Instrument Sans',sans-serif;transition:all .15s;}
+    .owner-tab.active{background:var(--navy);border-color:var(--navy);color:var(--white);}
+    .owner-card{background:var(--white);border:1px solid var(--sand);border-radius:14px;padding:16px 18px;margin-bottom:10px;}
+    .owner-card.urgent{border-color:var(--red);}
+    .owner-card-top{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+    .owner-card-user{font-size:13px;font-weight:600;color:var(--ink);flex:1;}
+    .owner-card-status{font-size:10px;font-weight:600;padding:3px 10px;border-radius:20px;flex-shrink:0;}
+    .owner-status-pending{background:rgba(201,168,76,.15);color:#854F0B;}
+    .owner-status-assigned{background:rgba(27,58,140,.1);color:var(--navy);}
+    .owner-status-answered{background:rgba(30,123,75,.1);color:var(--green);}
+    .owner-card-time{font-size:11px;color:var(--muted);flex-shrink:0;}
+    .owner-question{font-size:13px;color:var(--ink);line-height:1.6;margin-bottom:12px;padding:12px;background:var(--cream);border-radius:8px;border-left:3px solid var(--navy);}
+    .owner-abibot-answer{font-size:13px;color:var(--ink);line-height:1.6;margin-bottom:12px;padding:14px 16px;background:#FFF9EC;border:1.5px solid #E8D9A8;border-left:4px solid var(--gold);border-radius:8px;}
+    .owner-abibot-label{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#8A6D1F;margin-bottom:8px;display:flex;align-items:center;gap:6px;}
+    .owner-abibot-toggle{font-size:12px;font-weight:600;color:var(--navy);cursor:pointer;margin-top:6px;display:inline-block;}
+    .owner-abibot-body.collapsed{max-height:90px;overflow:hidden;position:relative;mask-image:linear-gradient(to bottom, black 50%, transparent 100%);-webkit-mask-image:linear-gradient(to bottom, black 50%, transparent 100%);}
+    .owner-response-ta{width:100%;padding:11px 13px;border:1.5px solid var(--sand);border-radius:9px;font-family:'Instrument Sans',sans-serif;font-size:13px;color:var(--ink);background:var(--white);outline:none;resize:vertical;min-height:100px;line-height:1.6;margin-bottom:8px;}
+    .owner-response-ta:focus{border-color:var(--navy);}
+    .owner-submit-btn{padding:9px 20px;background:var(--green);color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:'Instrument Sans',sans-serif;}
+    .owner-submit-btn:disabled{background:var(--sand);cursor:not-allowed;}
+    .owner-answered-box{padding:12px;background:rgba(30,123,75,.05);border-radius:8px;border-left:3px solid var(--green);font-size:13px;color:var(--ink);line-height:1.6;}
+    .owner-unclaimed-note{padding:11px 13px;background:var(--warm);border-radius:8px;border-left:3px solid var(--sand);font-size:12px;color:var(--muted);}
+    .owner-empty{text-align:center;padding:24px;font-size:13px;color:var(--muted);}
   </style>
+  <script type="module">
+    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+    const _authSb = createClient('https://wxjudojlwksivhzjnmim.supabase.co','sb_publishable_52tr_hEnnQ3kllZexTue0Q_ByF71303');
+    window._authSb=_authSb;
+    window._authReady=_authSb.auth.getSession().then(({data:{session}})=>{window._currentSession=session||null;});
+  </script>
 </head>
 <body>
 
 <nav>
   <a href="index.html" class="nav-logo">Bizden<span>Bize</span></a>
   <div class="nav-right">
-    <a href="uzmanlar.html" class="nav-back">← Tüm Uzmanlar</a>
+    <button onclick="bbGoBack('uzmanlar.html')" style="display:inline-flex;align-items:center;gap:6px;background:var(--navy,#1B3A8C);border:none;border-radius:9px;padding:9px 16px;font-size:13.5px;font-weight:700;color:#fff;cursor:pointer;font-family:'Instrument Sans',sans-serif;box-shadow:0 2px 8px rgba(27,58,140,.3);">← Tüm Uzmanlar</button>
     <a href="abibot.html" class="btn-primary" style="font-size:12px;padding:8px 16px;">🤖 AbiBOT</a>
+    <div class="nav-avatar" id="nav-avatar" onclick="toggleAvatarMenu()" title="Profilim" style="position:relative;width:36px;height:36px;border-radius:50%;background:var(--red);color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;cursor:pointer;">—</div>
+    <div id="avatar-menu" style="display:none;position:absolute;top:54px;right:16px;background:#fff;border:1px solid rgba(212,197,169,.5);border-radius:12px;padding:8px;min-width:180px;box-shadow:0 8px 32px rgba(0,0,0,.1);z-index:300;">
+      <a href="profile.html" style="display:flex;align-items:center;gap:9px;padding:9px 12px;border-radius:8px;font-size:13px;font-weight:500;color:#1A1208;text-decoration:none;">👤 Profilim</a>
+      <hr style="border:none;border-top:1px solid #F0EAE0;margin:4px 0;">
+      <button onclick="doLogout()" style="display:flex;align-items:center;gap:9px;padding:9px 12px;border-radius:8px;font-size:13px;font-weight:500;color:#D42B2B;background:none;border:none;cursor:pointer;width:100%;font-family:inherit;">Çıkış Yap</button>
+    </div>
   </div>
 </nav>
+<script>
+  function toggleAvatarMenu() { const menu = document.getElementById('avatar-menu'); menu.style.display = menu.style.display === 'none' ? 'block' : 'none'; }
+  document.addEventListener('click', function(e) { if (!e.target.closest('#nav-avatar') && !e.target.closest('#avatar-menu')) { const menu = document.getElementById('avatar-menu'); if (menu) menu.style.display = 'none'; } });
+  async function doLogout() { const { createClient } = await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm'); const sb = createClient('https://wxjudojlwksivhzjnmim.supabase.co', 'sb_publishable_52tr_hEnnQ3kllZexTue0Q_ByF71303'); await sb.auth.signOut(); Object.keys(localStorage).forEach(k => localStorage.removeItem(k)); sessionStorage.clear(); window.location.replace('/login.html'); }
+  if (window._authReady) {
+    window._authReady.then(async () => {
+      const session = window._currentSession;
+      const navAvatar = document.getElementById('nav-avatar');
+      if (!session || !navAvatar) return;
+      try {
+        const r = await fetch(`https://wxjudojlwksivhzjnmim.supabase.co/rest/v1/profiles?id=eq.${session.user.id}&select=first_name,last_name,avatar_url`, {
+          headers: { apikey: 'sb_publishable_52tr_hEnnQ3kllZexTue0Q_ByF71303', Authorization: `Bearer ${session.access_token}` }
+        });
+        const rows = await r.json();
+        const p = rows[0] || {};
+        if (p.avatar_url) {
+          navAvatar.innerHTML = `<img src="${p.avatar_url}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">`;
+        } else {
+          const initials = ((p.first_name?.[0]||'') + (p.last_name?.[0]||'')).toUpperCase() || '?';
+          const colors = ['#D42B2B','#185FA5','#1E7B4B','#C9A84C','#534AB7'];
+          navAvatar.textContent = initials;
+          navAvatar.style.background = colors[initials.charCodeAt(0) % colors.length];
+        }
+      } catch(e) { console.error('Nav avatar load error:', e); }
+    });
+  }
+  function bbGoBack(fallbackUrl) {
+    if (document.referrer && document.referrer.indexOf(window.location.hostname) !== -1 && history.length > 1) {
+      history.back();
+    } else {
+      window.location.href = fallbackUrl;
+    }
+  }
+</script>
 
 <div class="page" id="page-content">
   <div class="loading">
@@ -119,24 +196,98 @@
   </div>
 </div>
 
+<footer style="background:var(--ink);color:rgba(255,255,255,.55);font-family:'Instrument Sans',sans-serif;padding:56px 24px 32px;margin-top:auto;">
+  <div style="max-width:1100px;margin:0 auto;">
+
+    <!-- Top row -->
+    <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;padding-bottom:40px;border-bottom:1px solid rgba(255,255,255,.08);">
+
+      <!-- Brand -->
+      <div>
+        <div style="font-family:'Playfair Display',serif;font-size:22px;font-weight:900;color:#fff;margin-bottom:10px;">Bizden<span style="color:#D42B2B;">Bize</span></div>
+        <p style="font-size:13px;line-height:1.7;max-width:280px;margin-bottom:16px;">Avrupa'daki Türk topluluğu için güvenilir dijital platform. Mahallenle bağlan, bilgine ulaş, işini bul.</p>
+        <!-- Social -->
+        <div style="display:flex;gap:10px;margin-top:4px;">
+          <a href="https://instagram.com/bizdenbize" target="_blank" rel="noopener" style="width:34px;height:34px;border-radius:8px;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;text-decoration:none;font-size:16px;transition:background .15s;" onmouseover="this.style.background='rgba(255,255,255,.15)'" onmouseout="this.style.background='rgba(255,255,255,.08)'" title="Instagram">📸</a>
+          <a href="https://tiktok.com/@bizdenbize" target="_blank" rel="noopener" style="width:34px;height:34px;border-radius:8px;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;text-decoration:none;font-size:16px;transition:background .15s;" onmouseover="this.style.background='rgba(255,255,255,.15)'" onmouseout="this.style.background='rgba(255,255,255,.08)'" title="TikTok">🎵</a>
+          <a href="https://facebook.com/bizdenbize" target="_blank" rel="noopener" style="width:34px;height:34px;border-radius:8px;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;text-decoration:none;font-size:16px;transition:background .15s;" onmouseover="this.style.background='rgba(255,255,255,.15)'" onmouseout="this.style.background='rgba(255,255,255,.08)'" title="Facebook">👤</a>
+          <a href="https://wa.me/bizdenbize" target="_blank" rel="noopener" style="width:34px;height:34px;border-radius:8px;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;text-decoration:none;font-size:16px;transition:background .15s;" onmouseover="this.style.background='rgba(255,255,255,.15)'" onmouseout="this.style.background='rgba(255,255,255,.08)'" title="WhatsApp">💬</a>
+        </div>
+      </div>
+
+      <!-- Platform -->
+      <div>
+        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.3);margin-bottom:14px;">Platform</div>
+        <div style="display:flex;flex-direction:column;gap:9px;">
+          <a href="mahallem.html" style="font-size:13px;color:rgba(255,255,255,.55);text-decoration:none;transition:color .15s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,.55)'">🏘️ Mahallem</a>
+          <a href="classifieds.html" style="font-size:13px;color:rgba(255,255,255,.55);text-decoration:none;transition:color .15s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,.55)'">🛍️ İlanlar</a>
+          <a href="events.html" style="font-size:13px;color:rgba(255,255,255,.55);text-decoration:none;transition:color .15s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,.55)'">🎉 Etkinlikler</a>
+          <a href="business.html" style="font-size:13px;color:rgba(255,255,255,.55);text-decoration:none;transition:color .15s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,.55)'">🏢 İşletmeler</a>
+          <a href="is-guc.html" style="font-size:13px;color:rgba(255,255,255,.55);text-decoration:none;transition:color .15s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,.55)'">💼 İş Ver & Bul</a>
+          <a href="ogrenim.html" style="font-size:13px;color:rgba(255,255,255,.55);text-decoration:none;transition:color .15s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,.55)'">🎓 Öğrenim</a>
+          <a href="library.html" style="font-size:13px;color:rgba(255,255,255,.55);text-decoration:none;transition:color .15s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,.55)'">📚 Bilgi & Belge</a>
+          <a href="abibot.html" style="font-size:13px;color:rgba(255,255,255,.55);text-decoration:none;transition:color .15s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,.55)'">🤖 AbiBOT</a>
+        </div>
+      </div>
+
+      <!-- Destek -->
+      <div>
+        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.3);margin-bottom:14px;">Destek</div>
+        <div style="display:flex;flex-direction:column;gap:9px;">
+          <a href="hakkimizda.html" style="font-size:13px;color:rgba(255,255,255,.55);text-decoration:none;transition:color .15s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,.55)'">Hakkımızda</a>
+          <a href="sss.html" style="font-size:13px;color:rgba(255,255,255,.55);text-decoration:none;transition:color .15s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,.55)'">SSS</a>
+          <a href="iletisim.html" style="font-size:13px;color:rgba(255,255,255,.55);text-decoration:none;transition:color .15s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,.55)'">İletişim</a>
+          <a href="mailto:support@bizdenbize.com" style="font-size:13px;color:rgba(255,255,255,.55);text-decoration:none;transition:color .15s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,.55)'">support@bizdenbize.com</a>
+          <a href="abibot.html" style="font-size:13px;color:rgba(255,255,255,.55);text-decoration:none;transition:color .15s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,.55)'">🤖 AbiBOT'a Sor</a>
+        </div>
+      </div>
+
+      <!-- Yasal -->
+      <div>
+        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.3);margin-bottom:14px;">Yasal</div>
+        <div style="display:flex;flex-direction:column;gap:9px;">
+          <a href="gizlilik.html" style="font-size:13px;color:rgba(255,255,255,.55);text-decoration:none;transition:color .15s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,.55)'">Gizlilik Politikası</a>
+          <a href="kullanim-kosullari.html" style="font-size:13px;color:rgba(255,255,255,.55);text-decoration:none;transition:color .15s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,.55)'">Kullanım Koşulları</a>
+          <a href="cerez.html" style="font-size:13px;color:rgba(255,255,255,.55);text-decoration:none;transition:color .15s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,.55)'">Çerez Politikası</a>
+          <a href="kvkk.html" style="font-size:13px;color:rgba(255,255,255,.55);text-decoration:none;transition:color .15s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,.55)'">KVKK / GDPR</a>
+          <a href="legal.html#impressum" style="font-size:13px;color:rgba(255,255,255,.55);text-decoration:none;transition:color .15s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,.55)'">Impressum</a>
+          <a href="ilan-kurallari.html" style="font-size:13px;color:rgba(255,255,255,.55);text-decoration:none;transition:color .15s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,.55)'">İlan Kuralları</a>
+        </div>
+      </div>
+
+    </div>
+
+    
+
+    <!-- Bottom bar -->
+    <div style="display:flex;align-items:center;justify-content:space-between;padding-top:20px;flex-wrap:wrap;gap:10px;">
+      <div style="font-size:12px;color:rgba(255,255,255,.25);">© 2025 BizdenBize. Tüm hakları saklıdır.</div>
+      <div style="font-size:11px;color:rgba(255,255,255,.2);">BizdenBize bu platformdaki üçüncü taraf içerik ve ilanlardan sorumlu değildir.</div>
+    </div>
+
+  </div>
+
+  <style>
+    @media (max-width: 768px) {
+      footer > div > div:first-child { grid-template-columns: 1fr 1fr !important; gap: 28px !important; }
+      footer > div > div:first-child > div:first-child { grid-column: 1 / -1; }
+    }
+    @media (max-width: 480px) {
+      footer > div > div:first-child { grid-template-columns: 1fr !important; }
+    }
+  </style>
+</footer>
+
+
 <script type="module">
   import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
 
   const SUPABASE_URL  = 'https://wxjudojlwksivhzjnmim.supabase.co';
-  const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Ind4anVkb2psd2tzaXZoempubWltIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgzNzM1MDUsImV4cCI6MjA5Mzk0OTUwNX0.sRvZXS389i9MwCtLoDgfqJKyRsZLMXLNAJbsMZN9wOY';
+  const SUPABASE_ANON = 'sb_publishable_52tr_hEnnQ3kllZexTue0Q_ByF71303';
   const supabase = createClient(SUPABASE_URL, SUPABASE_ANON);
 
-  const CAT_ICONS = {
-    legal:'⚖️', visa:'🛂', medical:'🏥', tax:'💶',
-    housing:'🏠', employment:'💼', school:'🎓',
-    insurance:'🚗', migration:'✈️'
-  };
-  const CAT_NAMES = {
-    legal:'Hukuki', visa:'Vize & Oturma', medical:'Tıbbi',
-    tax:'Vergi & Finans', housing:'Konut & Kira',
-    employment:'İş & Çalışma', school:'Okul & Yardımlar',
-    insurance:'Sigorta & Araç', migration:"Avrupa'ya Göç"
-  };
+  const CAT_ICONS = window.BB_CONFIG.categoryIcons;
+  const CAT_NAMES = window.BB_CONFIG.categoryLabels;
   const LANG_FLAGS = { tr:'🇹🇷', de:'🇩🇪', en:'🇬🇧', fr:'🇫🇷', nl:'🇳🇱' };
   const AVATAR_COLORS = ['#D42B2B','#1B3A8C','#1E7B4B','#C9A84C','#185FA5','#7B4B8C'];
 
@@ -170,11 +321,486 @@
       }
 
       renderProfile(summaryRes.data, reviewsRes.data || []);
+      renderOwnerPanelIfApplicable(summaryRes.data.expert_id);
     } catch(e) {
       console.error(e);
       showError('Bir hata oluştu', 'Profil yüklenirken sorun oluştu. Lütfen tekrar deneyin.');
     }
   }
+
+  // ===== OWNER PANEL (private — only the logged-in expert viewing their own profile) =====
+  let myExpertId = null;
+  let myExpertName = 'Bir uzman';
+  let myExpertPhone = '';
+  let myPhoneVerified = false;
+  let myWhatsappNumber = '';
+  let myWhatsappEnabled = false;
+  let mySession = null;
+  let myReviews = [];
+  let myFilter = 'all';
+
+  const OWNER_CAT_ICONS = CAT_ICONS;
+  const OWNER_STATUS_LABELS = { pending:'Bekliyor', assigned:'Atandı', in_review:'İncelemede', answered:'Yanıtlandı', closed:'Kapatıldı' };
+
+  async function renderOwnerPanelIfApplicable(expertRowId) {
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) return;
+
+      const { data: expertRow } = await supabase.from('experts').select('id, profile_id, phone, phone_verified, whatsapp_number, whatsapp_enabled').eq('id', expertRowId).single();
+      if (!expertRow || expertRow.profile_id !== session.user.id) return; // not the owner — public view stays as-is
+
+      mySession = session;
+      myExpertId = expertRow.id;
+      myExpertPhone = expertRow.phone || '';
+      myPhoneVerified = !!expertRow.phone_verified;
+      myWhatsappNumber = expertRow.whatsapp_number || '';
+      myWhatsappEnabled = !!expertRow.whatsapp_enabled;
+
+      const { data: myProfile } = await supabase.from('profiles').select('first_name, last_name').eq('id', session.user.id).single();
+      myExpertName = myProfile ? `${myProfile.first_name || ''} ${myProfile.last_name || ''}`.trim() : 'Bir uzman';
+
+      const { data: reviews } = await supabase.from('expert_reviews')
+        .select('*, profiles:user_id(first_name, last_name, city)')
+        .or(`expert_id.eq.${expertRow.id},expert_id.is.null`)
+        .order('created_at', { ascending: false });
+
+      myReviews = reviews || [];
+      injectOwnerPanel();
+    } catch(e) {
+      console.error('Owner panel check failed:', e);
+    }
+  }
+
+  function myTimeAgo(date) {
+    const diff = Date.now() - new Date(date).getTime();
+    const h = Math.floor(diff / 3600000);
+    const d = Math.floor(diff / 86400000);
+    if (h < 1) return 'Az önce';
+    if (h < 24) return `${h} saat önce`;
+    return `${d} gün önce`;
+  }
+
+  function myMdToHtml(text) {
+    if (!text) return '';
+    return text.replace(/\n/g, '<br>');
+  }
+
+  // AbiBOT's stored answers contain real markdown (headers, bold, bullet lists) —
+  // this renders it properly instead of showing raw # / ** / - characters to the expert.
+  function renderAbibotMarkdown(text) {
+    if (!text) return '';
+    const lines = text.split('\n');
+    let html = '';
+    let inList = false;
+    for (let line of lines) {
+      line = line.trim();
+      if (!line) { if (inList) { html += '</ul>'; inList = false; } continue; }
+
+      const inlineBold = (s) => s.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+
+      if (/^###\s+/.test(line)) {
+        if (inList) { html += '</ul>'; inList = false; }
+        html += `<div style="font-size:13px;font-weight:700;color:var(--ink);margin:12px 0 4px;">${inlineBold(line.replace(/^###\s+/, ''))}</div>`;
+      } else if (/^##\s+/.test(line)) {
+        if (inList) { html += '</ul>'; inList = false; }
+        html += `<div style="font-size:14px;font-weight:700;color:var(--ink);margin:14px 0 6px;">${inlineBold(line.replace(/^##\s+/, ''))}</div>`;
+      } else if (/^#\s+/.test(line)) {
+        if (inList) { html += '</ul>'; inList = false; }
+        html += `<div style="font-size:15px;font-weight:700;color:var(--ink);margin:14px 0 6px;">${inlineBold(line.replace(/^#\s+/, ''))}</div>`;
+      } else if (/^-\s+/.test(line)) {
+        if (!inList) { html += '<ul style="margin:4px 0 8px;padding-left:20px;">'; inList = true; }
+        html += `<li style="margin-bottom:3px;">${inlineBold(line.replace(/^-\s+/, ''))}</li>`;
+      } else {
+        if (inList) { html += '</ul>'; inList = false; }
+        html += `<div style="margin-bottom:6px;">${inlineBold(line)}</div>`;
+      }
+    }
+    if (inList) html += '</ul>';
+    return html;
+  }
+
+  function injectOwnerPanel() {
+    if (document.getElementById('owner-panel')) return; // already injected
+    injectPhonePanel();
+    injectWhatsappPanel();
+    const wrap = document.createElement('div');
+    wrap.className = 'owner-panel';
+    wrap.id = 'owner-panel';
+    wrap.innerHTML = `
+      <div class="owner-panel-head">
+        <div class="owner-panel-title">🔒 Sorularım</div>
+      </div>
+      <div class="owner-panel-note">Bu bölümü yalnızca siz görebilirsiniz — size atanan sorular ve ekip havuzundaki atanmamış sorular burada listelenir.</div>
+      <div class="owner-tabs" id="owner-tabs">
+        <button class="owner-tab active" onclick="setMyFilter('all', this)">Tümü</button>
+        <button class="owner-tab" onclick="setMyFilter('assigned', this)">Bana Atanan</button>
+        <button class="owner-tab" onclick="setMyFilter('pool', this)">Ekip Havuzu</button>
+        <button class="owner-tab" onclick="setMyFilter('answered', this)">Yanıtladıklarım</button>
+      </div>
+      <div id="owner-reviews-list"></div>
+    `;
+    document.getElementById('page-content').appendChild(wrap);
+    renderMyReviews();
+  }
+
+  function injectPhonePanel() {
+    const wrap = document.createElement('div');
+    wrap.className = 'owner-panel';
+    wrap.id = 'phone-panel';
+    wrap.innerHTML = `
+      <div class="owner-panel-head">
+        <div class="owner-panel-title">📱 Telefon Doğrulama</div>
+      </div>
+      <div class="owner-panel-note">Bu bilgi yalnızca siz ve ekibimiz tarafından görülür.</div>
+      <div id="phone-panel-body"></div>
+    `;
+    document.getElementById('page-content').appendChild(wrap);
+    renderPhonePanel();
+  }
+
+  function renderPhonePanel() {
+    const body = document.getElementById('phone-panel-body');
+    if (myPhoneVerified && myExpertPhone) {
+      body.innerHTML = `
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:12px 14px;background:rgba(30,123,75,.06);border:1px solid rgba(30,123,75,.2);border-radius:9px;">
+          <div style="font-size:13px;font-weight:600;color:var(--green);">✅ Doğrulandı: ${myExpertPhone}</div>
+          <button onclick="window._startPhoneChange()" style="padding:7px 14px;background:none;border:1.5px solid var(--sand);border-radius:8px;font-size:12px;font-weight:600;color:var(--muted);cursor:pointer;font-family:'Instrument Sans',sans-serif;">Numarayı Değiştir</button>
+        </div>`;
+    } else {
+      body.innerHTML = `
+        <div style="padding:10px 14px;background:rgba(212,43,43,.05);border:1px solid rgba(212,43,43,.15);border-radius:9px;font-size:13px;color:var(--muted);margin-bottom:12px;">
+          ⚠️ Telefon numaranız henüz doğrulanmadı. Doğrulama, uzman profilinizin güvenilirliği için gereklidir.
+        </div>
+        <div style="display:flex;gap:8px;">
+          <input type="tel" class="cat-select" id="phone-panel-input" placeholder="+49 151 234 5678" style="flex:1;" value="${myExpertPhone || ''}">
+          <button onclick="window._sendExpertPhoneOtp()" id="phone-panel-send-btn" style="flex-shrink:0;padding:0 18px;background:var(--navy);color:#fff;border:none;border-radius:9px;font-size:13px;font-weight:600;cursor:pointer;font-family:'Instrument Sans',sans-serif;">Doğrula</button>
+        </div>
+        <div id="phone-panel-otp-box" style="display:none;margin-top:10px;padding:14px;background:var(--warm);border:1.5px solid var(--sand);border-radius:9px;">
+          <label class="field-label">Doğrulama Kodu</label>
+          <div style="display:flex;gap:8px;">
+            <input type="text" class="cat-select" id="phone-panel-otp" placeholder="6 haneli kod" maxlength="6" style="flex:1;">
+            <button onclick="window._verifyExpertPhoneOtp()" style="flex-shrink:0;padding:0 18px;background:var(--green);color:#fff;border:none;border-radius:9px;font-size:13px;font-weight:600;cursor:pointer;font-family:'Instrument Sans',sans-serif;">Onayla</button>
+          </div>
+          <div id="phone-panel-otp-msg" style="font-size:12px;margin-top:8px;color:var(--muted);"></div>
+        </div>`;
+    }
+  }
+
+  function injectWhatsappPanel() {
+    const wrap = document.createElement('div');
+    wrap.className = 'owner-panel';
+    wrap.id = 'whatsapp-panel';
+    wrap.innerHTML = `
+      <div class="owner-panel-head">
+        <div class="owner-panel-title">💬 WhatsApp İletişimi (opsiyonel)</div>
+      </div>
+      <div class="owner-panel-note">İsterseniz profilinizde bir WhatsApp numarası gösterebilirsiniz. Bu tamamen isteğe bağlıdır.</div>
+      <div id="whatsapp-panel-body"></div>
+    `;
+    document.getElementById('page-content').appendChild(wrap);
+    renderWhatsappPanel();
+  }
+
+  function renderWhatsappPanel() {
+    const body = document.getElementById('whatsapp-panel-body');
+    body.innerHTML = `
+      <div style="padding:12px 14px;background:rgba(212,43,43,.05);border:1px solid rgba(212,43,43,.15);border-radius:9px;font-size:13px;color:var(--muted);margin-bottom:14px;line-height:1.5;">
+        ⚠️ <strong>Önemli:</strong> WhatsApp görüşmeleri platform dışında gerçekleşir. Bu nedenle şikayet ve engelleme özelliklerimiz WhatsApp üzerinden yapılan görüşmeler için geçerli değildir. Önemli konularda kullanıcılara platform içi mesajlaşmayı önermenizi tavsiye ederiz.
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:${myWhatsappEnabled ? '14px' : '0'};">
+        <label style="display:flex;align-items:center;gap:10px;font-size:13px;font-weight:600;color:var(--ink);cursor:pointer;">
+          <input type="checkbox" id="whatsapp-panel-toggle" ${myWhatsappEnabled ? 'checked' : ''} onchange="window._toggleWhatsappFields()" style="width:18px;height:18px;cursor:pointer;">
+          Profilimde WhatsApp numarası göster
+        </label>
+      </div>
+      <div id="whatsapp-panel-fields" style="display:${myWhatsappEnabled ? 'block' : 'none'};">
+        <label class="field-label">WhatsApp Numarası</label>
+        <div style="display:flex;gap:8px;">
+          <input type="tel" class="cat-select" id="whatsapp-panel-input" placeholder="+49 151 234 5678" style="flex:1;" value="${myWhatsappNumber || myExpertPhone || ''}">
+          <button onclick="window._saveWhatsappSettings()" id="whatsapp-panel-save-btn" style="flex-shrink:0;padding:0 18px;background:var(--green);color:#fff;border:none;border-radius:9px;font-size:13px;font-weight:600;cursor:pointer;font-family:'Instrument Sans',sans-serif;">Kaydet</button>
+        </div>
+        <div id="whatsapp-panel-msg" style="font-size:12px;margin-top:8px;color:var(--muted);"></div>
+      </div>
+    `;
+  }
+
+  window._toggleWhatsappFields = function() {
+    const checked = document.getElementById('whatsapp-panel-toggle').checked;
+    document.getElementById('whatsapp-panel-fields').style.display = checked ? 'block' : 'none';
+    if (!checked) {
+      // Turning the toggle off saves immediately — no reason to make the
+      // expert click "Kaydet" separately just to hide their number again.
+      window._saveWhatsappSettings(false);
+    }
+  };
+
+  window._saveWhatsappSettings = async function(showFieldMsg = true) {
+    const enabled = document.getElementById('whatsapp-panel-toggle').checked;
+    const numberInput = document.getElementById('whatsapp-panel-input');
+    const number = numberInput ? numberInput.value.trim() : myWhatsappNumber;
+    const msg = document.getElementById('whatsapp-panel-msg');
+
+    if (enabled && (!number || number.length < 8)) {
+      if (msg) { msg.textContent = 'Lütfen geçerli bir numara girin.'; msg.style.color = 'var(--red)'; }
+      return;
+    }
+
+    const btn = document.getElementById('whatsapp-panel-save-btn');
+    if (btn) { btn.disabled = true; btn.textContent = 'Kaydediliyor...'; }
+
+    try {
+      const { error } = await supabase.from('experts')
+        .update({ whatsapp_enabled: enabled, whatsapp_number: enabled ? number : myWhatsappNumber })
+        .eq('id', myExpertId);
+      if (error) throw error;
+
+      myWhatsappEnabled = enabled;
+      if (enabled) myWhatsappNumber = number;
+
+      if (showFieldMsg && msg) { msg.textContent = 'Kaydedildi.'; msg.style.color = 'var(--green)'; }
+      if (btn) { btn.disabled = false; btn.textContent = 'Kaydet'; }
+    } catch(e) {
+      console.error('WhatsApp settings save error:', e);
+      if (msg) { msg.textContent = 'Kaydedilemedi: ' + (e.message || 'Lütfen tekrar deneyin.'); msg.style.color = 'var(--red)'; }
+      if (btn) { btn.disabled = false; btn.textContent = 'Kaydet'; }
+      // Revert the toggle visually if the save failed, so the UI doesn't
+      // claim a state the database doesn't actually have.
+      const toggle = document.getElementById('whatsapp-panel-toggle');
+      if (toggle) toggle.checked = myWhatsappEnabled;
+      document.getElementById('whatsapp-panel-fields').style.display = myWhatsappEnabled ? 'block' : 'none';
+    }
+  };
+
+  window._startPhoneChange = function() {
+    myPhoneVerified = false;
+    renderPhonePanel();
+  };
+
+  window._sendExpertPhoneOtp = async function() {
+    const phone = document.getElementById('phone-panel-input').value.trim();
+    if (!phone || phone.length < 8) { alert('Lütfen geçerli bir telefon numarası girin.'); return; }
+    const btn = document.getElementById('phone-panel-send-btn');
+    btn.disabled = true; btn.textContent = 'Gönderiliyor...';
+    try {
+      const { error } = await supabase.auth.updateUser({ phone });
+      if (error) throw error;
+      document.getElementById('phone-panel-otp-box').style.display = 'block';
+      document.getElementById('phone-panel-otp-msg').textContent = 'Kod gönderildi.';
+      btn.textContent = 'Tekrar Gönder';
+    } catch(e) {
+      console.error('Expert phone OTP send error:', e);
+      alert('Kod gönderilemedi: ' + (e.message || 'Lütfen tekrar deneyin.'));
+      btn.textContent = 'Doğrula';
+    }
+    btn.disabled = false;
+  };
+
+  window._verifyExpertPhoneOtp = async function() {
+    const phone = document.getElementById('phone-panel-input').value.trim();
+    const code = document.getElementById('phone-panel-otp').value.trim();
+    const msg = document.getElementById('phone-panel-otp-msg');
+    if (!code) { msg.textContent = 'Lütfen kodu girin.'; msg.style.color = 'var(--red)'; return; }
+    try {
+      const { error: otpErr } = await supabase.auth.verifyOtp({ phone, token: code, type: 'phone_change' });
+      if (otpErr) throw otpErr;
+
+      const { error: updateErr } = await supabase.from('experts')
+        .update({ phone, phone_verified: true, phone_verified_at: new Date().toISOString() })
+        .eq('id', myExpertId);
+      if (updateErr) throw updateErr;
+
+      myExpertPhone = phone;
+      myPhoneVerified = true;
+      renderPhonePanel();
+    } catch(e) {
+      console.error('Expert phone OTP verify error:', e);
+      msg.textContent = 'Kod hatalı veya süresi dolmuş. Lütfen tekrar deneyin.';
+      msg.style.color = 'var(--red)';
+    }
+  };
+
+  window.setMyFilter = function(filter, btn) {
+    myFilter = filter;
+    document.querySelectorAll('#owner-tabs .owner-tab').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderMyReviews();
+  };
+
+  function renderMyReviews() {
+    let list = myReviews;
+    if (myFilter === 'assigned') {
+      list = list.filter(r => r.expert_id === myExpertId && r.status !== 'answered' && r.status !== 'closed');
+    } else if (myFilter === 'pool') {
+      list = list.filter(r => r.expert_id === null && r.status !== 'answered' && r.status !== 'closed');
+    } else if (myFilter === 'answered') {
+      list = list.filter(r => r.status === 'answered' || r.status === 'closed');
+    }
+
+    const container = document.getElementById('owner-reviews-list');
+    if (!list.length) {
+      container.innerHTML = `<div class="owner-empty">Bu filtrede soru yok.</div>`;
+      return;
+    }
+
+    container.innerHTML = list.map(r => {
+      const user = r.profiles;
+      const userName = user ? `${user.first_name || ''} ${user.last_name || ''}`.trim() : 'Kullanıcı';
+      const isMine = r.expert_id === myExpertId;
+      const isAnswered = r.status === 'answered' || r.status === 'closed';
+      const statusClass = `owner-status-${r.status === 'in_review' ? 'assigned' : r.status}`;
+
+      let actionHtml;
+      if (isAnswered) {
+        actionHtml = `<div class="owner-answered-box">${myMdToHtml(r.expert_response || '')}</div>`;
+      } else if (isMine && (r.claim_status === 'approved' || r.claim_status == null)) {
+        // claim_status is null for questions assigned directly (e.g. paid
+        // "Doğrudan Soru Sor" submissions) — these skip the claim/approval
+        // workflow entirely, so they're ready to answer immediately, same
+        // as an approved claim.
+        actionHtml = `
+          <textarea class="owner-response-ta" id="owner-resp-${r.id}" placeholder="Yanıtınızı buraya yazın..."></textarea>
+          <button class="owner-submit-btn" onclick="submitMyResponse('${r.id}')">✓ Yanıtı Gönder</button>
+        `;
+      } else if (isMine && r.claim_status === 'pending') {
+        actionHtml = `<div class="owner-unclaimed-note">⏳ Talebiniz admin onayı bekliyor — onaylandığında burada yanıt yazabileceksiniz.</div>`;
+      } else if (isMine && r.claim_status === 'rejected') {
+        actionHtml = `<div class="owner-unclaimed-note" style="border-left-color:var(--red);">❌ Bu talep reddedildi.</div>`;
+      } else {
+        actionHtml = `
+          <div class="owner-unclaimed-note" style="margin-bottom:8px;">🕓 Ekip havuzunda bekliyor — henüz size atanmadı.</div>
+          <button class="owner-submit-btn" style="background:var(--navy);" onclick="claimReview('${r.id}')">🙋 Bu Soruyu Üstlen</button>
+        `;
+      }
+
+      return `
+        <div class="owner-card ${r.status === 'pending' ? 'urgent' : ''}" id="owner-card-${r.id}">
+          <div class="owner-card-top">
+            <div class="owner-card-user">${userName} <span style="font-weight:400;color:var(--muted)">· ${OWNER_CAT_ICONS[r.category] || ''} ${r.category}</span></div>
+            <span class="owner-card-status ${statusClass}">${OWNER_STATUS_LABELS[r.status] || r.status}</span>
+            <span class="owner-card-time">${myTimeAgo(r.created_at)}</span>
+          </div>
+          <div class="owner-question">${myMdToHtml(r.question)}</div>
+          ${r.abibot_answer ? `
+          <div class="owner-abibot-answer">
+            <div class="owner-abibot-label">🤖 AbiBOT'un Önceki Yanıtı — Doğrulayın veya Düzeltin</div>
+            <div class="owner-abibot-body collapsed" id="abibot-body-${r.id}">${renderAbibotMarkdown(r.abibot_answer)}</div>
+            <span class="owner-abibot-toggle" onclick="toggleAbibotAnswer('${r.id}', this)">Tümünü Gör ↓</span>
+          </div>` : ''}
+          ${actionHtml}
+        </div>`;
+    }).join('');
+  }
+
+  window.toggleAbibotAnswer = function(reviewId, toggleEl) {
+    const body = document.getElementById(`abibot-body-${reviewId}`);
+    const collapsed = body.classList.toggle('collapsed');
+    toggleEl.textContent = collapsed ? 'Tümünü Gör ↓' : 'Daralt ↑';
+  };
+
+  const ADMIN_PROFILE_ID = '3e96d976-5c3a-4270-af88-6172f1751f9a';
+
+  window.claimReview = async function(reviewId) {
+    const btn = document.querySelector(`#owner-card-${reviewId} .owner-submit-btn`);
+    if (btn) { btn.disabled = true; btn.textContent = 'Üstleniliyor...'; }
+
+    const reviewBefore = myReviews.find(r => r.id === reviewId);
+
+    // Guard against a race with another expert claiming the same question:
+    // only succeeds if expert_id is still null at the moment of update.
+    const { data, error } = await supabase.from('expert_reviews')
+      .update({ expert_id: myExpertId, claim_status: 'pending' })
+      .eq('id', reviewId)
+      .is('expert_id', null)
+      .select();
+
+    if (error || !data || !data.length) {
+      alert('Bu soru az önce başka bir uzman tarafından üstlenildi.');
+    } else {
+      await supabase.from('notifications').insert({
+        user_id: ADMIN_PROFILE_ID,
+        type: 'admin_notification',
+        title: '🙋 Onay bekleyen talep',
+        body: `${myExpertName}, "${reviewBefore?.category || ''}" kategorisindeki bir soruyu üstlenmek istiyor. Onayınız bekleniyor.`,
+        link: '/expert-panel.html'
+      });
+    }
+
+    const { data: reviews } = await supabase.from('expert_reviews')
+      .select('*, profiles:user_id(first_name, last_name, city)')
+      .or(`expert_id.eq.${myExpertId},expert_id.is.null`)
+      .order('created_at', { ascending: false });
+    myReviews = reviews || [];
+    renderMyReviews();
+  };
+
+  window.submitMyResponse = async function(reviewId) {
+    const ta = document.getElementById(`owner-resp-${reviewId}`);
+    const response = ta.value.trim();
+    if (!response) return;
+
+    const btn = document.querySelector(`#owner-card-${reviewId} .owner-submit-btn`);
+    btn.disabled = true; btn.textContent = 'Gönderiliyor...';
+
+    const { error: updateErr } = await supabase.from('expert_reviews').update({
+      expert_response: response,
+      status: 'answered',
+      answered_at: new Date().toISOString()
+    }).eq('id', reviewId);
+
+    if (updateErr) {
+      console.error('Failed to save answer:', updateErr);
+      alert('Yanıt kaydedilemedi: ' + (updateErr.message || 'Bilinmeyen hata') + '\n\nLütfen tekrar deneyin veya destek ile iletişime geçin.');
+      btn.disabled = false; btn.textContent = '✓ Yanıtı Gönder';
+      return;
+    }
+
+    const review = myReviews.find(r => r.id === reviewId);
+    if (review) {
+      await supabase.from('notifications').insert({
+        user_id: review.user_id,
+        type: 'expert_answered',
+        title: 'Uzman yanıtınız hazır! ✅',
+        body: 'AbiBOT sorunuz bir uzman tarafından incelendi ve yanıtlandı.',
+        link: '/abibot.html?review=' + reviewId
+      });
+
+      await supabase.from('notifications').insert({
+        user_id: ADMIN_PROFILE_ID,
+        type: 'admin_notification',
+        title: '✅ Soru yanıtlandı',
+        body: `${myExpertName}, "${review.category || ''}" kategorisindeki soruyu yanıtladı.`,
+        link: '/expert-panel.html'
+      });
+
+      try {
+        await fetch('https://wxjudojlwksivhzjnmim.supabase.co/functions/v1/notify-user', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${SUPABASE_ANON}`,
+          },
+          body: JSON.stringify({
+            review_id: review.id,
+            user_id: review.user_id,
+            category: review.category,
+            question: review.question,
+            expert_response: response,
+          })
+        });
+      } catch(emailErr) {
+        console.warn('Email notification failed (non-critical):', emailErr);
+      }
+    }
+
+    // Refresh just this section rather than the whole page
+    const { data: reviews } = await supabase.from('expert_reviews')
+      .select('*, profiles:user_id(first_name, last_name, city)')
+      .or(`expert_id.eq.${myExpertId},expert_id.is.null`)
+      .order('created_at', { ascending: false });
+    myReviews = reviews || [];
+    renderMyReviews();
+  };
 
   function renderProfile(expert, reviews) {
     const name = `${expert.first_name || ''} ${expert.last_name || ''}`.trim() || 'Uzman';
@@ -213,7 +839,7 @@
           <div class="review-cat">${CAT_ICONS[r.category] || ''} ${CAT_NAMES[r.category] || r.category}</div>
           <div class="review-stars">${filled}${empty}</div>
           ${r.rating_comment
-            ? `<div class="review-comment">"${r.rating_comment}"</div>`
+            ? `<div class="review-comment">"${r.rating_comment}"</div><div style="margin-top:4px;">${mhTranslateMenuHtml('.review-comment')}</div>`
             : `<div class="review-comment" style="color:var(--sand);">Yorum yapılmadı.</div>`}
           <div class="review-meta">${ratedDate}</div>
         </div>`;
@@ -241,8 +867,16 @@
             <button onclick="openAskModal()" style="display:inline-flex;align-items:center;gap:8px;padding:11px 22px;background:var(--ink);color:#fff;border:none;border-radius:9px;font-size:14px;font-weight:600;cursor:pointer;font-family:'Instrument Sans',sans-serif;transition:background .15s;" onmouseover="this.style.background='var(--navy)'" onmouseout="this.style.background='var(--ink)'">
               ✉️ Doğrudan Soru Sor
             </button>
+            ${expert.whatsapp_enabled && expert.whatsapp_number ? `
+            <a href="https://wa.me/${expert.whatsapp_number.replace(/[^0-9]/g, '')}" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:8px;padding:11px 22px;background:#25D366;color:#fff;border:none;border-radius:9px;font-size:14px;font-weight:600;text-decoration:none;font-family:'Instrument Sans',sans-serif;">
+              💬 WhatsApp'tan Yaz
+            </a>` : ''}
             <button class="btn-report-expert" onclick="openExpertReportModal('${expert.expert_id}')">🚩 Şikayet Et</button>
           </div>
+          ${expert.whatsapp_enabled && expert.whatsapp_number ? `
+          <div style="font-size:12px;color:var(--muted);margin-top:8px;max-width:480px;line-height:1.4;">
+            ⚠️ WhatsApp görüşmeleri platform dışında gerçekleşir; şikayet ve engelleme özelliklerimiz bu görüşmeler için geçerli değildir. Önemli konularda platform içi mesajlaşmayı tercih etmenizi öneririz.
+          </div>` : ''}
         </div>
       </div>
 
@@ -274,6 +908,7 @@
     // Update page title and modal expert name
     document.title = `BizdenBize — ${name}`;
     window._expertName = name;
+    window._expertCategories = expert.categories || [];
     const modalName = document.getElementById('modal-expert-name');
     if (modalName) modalName.textContent = `${name} · ${expert.title || 'Uzman'}`;
   }
@@ -306,21 +941,16 @@
         <label class="field-label">Kategori</label>
         <select class="cat-select" id="ask-category" onchange="updatePrice()">
           <option value="">Kategori seçin...</option>
-          <option value="legal">⚖️ Hukuki</option>
-          <option value="visa">🛂 Vize & Oturma</option>
-          <option value="medical">🏥 Tıbbi</option>
-          <option value="tax">💶 Vergi & Finans</option>
-          <option value="employment">💼 İş & Çalışma</option>
-          <option value="migration">✈️ Avrupa'ya Göç</option>
-          <option value="housing">🏠 Konut & Kira</option>
-          <option value="insurance">🚗 Sigorta & Araç</option>
-          <option value="school">👶 Okul & Yardımlar</option>
         </select>
+        <div id="ask-category-empty" style="display:none;font-size:12px;color:var(--muted);margin-top:6px;">
+          Bu uzman henüz herhangi bir kategori için onaylanmamış.
+        </div>
       </div>
       <!-- Question -->
       <div>
         <label class="field-label">Sorunuz</label>
-        <textarea class="question-ta" id="ask-question" placeholder="Sorunuzu detaylı yazın. Uzman en kısa sürede yanıtlayacak..." oninput="updateSubmitBtn()"></textarea>
+        <textarea class="question-ta" id="ask-question" maxlength="1000" placeholder="Sorunuzu detaylı yazın. Uzman en kısa sürede yanıtlayacak..." oninput="updateSubmitBtn()"></textarea>
+        <div style="font-size:11px;color:var(--muted);margin-top:4px;text-align:right;" id="question-char-count">0 / 1000</div>
       </div>
       <!-- Price display -->
       <div class="price-pill" id="price-pill">
@@ -335,6 +965,9 @@
       <button class="btn-confirm" id="ask-confirm-btn" onclick="submitDirectQuestion()" disabled>
         Soruyu Gönder →
       </button>
+      <a href="premium.html" id="buy-credit-cta" style="display:none;text-align:center;padding:11px 16px;margin-top:8px;background:var(--gold);color:var(--ink);border-radius:8px;font-size:13px;font-weight:600;text-decoration:none;">
+        💳 Kredi Yükle →
+      </a>
       <button class="btn-cancel" onclick="closeAskModal()">İptal</button>
     </div>
   </div>
@@ -344,7 +977,7 @@
   import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
 
   const SUPABASE_URL  = 'https://wxjudojlwksivhzjnmim.supabase.co';
-  const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Ind4anVkb2psd2tzaXZoempubWltIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgzNzM1MDUsImV4cCI6MjA5Mzk0OTUwNX0.sRvZXS389i9MwCtLoDgfqJKyRsZLMXLNAJbsMZN9wOY';
+  const SUPABASE_ANON = 'sb_publishable_52tr_hEnnQ3kllZexTue0Q_ByF71303';
   const supabase = createClient(SUPABASE_URL, SUPABASE_ANON);
 
   const DIRECT_PRICES = {
@@ -353,11 +986,7 @@
     housing:5, insurance:5, school:5
   };
 
-  const CAT_NAMES = {
-    legal:'Hukuki', visa:'Vize & Oturma', medical:'Tıbbi',
-    tax:'Vergi & Finans', employment:'İş & Çalışma', migration:"Avrupa'ya Göç",
-    housing:'Konut & Kira', insurance:'Sigorta & Araç', school:'Okul & Yardımlar'
-  };
+  const CAT_NAMES = window.BB_CONFIG.categoryLabels;
 
   // Read expert_id and ?ask=1 from URL
   const params = new URLSearchParams(window.location.search);
@@ -375,6 +1004,7 @@
         .select('expert_credits, first_name, last_name')
         .eq('id', session.user.id).single();
       window._userCredits = p?.expert_credits || 0;
+      window._userName = `${p?.first_name || ''} ${p?.last_name || ''}`.trim();
     }
     // Auto-open modal if ?ask=1
     if (params.get('ask') === '1') {
@@ -383,15 +1013,41 @@
     updateBalanceLabel();
   })();
 
-  window.openAskModal = function() {
+  window.openAskModal = async function() {
     if (!window._session) {
       const go = confirm('Soru sormak için giriş yapmanız gerekiyor. Giriş sayfasına gitmek ister misiniz?');
       if (go) window.location.href = 'login.html';
       return;
     }
+    // Populate the category dropdown from this expert's own registered
+    // categories only, not the full platform list — asking outside an
+    // expert's specialty defeats the quality-assurance point of picking
+    // a specific expert in the first place.
+    const catSelect = document.getElementById('ask-category');
+    const catEmptyMsg = document.getElementById('ask-category-empty');
+    const expertCats = window._expertCategories || [];
+    const icons = (window.BB_CONFIG && window.BB_CONFIG.categoryIcons) || {};
+    catSelect.innerHTML = '<option value="">Kategori seçin...</option>' +
+      expertCats.map(c => `<option value="${c}">${icons[c] || ''} ${CAT_NAMES[c] || c}</option>`).join('');
+    const hasCats = expertCats.length > 0;
+    catSelect.style.display = hasCats ? '' : 'none';
+    catEmptyMsg.style.display = hasCats ? 'none' : 'block';
+    updatePrice();
+
     document.getElementById('ask-modal').classList.add('open');
     document.body.style.overflow = 'hidden';
+
+    // Re-fetch the real balance fresh on every open — the page-load fetch
+    // may not have resolved yet (race condition, was showing 0 or a stale
+    // value), and credits could also have changed since page load (e.g.
+    // another tab/session). Show a neutral state while this resolves.
+    document.getElementById('balance-label').textContent = 'Bakiyeniz kontrol ediliyor...';
+    const { data: p } = await supabase.from('profiles')
+      .select('expert_credits').eq('id', window._session.user.id).single();
+    window._userCredits = p?.expert_credits || 0;
+
     updateBalanceLabel();
+    updatePrice();
   };
 
   window.closeAskModal = function() {
@@ -429,14 +1085,31 @@
 
   window.updateSubmitBtn = function() {
     const cat = document.getElementById('ask-category').value;
-    const q = document.getElementById('ask-question').value.trim();
+    const qRaw = document.getElementById('ask-question').value;
+    const q = qRaw.trim();
     const price = DIRECT_PRICES[cat] || 0;
     const btn = document.getElementById('ask-confirm-btn');
     const canAfford = window._userCredits >= price;
+    const tooShort = q.length > 0 && q.length < 20;
+
+    const counter = document.getElementById('question-char-count');
+    if (counter) {
+      counter.textContent = `${qRaw.length} / 1000`;
+      counter.style.color = qRaw.length >= 1000 ? 'var(--red)' : 'var(--muted)';
+    }
+
     btn.disabled = !cat || !q || !canAfford || q.length < 20;
-    btn.textContent = !canAfford && cat
-      ? `Yetersiz kredi (${price} gerekli, ${window._userCredits} mevcut)`
-      : 'Soruyu Gönder →';
+
+    const buyCta = document.getElementById('buy-credit-cta');
+    if (buyCta) buyCta.style.display = (cat && !canAfford) ? 'block' : 'none';
+
+    if (cat && !canAfford) {
+      btn.textContent = `Yetersiz kredi (${price} gerekli, ${window._userCredits} mevcut)`;
+    } else if (cat && tooShort) {
+      btn.textContent = `En az 20 karakter yazın (${q.length}/20)`;
+    } else {
+      btn.textContent = 'Soruyu Gönder →';
+    }
   };
 
   window.submitDirectQuestion = async function() {
@@ -479,7 +1152,9 @@
         link: '/abibot.html'
       });
 
-      // Email notification
+      // Email notification — confirms submission to the ASKER (this
+      // template's subject/body are written to the person who just asked,
+      // e.g. "Sorunuz uzmana iletildi").
       try {
         await fetch('https://wxjudojlwksivhzjnmim.supabase.co/functions/v1/notify-user', {
           method: 'POST',
@@ -494,7 +1169,35 @@
             }
           })
         });
-      } catch(emailErr) { console.warn('Email notification failed:', emailErr); }
+      } catch(emailErr) { console.warn('Asker email notification failed:', emailErr); }
+
+      // Email notification — separately notifies the EXPERT that a new
+      // direct question is waiting for them. window._expertId is the
+      // experts.id from the URL, not a user id, so we look up profile_id
+      // to know who to actually email. See Backlog #22.
+      try {
+        const { data: expertRow } = await supabase.from('experts')
+          .select('profile_id').eq('id', window._expertId).single();
+
+        if (expertRow?.profile_id) {
+          await fetch('https://wxjudojlwksivhzjnmim.supabase.co/functions/v1/notify-user', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${SUPABASE_ANON}` },
+            body: JSON.stringify({
+              type: 'direct_question_expert',
+              user_id: expertRow.profile_id,
+              data: {
+                asker_name: window._userName || 'Bir üye',
+                category: cat,
+                category_name: CAT_NAMES[cat] || cat,
+                expert_row_id: window._expertId
+              }
+            })
+          });
+        } else {
+          console.warn('Could not resolve expert profile_id — expert email not sent.');
+        }
+      } catch(emailErr) { console.warn('Expert email notification failed:', emailErr); }
 
       // Success state
       document.querySelector('.modal-body').innerHTML = `
@@ -518,6 +1221,7 @@
       btn.textContent = 'Tekrar Dene';
     }
   };
+</script>
 <!-- EXPERT REPORT MODAL -->
 <div class="report-modal-overlay" id="expert-report-modal" onclick="if(event.target===this)closeExpertReportModal()">
   <div class="report-modal-box" id="expert-report-box">
@@ -540,7 +1244,7 @@
 
 <script>
   const _SB_URL  = 'https://wxjudojlwksivhzjnmim.supabase.co';
-  const _SB_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Ind4anVkb2psd2tzaXZoempubWltIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgzNzM1MDUsImV4cCI6MjA5Mzk0OTUwNX0.sRvZXS389i9MwCtLoDgfqJKyRsZLMXLNAJbsMZN9wOY';
+  const _SB_ANON = 'sb_publishable_52tr_hEnnQ3kllZexTue0Q_ByF71303';
   let _reportExpertId = null;
 
   window.openExpertReportModal = function(expertId) {
@@ -560,8 +1264,8 @@
     const details = document.getElementById('expert-report-details').value.trim();
     if (!reason) { document.getElementById('expert-report-reason').style.borderColor = 'var(--red)'; return; }
 
-    const token = localStorage.getItem('bb_auth_token');
-    if (!token) {
+    const session = window._session;
+    if (!session) {
       const go = confirm('Şikayet göndermek için giriş yapmalısınız. Giriş sayfasına gitmek ister misiniz?');
       if (go) window.location.href = 'login.html';
       return;
@@ -571,16 +1275,10 @@
     btn.disabled = true; btn.textContent = 'Gönderiliyor...';
 
     try {
-      const sessRes = await fetch(`${_SB_URL}/auth/v1/user`, {
-        headers: { 'apikey': _SB_ANON, 'Authorization': `Bearer ${token}` }
-      });
-      if (!sessRes.ok) throw new Error('Auth failed');
-      const user = await sessRes.json();
-
       const res = await fetch(`${_SB_URL}/rest/v1/reports`, {
         method: 'POST',
-        headers: { 'apikey': _SB_ANON, 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
-        body: JSON.stringify({ reporter_id: user.id, reported_expert_id: _reportExpertId, type: 'expert', reason, details: details || null })
+        headers: { 'apikey': _SB_ANON, 'Authorization': `Bearer ${session.access_token}`, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
+        body: JSON.stringify({ reporter_id: session.user.id, reported_expert_id: _reportExpertId, type: 'expert', reason, details: details || null })
       });
       if (!res.ok) throw new Error(await res.text());
 
@@ -597,5 +1295,6 @@
     }
   };
 </script>
+  <script src="translate-widget.js"></script>
 </body>
 </html>
